@@ -16,4 +16,11 @@ function verif_ident($login, $pass, &$profil){
 	return isset($profil);
 }
 
+function addUser($data_params) {
+	$pdo = connect_pdo();
+	$sql = 'INSERT INTO utilisateur VALUES (NULL,?,?,?,?,?,?,0,?,0,NULL,?)';
+	$sth = $pdo->prepare($sql);
+	$sth->execute(array_values($data_params));
+}
+
 ?>
