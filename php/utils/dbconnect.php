@@ -9,7 +9,7 @@ $pass = 'root';
 $charset = 'utf8';
 
 try {
-    $conn = new PDO("mysql:host=localhost;dbname=test;charset=$charset", $user, $pass);
+    $conn = new PDO("mysql:host=localhost;dbname=knowitbd;charset=$charset", $user, $pass);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
