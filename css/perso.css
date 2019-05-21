@@ -1,0 +1,21 @@
+
+
+.sidebar-rounded{
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 4rem;
+    height: 4rem;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    color : rgba(255, 255, 255, 0.7);
+}
+
+
+  
+  .sidebar-rounded:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+  
+
+  
