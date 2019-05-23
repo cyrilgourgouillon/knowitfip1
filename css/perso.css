@@ -16,6 +16,26 @@
   .sidebar-rounded:hover {
     background-color: rgba(255, 255, 255, 0.25);
   }
-  
 
+  .chevron-rounded{
+    background-color: #F7F7F7;
+    width: 5rem;
+    height: 5rem;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+.violet{
+    color : #AA66CC;
+}
+  
+.chevron-rounded:hover {
+    color: #8B8B8B!important;
+    background-color: #E7E7E7;
+}
+  
+.border-left-violet {
+  border-left: 0.25rem solid #AA66CC !important;
+}
   
