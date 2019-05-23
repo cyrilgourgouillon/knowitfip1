@@ -38,4 +38,11 @@
 .border-left-violet {
   border-left: 0.25rem solid #AA66CC !important;
 }
-  
+
+.logo-rounded{
+    width: 7.1rem;
+    height: 7.1rem;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
