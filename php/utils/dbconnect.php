@@ -7,6 +7,7 @@
 $user = 'root';
 $pass = 'root';
 $charset = 'utf8';
+$conn = null;
 
 try {
     $conn = new PDO("mysql:host=localhost;dbname=knowitbd;charset=$charset", $user, $pass);
