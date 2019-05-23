@@ -101,7 +101,7 @@ class Utilisateur implements JsonSerializable{
                 if($count && password_verify($mdp, $data->mdp)){
                     echo "Tout est bon";
                     $_SESSION["user"] = $data->id;
-                    return $data->id;
+                    return new Feedback($data->id, true, "Connexion réussie");
                 }
                 else{
                     echo "Adresse mail inconnue";
