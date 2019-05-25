@@ -11,10 +11,8 @@ function signIn()
         $id = $_SESSION['user'];
         echo json_encode(Utilisateur::getUser($conn,$id),JSON_PRETTY_PRINT);
     }
-    if (count($_POST) == 0) {
-        //TODO
-    }
-    Utilisateur::signInUser($conn,$_POST['mail'],$_POST['mdp']);
+
+    echo json_enconde(Utilisateur::signInUser($conn,$_POST['mail'],$_POST['mdp']),JSON_PRETTY_PRINT);
 }
 
 function register()
@@ -24,7 +22,13 @@ function register()
         //TODO
     }
 
-    Utilisateur::signUpUser($conn, $_POST['prenom'], $_POST['nom'], $_POST['mail'], $_POST['date_naisssance'], $_POST['mdp']);
+    $prenom = $_POST['prenom'];
+    $nom = $_POST['nom'];
+    $mail = $_POST['mail'];
+    $date_naissance = $_POST['date_naisssance'];
+    $mdp = $_POST['mdp'];
+
+    echo json_encode(Utilisateur::signUpUser($conn, $prenom, $nom, $mail, $date_naissance, $mdp),JSON_PRETTY_PRINT);
 }
 
 function deconnect()
