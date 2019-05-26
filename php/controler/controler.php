@@ -15,7 +15,7 @@ function register()
     $mail = $_POST['mail'];
     $date_naissance = $_POST['date_naisssance'];
     $mdp = $_POST['mdp'];
-f
+
     echo json_encode(Utilisateur::signUpUser($conn, $prenom, $nom, $mail, $date_naissance, $mdp), JSON_PRETTY_PRINT);
 }
 
