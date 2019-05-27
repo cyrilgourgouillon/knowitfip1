@@ -25,7 +25,12 @@ function showProfile()
 }
 
 function editProfile() {
+    $id = $_SESSION['id'];
+    $data = $_POST['data'];
+    $userTag = $_POST['userTag'];
+    $wishTag = $_POST['wishTag'];
 
+    echo json_encode(Utilisateur::editProfile($conn, $id, $data, $userTag, $wishTag));
 }
 
 function createPost() {
