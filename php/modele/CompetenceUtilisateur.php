@@ -15,9 +15,10 @@ class CompetenceUtilisateur {
 
     /**
      * STATIC
-     * Check if User already have $tag on his tags.
-     * return true if he already have it.
-     * return false otherwise.
+     * Check si un utilisateur possede deja la competence $tag
+     * 
+     * return - true si il la possede.
+     *        - false sinon.
      */
     static function haveAlreadyIt($conn, $idUser, $tag) {
         if($tag == -1) {

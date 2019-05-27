@@ -23,7 +23,12 @@ class Utilisateur implements JsonSerializable{
 
     /**
      * STATIC
-     * Return an utilisateur object thanks to his $id.
+     * Fonction permettant de recevoir les information basiques d'un utilisateur
+     * en fonction de son id
+     * 
+     * Param - $conn : PDO connection
+     *       - $id  : User ID
+     * Return - un objet utilisateur à partir de $id
      */
     static function getUser($conn, $id){
         $stmt = $conn->prepare("SELECT * FROM utilisateur WHERE id = ?");
@@ -33,12 +38,10 @@ class Utilisateur implements JsonSerializable{
 
     /**
      * STATIC
-     * Sign up an new user to Knowit.
-     * Insert a line in database if $mail doesn't already exist.
-     * Return int :
-     *  0 - all good
-     *  1 - already exist
-     *  2 - problem with user input
+     * Inscrit un nouvel utilisateur Knowit, sauf s'il existe déjà
+     * 
+     * Param - $conn : PDO connection
+     * Return Feedback
      */
     static function signUpUser($conn, $prenom, $nom, $mail, $date_naissance, $mdp) {
         //Si ce n'est pas vide
@@ -78,9 +81,11 @@ class Utilisateur implements JsonSerializable{
 
     /**
      * STATIC
-     * Sign in a user
-     * Check if $mail exist and if $mdp et matched with this account
-     * Return : user object
+     * Connecte un utilisateur
+     * 
+     * Check si le compte $mail existe et si son mot de passe est valide.
+     * Param - $conn : PDO connection
+     * Return un object Feedback
      */
     static function signInUser($conn, $mail, $mdp) {
 
@@ -94,26 +99,27 @@ class Utilisateur implements JsonSerializable{
             $data=$stmt->fetch(PDO::FETCH_OBJ);
 
             if($count && password_verify($mdp, $data->mdp)){
-                //echo "Tout est bon";
                 $_SESSION["user"] = $data->id;
                 return new Feedback($data->id, true, "Connexion réussie");
             }
             else{
-                //echo "Adresse mail inconnue";
-                return new Feedback(2, false, "Adresse mail inconnue ou mot de passe erroné");
+                return new Feedback(3, false, "Adresse mail inconnue ou mot de passe erroné");
             } 
 
         }
         else {
-            //echo "Vérifiez les champs inscrits";
             return new Feedback(2, false, "Vérifiez les champs inscrits");
         }
     }
 
     /**
      * STATIC
-     * Update user
-     * $data is an associative array of user information
+     * Update les informations d'un utilisateur
+     * 
+     * Param - $conn : PDO connection
+     *       - $id : id d'un utilisateur
+     *       - $data : tableau associatif de type 'nomChampsBD => valeur'
+     *       - $userTag : [Optionnel] tableau de competence associe à un utilisateur
      */
     static function editUser($conn, $id, $data, $userTag = NULL, $wishTag = NULL) {
 
@@ -125,8 +131,9 @@ class Utilisateur implements JsonSerializable{
             }
             $sqlUser = rtrim($sqlUser, ',');
             $sqlUser .= " WHERE id = $id;";
+        } else {
+            return new Feedback(4, false, "Erreur Data, no contents found");
         }
-        echo "\n".$sqlUser;
 
         $stmt = $conn->prepare($sqlUser); 
         $stmt->execute();
@@ -136,12 +143,19 @@ class Utilisateur implements JsonSerializable{
             Utilisateur::editUserTag($conn, $id, $userTag/*, $wishTag*/);
         }
 
+        return new Feedback(5, true, "Modification utilisateur reussie !");
+
     }
 
     /**
      * STATIC
-     * IN : $id -> user ID, $userTag -> array of competence
-     * Insert in database "competence_utilisateur"
+     * Modifie les competences d'un utilisateur
+     * S'inscrit dans la fonction editUser()
+     * 
+     * Param - $conn : PDO connection
+     *       - $id : id d'un utilisateur
+     *       - $userTag : [Optionnel] tableau de competence associe à un utilisateur
+     * 
      */
     static function editUserTag($conn, $id, $userTag, $wishTag = NULL) {
         //Update user tag

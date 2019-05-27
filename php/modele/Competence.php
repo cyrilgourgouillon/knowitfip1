@@ -13,8 +13,8 @@ class Competence {
 
     /**
      * STATIC
-     * Return id competence if exist
-     * Return -1 otherwize
+     * Return l'id de la competence a partir de son nom
+     * Return -1 sinon
      */
     static function getIdByName($conn, $name) {
         if($name == NULL)
