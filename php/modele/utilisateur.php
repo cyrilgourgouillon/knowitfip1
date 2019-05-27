@@ -33,7 +33,12 @@ class Utilisateur implements JsonSerializable{
     static function getUser($conn, $id){
         $stmt = $conn->prepare("SELECT * FROM utilisateur WHERE id = ?");
         $stmt->execute(array($id));
-        return $stmt->fetchObject(__CLASS__);
+        $count = $stmt->rowCount();
+        
+        if($count != 0)
+            return $stmt->fetchObject(__CLASS__);
+        else
+            return new Feedback(0, false, "Utilisateur inconnu.");
     }
 
     /**
