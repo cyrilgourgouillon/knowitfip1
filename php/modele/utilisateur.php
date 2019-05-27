@@ -113,7 +113,7 @@ class Utilisateur implements JsonSerializable{
     /**
      * STATIC
      * Update user
-     * $data is an associative array
+     * $data is an associative array of user information
      */
     static function editUser($conn, $id, $data, $userTag = NULL, $wishTag = NULL) {
 
@@ -138,26 +138,29 @@ class Utilisateur implements JsonSerializable{
 
     }
 
+    /**
+     * STATIC
+     * IN : $id -> user ID, $userTag -> array of competence
+     * Insert in database "competence_utilisateur"
+     */
     static function editUserTag($conn, $id, $userTag, $wishTag = NULL) {
         //Update user tag
         
-        $sqlUserTag = "INSERT INTO competence_utilisateur (niveau, points_experience, nb_vote, competence, utilisateur) VALUES ";
+        $sqlUserTag = "INSERT INTO competence_utilisateur VALUES ";
         foreach($userTag as $tag) {
 
-            $idCompetence = intval(Competence::getIdByName($conn, $tag));
+            $idCompetence = Competence::getIdByName($conn, $tag);
             $alreadyHaveIt = CompetenceUtilisateur::haveAlreadyIt($conn, $id, $idCompetence);
 
             //si il n'existe pas deja cette compétence chez l'utilisateur
             if(!$alreadyHaveIt && $idCompetence != -1) {
-                $sqlUserTag .= "(niveau=0, points_experience=0, nb_vote=0, competence=$idCompetence, utilisateur=$id),";
-                $sqlUserTag = rtrim($sqlUserTag, ',');
-
-                echo "\n".$sqlUserTag."\n\n";
-
-                $stmt = $conn->prepare($sqlUserTag); 
-                $stmt->execute();
-            }   
+                $sqlUserTag .= "($id, $idCompetence, 0, 0, 0),";
+            }
         }
+        $sqlUserTag = rtrim($sqlUserTag, ',');
+
+        $stmt = $conn->prepare($sqlUserTag); 
+        $stmt->execute();
     }
 
     function JsonSerialize(){

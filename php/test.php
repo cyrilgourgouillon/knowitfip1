@@ -23,6 +23,7 @@ $userTag = array(
     NULL
  );
 
-Utilisateur::editUser($conn, 10, $data, $userTag);
+//Utilisateur::editUser($conn, 10, $data, $userTag);
+Utilisateur::editUserTag($conn, 10, $userTag);
 
 //$user->JsonSerialize();
