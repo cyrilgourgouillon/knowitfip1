@@ -178,7 +178,11 @@ class Utilisateur implements JsonSerializable{
     }
 
     static function showProfile($conn, $id) {
-        $sql = "SELECT * FROM utilisateur, competence_utilisateur WHERE id = ? and utilisateur = id";
+        $stmt = $conn->prepare("SELECT u.nom, u.prenom, u.avatar, u.credit, u.description, cu.niveau, cu.points_experience, cu.competence
+                                FROM utilisateur u, competence_utilisateur cu WHERE u.id = ? and cu.utilisateur = u.id");
+        $stmt->execute(array($id));
+
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
     function JsonSerialize(){

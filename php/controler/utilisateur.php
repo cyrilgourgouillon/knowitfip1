@@ -1,7 +1,14 @@
 <?php
 
+//header('Content-Type: application/json');
 require_once('../utils/dbconnect.php');
 require_once('../modele/utilisateur.php');
+require_once('../utils/Feedback.php');
+
+session_start();
+var_dump(Utilisateur::signUpUser($conn, "Myce", "Obone", "myce@hotmail.fr", "20/12/1992", "12345"));
+var_dump(Utilisateur::signInUser($conn, "myce@hotmail.fr", "12345"));
+showProfile();
 
 function signIn()
 {
@@ -21,39 +28,48 @@ function register()
 
 function showProfile()
 {
+    $id = $_SESSION['user'];
 
+    echo json_encode(Utilisateur::showProfile($conn, $id), JSON_PRETTY_PRINT);
 }
 
-function editProfile() {
+function editProfile()
+{
     $id = $_SESSION['id'];
     $data = $_POST['data'];
     $userTag = $_POST['userTag'];
     $wishTag = $_POST['wishTag'];
 
-    echo json_encode(Utilisateur::editProfile($conn, $id, $data, $userTag, $wishTag));
+    echo json_encode(Utilisateur::editProfile($conn, $id, $data, $userTag, $wishTag), JSON_PRETTY_PRINT);
 }
 
-function createPost() {
-
-}
-
-function showPosts() {
+function createPost()
+{
 
 }
 
-function showCandidatesForPost() {
+function showPosts()
+{
 
 }
 
-function searchPost() {
+function showCandidatesForPost()
+{
 
 }
 
-function evaluateLesson() {
+function searchPost()
+{
 
 }
 
-function reward() {
+function evaluateLesson()
+{
+
+}
+
+function reward()
+{
 
 }
 
