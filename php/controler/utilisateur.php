@@ -2,13 +2,13 @@
 
 //header('Content-Type: application/json');
 require_once('../utils/dbconnect.php');
-require_once('../modele/utilisateur.php');
-require_once('../utils/Feedback.php');
-
-session_start();
-var_dump(Utilisateur::signUpUser($conn, "Myce", "Obone", "myce@hotmail.fr", "20/12/1992", "12345"));
-var_dump(Utilisateur::signInUser($conn, "myce@hotmail.fr", "12345"));
-showProfile();
+require_once('../modele/Utilisateur.php');
+//require_once('../utils/Feedback.php');
+//
+//session_start();
+//Utilisateur::signUpUser($conn, "Mycee", "Obone", "myce@hotmail.fr", "20/12/1992", "12345");
+//Utilisateur::signInUser($conn, "myce@hotmail.fr", "12345");
+//showProfile($conn);
 
 function signIn()
 {
@@ -26,7 +26,7 @@ function register()
     echo json_encode(Utilisateur::signUpUser($conn, $prenom, $nom, $mail, $date_naissance, $mdp), JSON_PRETTY_PRINT);
 }
 
-function showProfile()
+function showProfile($conn)
 {
     $id = $_SESSION['user'];
 
