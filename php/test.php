@@ -34,12 +34,20 @@ $postData = array (
     "date" => "05/05/2012"
 );
 
+$postDataM = array (
+    "id" => 10,
+    "titre" => "Cours de base SAP ABAP",
+    "description" => "je suis une jeune eleve qui veut apprendre lABAP.
+    Je voudrai avoir des connaissances abondantes avec vous. Les entreprises raffolent de ce genre dexperience. Lorem ipsum dolor et tout.",
+    "tmp_estime" => 20,
+);
+
 $postTag = array (
-    4,
     1,
     NULL
 );
 
-Post::createPost($conn, 10, $postData, $postTag);
+//Post::createPost($conn, 10, $postData, $postTag);
+Post::editPost($conn, 10, $postDataM, $postTag);
 
 //$user->JsonSerialize();

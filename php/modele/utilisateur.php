@@ -1,7 +1,6 @@
 	<?php
 	require_once('Competence.php');
 	require_once('CompetenceUtilisateur.php');
-	ini_set('display_errors',1);
 
 	class Utilisateur implements JsonSerializable{
 
@@ -36,7 +35,7 @@
 		$count = $stmt->rowCount();
 		
 		if($count != 0)
-			return $stmt->fetchObject(__CLASS__);
+			return new Feedback($stmt->fetchObject(), true, "");
 		else
 			return new Feedback(0, false, "Utilisateur inconnu.");
 	}
@@ -169,4 +168,4 @@
 			JSON_PRETTY_PRINT
 		);
 	}
-	};
+};
