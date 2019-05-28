@@ -2,12 +2,12 @@
 
 class Feedback implements JsonSerializable{
 
-    private $id;
+    private $data;
     private $success;
     private $text;
 
-    function __construct($id, $success, $text) {
-        $this->id = $id;
+    function __construct($data, $success, $text) {
+        $this->data = $data;
         $this->success = $success;
         $this->text = $text;
     }
@@ -29,17 +29,17 @@ class Feedback implements JsonSerializable{
     }
 
     /**
-     * Get the value of id
+     * Get the value of data
      */ 
-    public function getId()
+    public function getData()
     {
-        return $this->id;
+        return $this->data;
     }
 
     function JsonSerialize(){
 		echo json_encode(
 			[
-            "id" => $this->id,
+            "data" => $this->data,
             "success" => $this->success,
             "text" => $this->text
 			],
