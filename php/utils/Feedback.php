@@ -4,20 +4,20 @@ class Feedback implements JsonSerializable{
 
     private $data;
     private $success;
-    private $text;
+    private $message;
 
-    function __construct($data, $success, $text) {
+    function __construct($data, $success, $message) {
         $this->data = $data;
         $this->success = $success;
-        $this->text = $text;
+        $this->message = $message;
     }
 
     /**
-     * Get the value of text
+     * Get the value of message
      */ 
-    public function getText()
+    public function getMessage()
     {
-        return $this->text;
+        return $this->message;
     }
 
     /**
@@ -41,7 +41,7 @@ class Feedback implements JsonSerializable{
 			[
             "data" => $this->data,
             "success" => $this->success,
-            "text" => $this->text
+            "message" => $this->message
 			],
 			JSON_PRETTY_PRINT
 		);
