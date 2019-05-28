@@ -1,7 +1,7 @@
 <?php
 require_once("CompetencePost.php");
 
-abstract class Post {
+/*abstract */class Post {
 
     private $id;
     private $utilisateur;
@@ -55,9 +55,9 @@ abstract class Post {
 		$stmt->bindParam(':type', $data["type"]);
         $stmt->bindParam(':utilisateur', $data["id"]);
 
-		//$stmt->execute();
+        $stmt->execute();
 
-		CompetencePost::editPostTag($conn, $data["id"], $data);
+		CompetencePost::editTagPost($conn, $conn->lastInsertId(), $postTag);
 	}
 
     /**

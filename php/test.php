@@ -35,8 +35,8 @@ $postData = array (
 );
 
 $postTag = array (
-    "PHP",
-    "Oriented Object",
+    4,
+    1,
     NULL
 );
 
