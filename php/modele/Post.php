@@ -37,9 +37,9 @@ class Post {
 	 * Publier un Post
 	 * 
 	 * Param - $conn : PDO connection
-	 *       - $id : id de l'utilisateur
-	 *       - $data : 
-	 *       - $postTag: Tableau de competence associe à un utilisateur
+	 *       - $id : id du Post
+	 *       - $data : Tableau associatif de données associe à un utilisateur
+	 *       - $postTag: Tableau de competence associe au post
 	 * Return Feedback
 	 */
 	static function createPost($conn, $idUtil, $data, $postTag) {
@@ -47,7 +47,7 @@ class Post {
         $data["date"] = date("Y-m-d", strtotime($data["date"])); 
 
 		$stmt = $conn->prepare("INSERT INTO post VALUES (DEFAULT, :titre, :description, :tmp_estime, :date, :type, :utilisateur)");
-		$stmt->bindParam(':titre', $data["type"]);
+		$stmt->bindParam(':titre', $data["titre"]);
 		$stmt->bindParam(':description', $data["description"]);
 		$stmt->bindParam(':tmp_estime', $data["tmp_estime"]);
 		$stmt->bindParam(':date', $data["date"]);
@@ -67,7 +67,11 @@ class Post {
      * STATIC
      * Editer un post
      * 
-     * Param
+     * Param - $conn : connexion PDO
+     *       - $idPost : id du post visé
+     *       - $data : tableau associatif de données du post modifié
+     *              - ATTENTION : KEY = CHAMPS BD
+     *       - $postTag : tableau associatif de tags du post
      */
     static function editPost($conn, $idPost, $data, $postTag = null) {
         if ($data != null) {
@@ -94,5 +98,22 @@ class Post {
 		}
 
 		return new Feedback(NULL, true, "Modification utilisateur reussie !");
+    }
+
+    /**
+     * STATIC
+     * Recupere les informations d'un post
+     * 
+     * Param - $idPost : id du post
+     * Return un object Feedback
+     */
+    static function deletePost($conn, $id) {
+        CompetencePost::deleteAllCompetencePost($conn, $id);
+
+        $sqlUserTag = "DELETE FROM post WHERE id = $id";
+		$stmt = $conn->prepare($sqlUserTag); 
+        $stmt->execute();
+        
+        return new Feedback(NULL, true, "");
     }
 }
