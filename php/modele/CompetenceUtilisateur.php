@@ -13,6 +13,36 @@ class CompetenceUtilisateur {
         
     }
 
+	/**
+	 * STATIC
+	 * Modifie les competences d'un utilisateur
+	 * S'inscrit dans la fonction editUser()
+	 * 
+	 * Param - $conn : PDO connection
+	 *       - $id : id d'un utilisateur
+	 *       - $userTag : [Optionnel] tableau d'id de competences associe à un utilisateur
+	 */
+	static function editUserTag($conn, $id, $userTag, $wishTag = NULL) {
+		//Update user tag
+		
+		$sqlUserTag = "INSERT INTO competence_utilisateur VALUES ";
+		foreach($userTag as $tag) {
+
+            $alreadyHaveIt = CompetenceUtilisateur::alreadyHaveIt($conn, $id, $tag);
+
+			//si il n'existe pas deja cette compétence chez l'utilisateur
+			if(!$alreadyHaveIt) {
+			    $sqlUserTag .= "($id, $tag, 0, 0, 0),";
+			}
+		}
+        $sqlUserTag = rtrim($sqlUserTag, ',');
+        
+        echo $sqlUserTag;
+
+		$stmt = $conn->prepare($sqlUserTag); 
+		$stmt->execute();
+	}
+
     /**
      * STATIC
      * Check si un utilisateur possede deja la competence $tag
@@ -20,10 +50,12 @@ class CompetenceUtilisateur {
      * return - true si il la possede.
      *        - false sinon.
      */
-    static function haveAlreadyIt($conn, $idUser, $tag) {
+    static function alreadyHaveIt($conn, $idUser, $tag) {
         if($tag == -1) {
             return true;
         }
+        if($tag == NULL || $tag == '')
+            return true;
         $stmt = $conn->prepare("SELECT * FROM competence_utilisateur WHERE utilisateur=$idUser AND competence=$tag"); 
         $stmt->execute();
         $count=$stmt->rowCount();

@@ -1,6 +1,6 @@
 <?php
 
-class Feedback {
+class Feedback implements JsonSerializable{
 
     private $id;
     private $success;
@@ -34,5 +34,16 @@ class Feedback {
     public function getId()
     {
         return $this->id;
+    }
+
+    function JsonSerialize(){
+		echo json_encode(
+			[
+            "id" => $this->id,
+            "success" => $this->success,
+            "text" => $this->text
+			],
+			JSON_PRETTY_PRINT
+		);
     }
 }
