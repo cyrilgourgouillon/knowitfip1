@@ -1,4 +1,4 @@
-	<?php
+<?php
 	require_once('Competence.php');
 	require_once('CompetenceUtilisateur.php');
 
@@ -151,6 +151,45 @@
 		return new Feedback(5, true, "Modification utilisateur reussie !");
 
 	}
+    
+  /**
+   * Envoie les données permettant
+   * d'afficher un profil utilisateur.
+   * Plus précisement, renvoie un tableau qui
+   * associe à l'utilisateur concerné ses différentes
+   * compétences.
+   *
+   * @param $conn, la connexion à la BDD
+   * @param $id, l'id de l'Utilisateur
+   * @return array formaté du profil utilsateur
+   */
+  static function showProfile($conn, $id)
+  {
+      $stmt = $conn->prepare("SELECT u.nom, u.prenom, u.avatar, u.credit, u.description, cu.niveau, cu.points_experience, c.libelle
+                              FROM utilisateur u, competence c, competence_utilisateur cu WHERE u.id = ? and cu.utilisateur = u.id
+                              and c.id = cu.competence");
+      $stmt->execute(array($id));
+
+      $res = $stmt->fetchAll();
+
+      $json = array();
+      $json['competences'] = array();
+
+      $formated_array = array_reduce($res, function ($prev, $current) {
+          $prev['prenom'] = $current['prenom'];
+          $prev['nom'] = $current['nom'];
+          $prev['credit'] = $current['credit'];
+          $prev['$description'] = $current['description'];
+          $comp['libelle'] = $current['libelle'];
+          $comp['niveau'] = $current['niveau'];
+          $comp['experience'] = $current['points_experience'];
+          array_push($prev['competences'], $comp);
+
+          return $prev;
+      }, $json);
+
+      return $formated_array;
+  }
 
 	function JsonSerialize(){
 		echo json_encode(

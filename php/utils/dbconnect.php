@@ -5,12 +5,12 @@
  * PDO.
  */
 $user = 'root';
-$pass = 'root';
+$pass = '';
 $charset = 'utf8';
 $conn = null;
 
 try {
-    $conn = new PDO("mysql:host=localhost;dbname=knowitbd;charset=$charset", $user, $pass);
+    $conn = new PDO("mysql:host=localhost;dbname=knowit2;charset=$charset", $user, $pass);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
