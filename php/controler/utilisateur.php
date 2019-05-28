@@ -1,14 +1,7 @@
 <?php
 
-//header('Content-Type: application/json');
 require_once('../utils/dbconnect.php');
 require_once('../modele/Utilisateur.php');
-//require_once('../utils/Feedback.php');
-//
-//session_start();
-//Utilisateur::signUpUser($conn, "Mycee", "Obone", "myce@hotmail.fr", "20/12/1992", "12345");
-//Utilisateur::signInUser($conn, "myce@hotmail.fr", "12345");
-//showProfile($conn);
 
 function signIn()
 {
