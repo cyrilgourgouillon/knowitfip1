@@ -3,37 +3,27 @@
 require_once('../utils/dbconnect.php');
 require_once('../modele/Utilisateur.php');
 
-function signIn()
+//$calledFunction = $_POST["function"];
+//$data = $_POST["data"];
+
+function signIn($conn, $mail, $mdp)
 {
-    echo json_enconde(Utilisateur::signInUser($conn, $_POST['mail'], $_POST['mdp']), JSON_PRETTY_PRINT);
+    echo json_enconde(Utilisateur::signInUser($conn, $mail, $mdp));
 }
 
-function register()
+function register($conn, $prenom, $nom, $mail, $date_naissance, $mdp)
 {
-    $prenom = $_POST['prenom'];
-    $nom = $_POST['nom'];
-    $mail = $_POST['mail'];
-    $date_naissance = $_POST['date_naisssance'];
-    $mdp = $_POST['mdp'];
-
-    echo json_encode(Utilisateur::signUpUser($conn, $prenom, $nom, $mail, $date_naissance, $mdp), JSON_PRETTY_PRINT);
+    echo json_encode(Utilisateur::signUpUser($conn, $prenom, $nom, $mail, $date_naissance, $mdp));
 }
 
-function showProfile($conn)
+function showProfile($conn, $id)
 {
-    $id = $_SESSION['user'];
-
-    echo json_encode(Utilisateur::showProfile($conn, $id), JSON_PRETTY_PRINT);
+    echo json_encode(Utilisateur::showProfile($conn, $id));
 }
 
-function editProfile()
+function editProfile($conn, $id, $data, $userTag, $wishTag)
 {
-    $id = $_SESSION['id'];
-    $data = $_POST['data'];
-    $userTag = $_POST['userTag'];
-    $wishTag = $_POST['wishTag'];
-
-    echo json_encode(Utilisateur::editProfile($conn, $id, $data, $userTag, $wishTag), JSON_PRETTY_PRINT);
+    echo json_encode(Utilisateur::editProfile($conn, $id, $data, $userTag, $wishTag));
 }
 
 function createPost()
