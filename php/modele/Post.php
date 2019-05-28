@@ -1,7 +1,7 @@
 <?php
 require_once("CompetencePost.php");
 
-abstract class Post {
+class Post {
 
     private $id;
     private $utilisateur;
@@ -25,9 +25,9 @@ abstract class Post {
         $stmt = $conn->prepare("SELECT utilisateur, titre, description, tmp_estime, date, type FROM post WHERE id = $idPost");
         $stmt->execute();
         $count = $stmt->rowCount();
-		
+
 		if($count != 0)
-			return $stmt->fetchObject(__CLASS__);
+			return new Feedback($stmt->fetchObject(), true, "");
 		else
 			return new Feedback(0, false, "Post inconnu.");
     }
@@ -37,33 +37,83 @@ abstract class Post {
 	 * Publier un Post
 	 * 
 	 * Param - $conn : PDO connection
-	 *       - $id : id de l'utilisateur
-	 *       - $data : 
-	 *       - $postTag: Tableau de competence associe à un utilisateur
+	 *       - $id : id du Post
+	 *       - $data : Tableau associatif de données associe à un utilisateur
+	 *       - $postTag: Tableau de competence associe au post
 	 * Return Feedback
 	 */
 	static function createPost($conn, $idUtil, $data, $postTag) {
-        var_dump($postTag);
         
         $data["date"] = date("Y-m-d", strtotime($data["date"])); 
 
 		$stmt = $conn->prepare("INSERT INTO post VALUES (DEFAULT, :titre, :description, :tmp_estime, :date, :type, :utilisateur)");
-		$stmt->bindParam(':titre', $data["type"]);
+		$stmt->bindParam(':titre', $data["titre"]);
 		$stmt->bindParam(':description', $data["description"]);
 		$stmt->bindParam(':tmp_estime', $data["tmp_estime"]);
 		$stmt->bindParam(':date', $data["date"]);
 		$stmt->bindParam(':type', $data["type"]);
         $stmt->bindParam(':utilisateur', $data["id"]);
 
-		//$stmt->execute();
+        if($stmt->execute()){
+            CompetencePost::editTagPost($conn, $conn->lastInsertId(), $postTag);
+        } else {
+            return new Feedback(6, false, "Erreur requête, données incorrectes");
+        }
 
-		CompetencePost::editPostTag($conn, $data["id"], $data);
+        return new Feedback($conn->lastInsertId(), true, "Post correctement publié.");
 	}
 
     /**
+     * STATIC
+     * Editer un post
      * 
+     * Param - $conn : connexion PDO
+     *       - $idPost : id du post visé
+     *       - $data : tableau associatif de données du post modifié
+     *              - ATTENTION : KEY = CHAMPS BD
+     *       - $postTag : tableau associatif de tags du post
      */
-    static function editPost() {
+    static function editPost($conn, $idPost, $data, $postTag = null) {
+        if ($data != null) {
+			$sqlPost = "UPDATE post SET ";
+			foreach($data as $key => $value) {
+                //On accepte pas le changement de type de post, au cas où
+                if($key == "type" || $key == "date")
+                    continue;
 
+			    $sqlPost .= "$key = '$value',";
+			}
+			$sqlPost = rtrim($sqlPost, ',');
+			$sqlPost .= " WHERE id = $idPost;";
+		} else {
+			return new Feedback(4, false, "Erreur Data, no contents found");
+		}
+
+		$stmt = $conn->prepare($sqlPost); 
+		$stmt->execute();
+
+		//die(var_dump($userTag));
+		if ($postTag != NULL) {
+			CompetencePost::editTagPost($conn, $idPost, $postTag);
+		}
+
+		return new Feedback(NULL, true, "Modification utilisateur reussie !");
+    }
+
+    /**
+     * STATIC
+     * Recupere les informations d'un post
+     * 
+     * Param - $idPost : id du post
+     * Return un object Feedback
+     */
+    static function deletePost($conn, $id) {
+        CompetencePost::deleteAllCompetencePost($conn, $id);
+
+        $sqlUserTag = "DELETE FROM post WHERE id = $id";
+		$stmt = $conn->prepare($sqlUserTag); 
+        $stmt->execute();
+        
+        return new Feedback(NULL, true, "");
     }
 }

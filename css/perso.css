@@ -47,6 +47,43 @@
     margin-bottom: 1rem;
 }
 
+.logo-credit{
+    width: 5rem;
+    height: 5rem;
+}
+
+.rounded-button{
+    border-radius: 15px;
+}
+
+
+@media screen and (max-width: 768px){
+    .title-text-auto-size{
+        text-align: center;
+    }
+    .title-btn-auto-size{
+        display: block;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .title-row-auto-size{
+        text-align: right;
+    }
+    
+}
+
+@media screen and (max-width: 1200px){
+    .text-center-responsive-xl{
+        text-align: center!important;
+    }
+}
+
+
+
+
+
 
 /**
 * NO UI SLIDER
@@ -54,15 +91,15 @@
 
 .noUi-target,
 .noUi-target *
-{
-    box-sizing: border-box; 
-
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
-
-    -webkit-touch-callout: none;
+{Modification
+    box-Modificationsizing: border-box; 
+Modification
+    -webModificationkit-user-select: none;
+       -Modificationmoz-user-select: none;
+        Modification-ms-user-select: none;
+        Modification    user-select: none;
+Modification
+    -webModificationkit-touch-callout: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     touch-action: none;
 }
