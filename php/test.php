@@ -9,22 +9,20 @@ require_once('modele/utilisateur.php');
 require_once('modele/post.php');
 //Utilisateur::signUpUser($conn, "Marie", "Pledosky", "testo@test.test","20/02/1997","12345");
 //Utilisateur::signInUser($conn, "test@test.test", "12345");
-
-/*$data = array(
+/*
+$data = array(
     'pseudo' => 'Macha',
     'nom' => 'Gourgouillon'
 );
 
 $userTag = array(
-    "PHP",
-    "Java",
-    "Plantation",
-    "Skateboard",
-    NULL
-);*/
+    2,
+    3,
+);
 
 //Utilisateur::editUser($conn, 10, $data, $userTag);
-//Utilisateur::editUserTag($conn, 10, $userTag);
+CompetenceUtilisateur::editUserTag($conn, 10, $userTag);*/
+
 
 $postData = array (
     "id" => 10,

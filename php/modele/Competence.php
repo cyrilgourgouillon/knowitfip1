@@ -16,18 +16,18 @@ class Competence {
      * Return l'id de la competence a partir de son nom
      * Return -1 sinon
      */
-    static function getIdByName($conn, $name) {
-        if($name == NULL)
+    static function getNameById($conn, $id) {
+        if($id == NULL)
             return -1;
 
-        $stmt = $conn->prepare("SELECT id FROM competence WHERE libelle=:libelle"); 
-        $stmt->bindParam("libelle", $name,PDO::PARAM_STR);
+        $stmt = $conn->prepare("SELECT libelle FROM competence WHERE id=:id"); 
+        $stmt->bindParam("id", $id,PDO::PARAM_STR);
         $stmt->execute();
         $data=$stmt->fetch();
 
-        if($data["id"] == NULL)
-            return -1;
+        if($data["libelle"] == NULL)
+            return "Inconnu";
 
-        return $data["id"];
+        return $data["libelle"];
     }
 }

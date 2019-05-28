@@ -146,40 +146,11 @@
 
 		//die(var_dump($userTag));
 		if ($userTag != NULL) {
-			Utilisateur::editUserTag($conn, $id, $userTag/*, $wishTag*/);
+			CompetenceUtilisateur::editUserTag($conn, $id, $userTag/*, $wishTag*/);
 		}
 
 		return new Feedback(5, true, "Modification utilisateur reussie !");
 
-	}
-
-	/**
-	 * STATIC
-	 * Modifie les competences d'un utilisateur
-	 * S'inscrit dans la fonction editUser()
-	 * 
-	 * Param - $conn : PDO connection
-	 *       - $id : id d'un utilisateur
-	 *       - $userTag : [Optionnel] tableau de competence associe à un utilisateur
-	 */
-	static function editUserTag($conn, $id, $userTag, $wishTag = NULL) {
-		//Update user tag
-		
-		$sqlUserTag = "INSERT INTO competence_utilisateur VALUES ";
-		foreach($userTag as $tag) {
-
-			$idCompetence = Competence::getIdByName($conn, $tag);
-			$alreadyHaveIt = CompetenceUtilisateur::haveAlreadyIt($conn, $id, $idCompetence);
-
-			//si il n'existe pas deja cette compétence chez l'utilisateur
-			if(!$alreadyHaveIt && $idCompetence != -1) {
-			$sqlUserTag .= "($id, $idCompetence, 0, 0, 0),";
-			}
-		}
-		$sqlUserTag = rtrim($sqlUserTag, ',');
-
-		$stmt = $conn->prepare($sqlUserTag); 
-		$stmt->execute();
 	}
 
 	function JsonSerialize(){
