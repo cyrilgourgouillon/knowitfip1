@@ -30,6 +30,23 @@
 .violet{
     color : #AA66CC;
 }
+
+.bg-violet{
+    color: #fff;
+    background-color:  #AA66CC;
+}
+
+.btn-violet {
+  color: #fff;
+  background-color: #AA66CC;
+  border-color: #AA66CC;
+}
+
+.btn-violet:hover {
+  color: #fff;
+  background-color: #8F54AC;
+  border-color: #8F54AC;
+}
   
 .chevron-rounded:hover {
     color: #8B8B8B!important;
