@@ -15,6 +15,7 @@
   
   .sidebar-rounded:hover {
     background-color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 1);
   }
 
   .chevron-rounded{
@@ -56,6 +57,16 @@
     border-radius: 15px;
 }
 
+.btn-sideToogle{
+    border-bottom-right-radius: 0px 0px;
+    border-top-right-radius: 0px 0px;
+}
+
+.btn-sideToogle:hover {
+    background-color: rgba(255, 255, 255, 0.25)!important;
+    color: rgba(255, 255, 255, 1)!important;
+}
+
 
 @media screen and (max-width: 768px){
     .title-text-auto-size{
@@ -78,6 +89,20 @@
     .text-center-responsive-xl{
         text-align: center!important;
     }
+}
+
+.rouded-hover{
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50% !important;
+}
+
+.rouded-hover:hover{
+    background-color: #eaecf4;
+}
+
+.smooth{
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 
 
