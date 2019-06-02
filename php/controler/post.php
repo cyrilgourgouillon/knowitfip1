@@ -1,6 +1,5 @@
 <?php
 header('Content-Type: application/json');
-ini_set('display_errors',1);
 
 require_once("../modele/Post.php");
 require_once("../utils/dbconnect.php");

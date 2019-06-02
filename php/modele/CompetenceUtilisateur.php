@@ -13,6 +13,23 @@ class CompetenceUtilisateur {
         
     }
 
+    /**
+     * STATIC
+     * Retourne les tag d'un user
+     * Param - $conn : connexion PDO
+     *       - $id : id d'un user
+     */
+    static function getTagUser($conn, $id) {
+        $stmt = $conn->prepare("SELECT competence, points_experience, niveau, nb_vote FROM competence_utilisateur WHERE utilisateur = $id");
+		$stmt->execute();
+		$count = $stmt->rowCount();
+		
+		if($count != 0)
+			return $stmt->fetchAll();
+		else
+			return NULL;
+    }
+
 	/**
 	 * STATIC
 	 * Modifie les competences d'un utilisateur

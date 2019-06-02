@@ -33,7 +33,7 @@ class Post {
             
 			return new Feedback(
                 [
-                    'post' => $postDetail,
+                    'data' => $postDetail,
                     'tag' => $postTag
                 ]
                 , true, "");

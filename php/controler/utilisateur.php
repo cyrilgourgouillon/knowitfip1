@@ -1,10 +1,17 @@
 <?php
-
 require_once('../utils/dbconnect.php');
 require_once('../modele/Utilisateur.php');
 
 //$calledFunction = $_POST["function"];
 //$data = $_POST["data"];
+
+$calledFunction = "getUser";
+$data = array(
+    $conn,
+    10
+);
+
+call_user_func_array($calledFunction, $data);
 
 function signIn($conn, $mail, $mdp)
 {
@@ -26,9 +33,11 @@ function editProfile($conn, $id, $data, $userTag, $wishTag)
     echo json_encode(Utilisateur::editProfile($conn, $id, $data, $userTag, $wishTag));
 }
 
-function createPost()
+function getUser($conn, $id)
 {
-
+    echo "<pre>";
+    echo json_encode(Utilisateur::getUser($conn, $id));
+    echo "</pre>";
 }
 
 function showPosts()

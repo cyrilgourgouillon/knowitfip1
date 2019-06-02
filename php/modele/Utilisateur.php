@@ -1,6 +1,7 @@
 <?php
 	require_once('Competence.php');
 	require_once('CompetenceUtilisateur.php');
+	require_once('../utils/Feedback.php');
 
 	class Utilisateur implements JsonSerializable{
 
@@ -34,10 +35,21 @@
 		$stmt->execute(array($id));
 		$count = $stmt->rowCount();
 		
-		if($count != 0)
-			return new Feedback($stmt->fetchObject(), true, "");
-		else
-			return new Feedback(0, false, "Utilisateur inconnu.");
+		if($count != 0) {
+
+			$userDetail = $stmt->fetchObject();
+			$userTag = CompetenceUtilisateur::getTagUser($conn, $id);
+
+			return new Feedback(
+				[
+					"data" => $userDetail,
+					"tag" => $userTag
+				]
+				, true, "");
+		}
+		else {
+			return new Feedback(NULL, false, "Utilisateur inconnu.");
+		}
 	}
 
 	/**
