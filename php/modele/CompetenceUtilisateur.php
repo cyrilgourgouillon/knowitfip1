@@ -20,12 +20,12 @@ class CompetenceUtilisateur {
      *       - $id : id d'un user
      */
     static function getTagUser($conn, $id) {
-        $stmt = $conn->prepare("SELECT competence, points_experience, niveau, nb_vote FROM competence_utilisateur WHERE utilisateur = $id");
+        $stmt = $conn->prepare("SELECT libelle, competence, points_experience, niveau, nb_vote FROM competence_utilisateur, competence WHERE utilisateur = $id AND competence.id = competence_utilisateur.competence");
 		$stmt->execute();
 		$count = $stmt->rowCount();
 		
 		if($count != 0)
-			return $stmt->fetchAll();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		else
 			return NULL;
     }

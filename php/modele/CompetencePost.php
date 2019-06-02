@@ -16,12 +16,12 @@ class CompetencePost {
      *       - $id : id d'un post
      */
     static function getTagPost($conn, $id) {
-        $stmt = $conn->prepare("SELECT competence FROM competence_post WHERE post = $id");
+        $stmt = $conn->prepare("SELECT competence, libelle FROM competence_post, competence WHERE post = $id AND competence = id");
 		$stmt->execute();
 		$count = $stmt->rowCount();
 		
 		if($count != 0)
-			return $stmt->fetchAll();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		else
 			return NULL;
     }
