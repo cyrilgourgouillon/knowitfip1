@@ -6,25 +6,19 @@ require_once("../modele/Post.php");
 require_once("../utils/dbconnect.php");
 require_once("../utils/Feedback.php");
 
-//$calledFunction = $_POST["function"];
-//$data = $_POST["data"];
-
-$calledFunction = "deletePost";
-$data = array(
-    $conn,
-    10
-);
+$calledFunction = $_POST["function"];
+$data = $_POST["data"];
 
 call_user_func_array($calledFunction, $data);
 
 /**
  * STATIC
- * Recupere les informations d'un post
+ * Recupere les informations et les tags d'un post
  * 
  * Param - $idPost : id du post
  * Return un object Feedback
  */
-function viewPost($conn, $idPost) {
+function getPost($conn, $idPost) {
     echo json_encode(Post::getPost($conn, $idPost));
 }
 

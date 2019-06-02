@@ -11,6 +11,23 @@ class CompetencePost {
 
     /**
      * STATIC
+     * Retourne les tag d'un post
+     * Param - $conn : connexion PDO
+     *       - $id : id d'un post
+     */
+    static function getTagPost($conn, $id) {
+        $stmt = $conn->prepare("SELECT competence FROM competence_post WHERE post = $id");
+		$stmt->execute();
+		$count = $stmt->rowCount();
+		
+		if($count != 0)
+			return $stmt->fetchAll();
+		else
+			return NULL;
+    }
+
+    /**
+     * STATIC
      * Modifie les tags d'un post
      * 
      * Param - $conn : Connexion PDO

@@ -44,10 +44,14 @@ $postDataM = array (
 
 $postTag = array (
     1,
+    3,
+    4,
     NULL
 );
 
 //Post::createPost($conn, 10, $postData, $postTag);
-Post::editPost($conn, 10, $postDataM, $postTag);
+//Post::editPost($conn, 10, $postDataM, $postTag);
+//Post::deletePost($conn, 10);
+//var_dump(CompetencePost::getTagPost($conn, 13));
 
 //$user->JsonSerialize();

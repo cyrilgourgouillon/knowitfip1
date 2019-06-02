@@ -17,6 +17,7 @@ class Post {
     /**
      * STATIC
      * Recupere les informations d'un post
+     * Appeler CompetencePost::getTagPost() pour les tags
      * 
      * Param - $idPost : id du post
      * Return un object Post
@@ -26,10 +27,19 @@ class Post {
         $stmt->execute();
         $count = $stmt->rowCount();
 
-		if($count != 0)
-			return new Feedback($stmt->fetchObject(), true, "");
+		if($count != 0) {
+            $postDetail = $stmt->fetchObject();
+            $postTag = CompetencePost::getTagPost($conn, $idPost);
+            
+			return new Feedback(
+                [
+                    'post' => $postDetail,
+                    'tag' => $postTag
+                ]
+                , true, "");
+        }
 		else
-			return new Feedback(0, false, "Post inconnu.");
+			return new Feedback(NULL, false, "Post inconnu.");
     }
 
     /**
@@ -74,6 +84,13 @@ class Post {
      *       - $postTag : tableau associatif de tags du post
      */
     static function editPost($conn, $idPost, $data, $postTag = null) {
+        $stmt = $conn->prepare("SELECT id FROM post WHERE id = $idPost");
+        $stmt->execute();
+        $count = $stmt->rowCount();
+
+		if($count == 0)
+			return new Feedback(NULL, false, "Post inexistant");
+
         if ($data != null) {
 			$sqlPost = "UPDATE post SET ";
 			foreach($data as $key => $value) {
