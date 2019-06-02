@@ -3,7 +3,6 @@ header('Content-Type: application/json');
 
 require_once("../modele/Post.php");
 require_once("../utils/dbconnect.php");
-require_once("../utils/Feedback.php");
 
 $calledFunction = $_POST["function"];
 $data = $_POST["data"];
