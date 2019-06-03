@@ -37,13 +37,11 @@ class Feedback implements JsonSerializable{
     }
 
     function JsonSerialize(){
-		echo json_encode(
-			[
+        return 
+            [
             "data" => $this->data,
             "success" => $this->success,
             "message" => $this->message
-			],
-			JSON_PRETTY_PRINT
-		);
+            ];
     }
 }
