@@ -3,9 +3,17 @@ header('Content-Type: application/json');
 
 require_once("../modele/Post.php");
 require_once("../utils/dbconnect.php");
+require_once("../utils/Feedback.php");
 
-$calledFunction = $_POST["function"];
-$data = $_POST["data"];
+$calledFunction =  $_POST['function'];
+$data = $_POST['data'];
+
+/* 
+JEU DE TEST :
+
+$calledFunction = "getPost";
+$data = array($conn, 1);
+*/
 
 call_user_func_array($calledFunction, $data);
 
@@ -17,7 +25,7 @@ call_user_func_array($calledFunction, $data);
  * Return un object Feedback
  */
 function getPost($conn, $idPost) {
-    echo json_encode(Post::getPost($conn, $idPost));
+    echo json_encode(Post::getPost($conn, $idPost), JSON_PRETTY_PRINT);
 }
 
 /**
@@ -31,7 +39,7 @@ function getPost($conn, $idPost) {
  * Return Feedback
  */
 function createPost($conn, $idUtil, $data, $postTag) {
-    echo json_encode(Post::createPost($conn, $idUtil, $data, $postTag));
+    echo json_encode(Post::createPost($conn, $idUtil, $data, $postTag), JSON_PRETTY_PRINT);
 }
 
 /**
@@ -45,7 +53,7 @@ function createPost($conn, $idUtil, $data, $postTag) {
  *       - $postTag : tableau associatif de tags du post
  */
 function editPost($conn, $idPost, $data, $postTag) {
-    echo json_encode(Post::editPost($conn, $idPost, $data, $postTag));
+    echo json_encode(Post::editPost($conn, $idPost, $data, $postTag), JSON_PRETTY_PRINT);
 }
 
 /**
@@ -56,5 +64,5 @@ function editPost($conn, $idPost, $data, $postTag) {
  * Return un object Feedback
  */
 function deletePost($conn, $id) {
-    echo json_encode(Post::deletePost($conn, $id));
+    echo json_encode(Post::deletePost($conn, $id), JSON_PRETTY_PRINT);
 }
