@@ -1,4 +1,5 @@
 <?php
+require_once('../utils/Feedback.php');
 require_once("CompetencePost.php");
 
 class Post {
