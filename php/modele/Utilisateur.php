@@ -1,4 +1,5 @@
 <?php
+    require_once('../utils/Feedback.php');
     require_once('Competence.php');
     require_once('CompetenceUtilisateur.php');
 
