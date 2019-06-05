@@ -123,8 +123,51 @@
 }
 
 
+/**
+* Rating system
+**/
 
+.rating-system label{
+  float:right;
+  display:inline-block;
+  width:20px;
+  height:5px;
+  background:#ccc;
+  position: relative;
+  transition:all .25s;
+}
 
+.rating-system{
+  width:auto;
+  display:inline-block;
+  position: relative;
+} 
+
+.rating-system input{
+    display:none;
+}
+
+.rating-system label{
+  width:2rem;
+  height:2rem;
+  border-radius:100%; 
+  margin:0 12px;
+}
+
+.ratings-system label:before{display:none;}
+.rating-system label:hover ~ label,
+.rating-system label:hover
+{
+  background:#ffee96;
+  box-shadow: 0 0 0 2px gold;
+  
+} 
+
+.rating-system input:checked ~ label{
+  transition: all .5s;
+  background:gold;
+  box-shadow: 0 0 0 2px gold;
+}
 
 
 /**
