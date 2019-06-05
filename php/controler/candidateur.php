@@ -1,5 +1,4 @@
 <?php
-ini_set('display_errors',1);
 header('Content-Type: application/json');
 
 require_once("../modele/Candidature.php");

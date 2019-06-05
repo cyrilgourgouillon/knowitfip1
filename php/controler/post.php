@@ -1,19 +1,20 @@
 <?php
 header('Content-Type: application/json');
 
+ini_set('display_errors',1);
+
 require_once("../modele/Post.php");
 require_once("../utils/dbconnect.php");
 require_once("../utils/Feedback.php");
 
-$calledFunction =  $_POST['function'];
-$data = $_POST['data'];
+//$calledFunction =  $_POST['function'];
+//$data = $_POST['data'];
 
-/* 
-JEU DE TEST :
+ 
+//JEU DE TEST :
 
-$calledFunction = "getPost";
-$data = array($conn, 1);
-*/
+$calledFunction = "getPostByUser";
+$data = array($conn, 10, "Request");
 
 call_user_func_array($calledFunction, $data);
 
@@ -26,6 +27,18 @@ call_user_func_array($calledFunction, $data);
  */
 function getPost($conn, $idPost) {
     echo json_encode(Post::getPost($conn, $idPost), JSON_PRETTY_PRINT);
+}
+
+/**
+ * STATIC
+ * Recupere les informations des posts d'un user
+ * 
+ * Param - $idUser : id du user
+ *       - $type : request ou knowledge
+ * Return un object Feedback
+ */
+function getPostByUser($conn, $idUser, $type) {
+    echo json_encode(Post::getPostByUser($conn, $idUser, $type), JSON_PRETTY_PRINT);
 }
 
 /**

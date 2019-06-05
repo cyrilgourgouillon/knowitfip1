@@ -18,13 +18,12 @@ class Post {
     /**
      * STATIC
      * Recupere les informations d'un post
-     * Appeler CompetencePost::getTagPost() pour les tags
      * 
      * Param - $idPost : id du post
-     * Return un object Post
+     * Return un object feedback
      */
     static function getPost($conn, $idPost) {
-        $stmt = $conn->prepare("SELECT utilisateur, titre, description, tmp_estime, date, type FROM post WHERE id = $idPost");
+        $stmt = $conn->prepare("SELECT utilisateur, pseudo, titre, p.description, tmp_estime, date, type FROM post p, utilisateur u WHERE p.id = $idPost AND u.id = p.utilisateur");
         $stmt->execute();
         $count = $stmt->rowCount();
 
@@ -34,7 +33,40 @@ class Post {
             
 			return new Feedback(
                 [
-                    'data' => $postDetail,
+                    'post' => $postDetail,
+                    'tag' => $postTag
+                ]
+                , true, "");
+        }
+		else
+			return new Feedback(NULL, false, "Post inconnu.");
+    }
+
+    /**
+     * STATIC
+     * Recupere les informations des posts d'un user
+     * 
+     * Param - $idUser : id du user
+     *       - $type : request ou knowledge
+     * Return un object feedback
+     */
+    static function getPostByUser($conn, $idUser, $type) {
+        $stmt = $conn->prepare("SELECT p.id, utilisateur, pseudo, titre, p.description, tmp_estime, date, type FROM post p, utilisateur u WHERE p.utilisateur = $idUser AND u.id = p.utilisateur AND type = '$type'");
+        $stmt->execute();
+        $count = $stmt->rowCount();
+
+		if($count != 0) {
+            $postDetail = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($postDetail as $row => $link) {
+                echo "---->".$link['id']."\n";
+                $postTag = CompetencePost::getTagPost($conn, $link['id']);
+                var_dump($postTag);
+            }
+            
+			return new Feedback(
+                [
+                    'post' => $postDetail,
                     'tag' => $postTag
                 ]
                 , true, "");
