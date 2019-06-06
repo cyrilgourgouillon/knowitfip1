@@ -40,35 +40,39 @@
                 </div>
               </div>
               <div class="text-center">
-                <h1 class="h4 text-gray-900 mt-2 mb-5">Inscrivez vous <i class="rotate-n-15 far fa-grin"></i></h1>
+                <h1 class="h4 text-gray-900 mt-2 mb-4">Inscrivez vous <i class="rotate-n-15 far fa-grin"></i></h1>
+              </div>
+              <div id="unknowUser" class="text-danger text-center mb-4 d-none">
+                      <div class="font-weight-bold">Une erreur est survenue !</div>
+                     <div>Vérifiez les champs du formulaire !</div>
               </div>
               <form class="user">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Prénom">
+                    <input type="text" class="form-control form-control-user" autocomplete="family-name" id="prenom" placeholder="Prénom">
                   </div>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Nom">
+                    <input type="text" class="form-control form-control-user" autocomplete="given-name"  id="nom" placeholder="Nom">
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Addresse Email">
+                  <input type="email" class="form-control form-control-user" autocomplete="email"  id="mail" placeholder="Addresse Email">
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Mot de passe">
+                    <input type="password" class="form-control form-control-user" autocomplete="new-password" id="password" placeholder="Mot de passe">
                   </div>
                   <div class="col-sm-6">
-                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Répétition du mot de passe">
+                    <input type="password" class="form-control form-control-user" autocomplete="new-password" id="secondPassword" placeholder="Répétition du mot de passe">
                   </div>
                 </div>
                 <div class="form-group">
                       <div class="ml-2 custom-control custom-checkbox small">
-                        <input type="checkbox" class="custom-control-input" id="customCheck">
-                        <label class="custom-control-label" for="customCheck">J'accepte les <a href="#">CGU de Knowit</a></label>
+                        <input type="checkbox" class="custom-control-input" id="cgu">
+                        <label class="custom-control-label" for="cgu">J'accepte les <a href="#">CGU de Knowit</a></label>
                       </div>
                 </div>
-                <a href="login.html" class="btn btn-primary btn-user btn-block">
+                <a href="javascript:void(0)" id="submitButton" class="btn btn-primary btn-user btn-block">
                   S'inscrire
                 </a>
               </form>
@@ -92,7 +96,10 @@
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+  <script src="js/vendor/sb-admin-2.min.js"></script>
+
+  <!-- Perso scripts for all pages-->
+  <script src="js/register.js"></script>
 
 </body>
 

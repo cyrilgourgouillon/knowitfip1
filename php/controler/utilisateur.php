@@ -8,6 +8,11 @@ require_once("../utils/Feedback.php");
 $calledFunction = $_POST["function"];
 $data = $_POST["data"];
 
+// Push the $conn to the data
+array_unshift($data, $conn);
+
+
+//Call the function
 call_user_func_array($calledFunction, $data);
 
 /**
@@ -34,7 +39,7 @@ function getUser($conn, $id)
  */
 function signIn($conn, $mail, $mdp)
 {
-    echo json_enconde(Utilisateur::signInUser($conn, $mail, $mdp), JSON_PRETTY_PRINT);
+    echo json_encode(Utilisateur::signInUser($conn, $mail, $mdp), JSON_PRETTY_PRINT);
 }
 
 /**
