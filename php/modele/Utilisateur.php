@@ -59,12 +59,11 @@
      * Param - $conn : PDO connection
      * Return Feedback
      */
-    static function signUpUser($conn, $prenom, $nom, $mail, $date_naissance, $mdp) {
+    static function signUpUser($conn, $nom, $prenom, $mail, $mdp) {
         //Si ce n'est pas vide
         if(preg_match("#^[a-zA-Z]{5,50}$#",$prenom) &&
             preg_match("#^[a-zA-Z]{5,50}$#",$nom) && 
             preg_match("#^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$#", $mail) &&
-            preg_match("#^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$#", $date_naissance) &&
             preg_match("#^[a-zA-Z0-9]{5,100}$#", $mdp)) {
 
             //Check if $mail already exist
@@ -78,15 +77,12 @@
             return new Feedback(1, false, "Cette adresse mail est déjà utilisée !");
             }
             
-            $date_naissance = date("Y-m-d", strtotime($date_naissance)); 
-            
             $mdp = password_hash($mdp, PASSWORD_DEFAULT);
 
-            $stmt = $conn->prepare("INSERT INTO utilisateur (nom, prenom, mail, date_naissance, mdp, admin_level,credit) VALUES (:nom, :prenom, :mail, :date_naissance, :mdp, 0, 0)");
+            $stmt = $conn->prepare("INSERT INTO utilisateur (nom, prenom, mail, mdp, admin_level,credit) VALUES (:nom, :prenom, :mail, :mdp, 0, 0)");
             $stmt->bindParam(':nom', $nom);
             $stmt->bindParam(':prenom', $prenom);
             $stmt->bindParam(':mail', $mail);
-            $stmt->bindParam(':date_naissance', $date_naissance);
             $stmt->bindParam(':mdp', $mdp);
             $stmt->execute();
         } else {
