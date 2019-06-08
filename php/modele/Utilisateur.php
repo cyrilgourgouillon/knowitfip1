@@ -23,6 +23,20 @@
 
     /**
      * STATIC
+     * Check si utilisateur est connecté
+     * 
+     * Param - $id
+     */
+    static function isConnected($id) {
+        if($_SESSION['id'] == $id) {
+            return Feedback(NULL, true, "Utilisateur connecté");
+        }else {
+            return Feedback(NULL, false, "Utilisateur non connecté");
+        }
+    }
+
+    /**
+     * STATIC
      * Fonction permettant de recevoir les information basiques d'un utilisateur
      * en fonction de son id
      * 
