@@ -57,12 +57,18 @@ class Post {
         $res = array();
 
 		if($count != 0) {
-            
+           
             $postDetail = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $cpt = 0;
 
-            foreach ($postDetail as $row => $link) {
-                $postDetail[$cpt]['tag'] = CompetencePost::getTagPost($conn, $postDetail[$cpt]['id']);
+            foreach ($postDetail as $row) {
+                $idPost = $postDetail[$cpt]['id'];
+                $stmt = $conn->prepare("SELECT c.id FROM post p, candidature c WHERE p.id = c.post AND p.id = $idPost");
+                $stmt->execute();
+                $count = $stmt->rowCount();
+
+                $postDetail[$cpt]['candidature'] = $count;
+                $postDetail[$cpt]['tag'] = CompetencePost::getTagPost($conn, $idPost);
                 $cpt++;
             }
             
