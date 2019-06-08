@@ -17,7 +17,7 @@ call_user_func_array($calledFunction, $data);
 
 /**
  * STATIC
- * Fonction permettant de recevoir les information basiques d'un utilisateur
+ * Fonction permettant de recevoir les information baasiques d'un utilisateur
  * en fonction de son id
  * 
  * Param - $conn : PDO connection

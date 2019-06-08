@@ -10,6 +10,8 @@ require_once("../utils/Feedback.php");
 //$calledFunction =  $_POST['function'];
 //$data = $_POST['data'];
 
+// Push the $conn to the data
+//array_unshift($data, $conn);
  
 //JEU DE TEST :
 
