@@ -67,7 +67,7 @@ class Post {
                 $stmt->execute();
                 $count = $stmt->rowCount();
 
-                $postDetail[$cpt]['candidature'] = $count;
+                $postDetail[$cpt]['nbCandidat'] = $count;
                 $postDetail[$cpt]['tag'] = CompetencePost::getTagPost($conn, $idPost);
                 $cpt++;
             }
