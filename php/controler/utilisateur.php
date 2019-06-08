@@ -17,6 +17,16 @@ call_user_func_array($calledFunction, $data);
 
 /**
  * STATIC
+ * Check si utilisateur est connecté
+ * 
+ * Param - $id
+ */
+function isConnected($id) {
+    echo json_encode(Utilisateur::isConnected($id), JSON_PRETTY_PRINT);
+}
+
+/**
+ * STATIC
  * Fonction permettant de recevoir les information baasiques d'un utilisateur
  * en fonction de son id
  * 
