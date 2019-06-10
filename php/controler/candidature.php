@@ -7,15 +7,21 @@ require_once("../modele/Candidature.php");
 require_once("../utils/dbconnect.php");
 require_once("../utils/Feedback.php");
 
-$calledFunction = $_POST["function"];
-$data = $_POST["data"];
+// $calledFunction = $_POST["function"];
+// $data = $_POST["data"];
 
-// Push the $conn to the data
-array_unshift($data, $conn);
+// // Push the $conn to the data
+// array_unshift($data, $conn);
 
+$calledFunction = "getCandidatureByPost";
+$data = array(
+    $conn,
+    13
+);
 
 //Call the function
 call_user_func_array($calledFunction, $data);
+
 
 /**
  * STATIC
@@ -25,7 +31,7 @@ call_user_func_array($calledFunction, $data);
  * @return Feedback
  */
 function getCandidatureByPost($conn, $idPost) {
-    echo json_encode(Candidature::getCandidatureByPost($conn, $idPost));
+    echo json_encode(Candidature::getCandidatureByPost($conn, $idPost),JSON_PRETTY_PRINT);
 }
 
 /**
@@ -36,7 +42,7 @@ function getCandidatureByPost($conn, $idPost) {
  * @return Feedback
  */
 function getCandidatureByUser($conn, $idUser) {
-    echo json_encode(Candidature::getCandidatureByUser($conn, $idUser));
+    echo json_encode(Candidature::getCandidatureByUser($conn, $idUser),JSON_PRETTY_PRINT);
 }
 
 /**
@@ -50,5 +56,5 @@ function getCandidatureByUser($conn, $idUser) {
  * @return Feedback
  */
 function candidaterPost($conn, $idUser, $idPost, $data) {
-    echo json_encode(Candidature::candidaterPost($conn, $idUser, $idPost, $data));
+    echo json_encode(Candidature::candidaterPost($conn, $idUser, $idPost, $data),JSON_PRETTY_PRINT);
 }

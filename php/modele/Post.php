@@ -51,10 +51,13 @@ class Post {
      * Return un object feedback
      */
     static function getPostByUser($conn, $idUser, $type) {
-        $stmt = $conn->prepare("SELECT p.id, utilisateur, pseudo, titre, p.description, tmp_estime, date, type FROM post p, utilisateur u WHERE p.utilisateur = $idUser AND u.id = p.utilisateur AND type = '$type'");
+        $stmt = $conn->prepare("SELECT p.id, utilisateur, pseudo, titre, p.description, tmp_estime, date, type
+                                FROM post p, utilisateur u
+                                WHERE p.utilisateur = $idUser
+                                AND u.id = p.utilisateur
+                                AND type = '$type'");
         $stmt->execute();
         $count = $stmt->rowCount();
-        $res = array();
 
 		if($count != 0) {
            

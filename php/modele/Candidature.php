@@ -1,5 +1,6 @@
 <?php
     require_once('../utils/Feedback.php');
+    require_once('CompetenceUtilisateur.php');
     class Candidature {
 
         private $id;
@@ -12,6 +13,51 @@
         
         function __construct() {
             
+        }
+
+        /**
+         * STATIC
+         * Recupere les informations des candidatures d'un post
+         * 
+         * @param - $idPost : id du post
+         * @return Feedback
+         */
+        static function getCandidatureByPost($conn, $idPost) {
+            $stmt = $conn->prepare("SELECT u.id, u.avatar, u.pseudo, u.description, u.date_naissance
+                                    FROM candidature c, utilisateur u
+                                    WHERE post = $idPost
+                                    AND c.candidat = u.id");
+            $stmt->execute();
+            $count = $stmt->rowCount();
+
+            if($count != 0) {
+           
+                $utilisateurDetail = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $cpt = 0;
+    
+                foreach ($utilisateurDetail as $row) {
+                    $idUser = $utilisateurDetail[$cpt]['id'];
+
+                    $age = NULL;
+                    
+                    if($utilisateurDetail[$cpt]['date_naissance'] != NULL)
+                        @$age = @date("Y-m-d") - @$utilisateurDetail[$cpt]['date_naissance'];
+                    
+                    unset($utilisateurDetail[$cpt]['date_naissance']);
+
+                    $stmt = $conn->prepare("SELECT c.id FROM post p, candidature c WHERE p.id = c.post AND p.id = $idPost");
+                    $stmt->execute();
+                    $count = $stmt->rowCount();
+    
+                    $utilisateurDetail[$cpt]['age'] = $age;
+                    $utilisateurDetail[$cpt]['tag'] = CompetenceUtilisateur::getTagUser($conn, $idUser);
+                    $cpt++;
+                }
+                
+                return new Feedback($utilisateurDetail, true, "");
+            }
+            else
+                return new Feedback(NULL, false, "Aucune candidature pour ce post.");
         }
 
         /**
