@@ -5,6 +5,7 @@ $("#submitButton").click(function(){
 });
 
 function checkInputs(){
+     //Check all input are not empty
      var success = true;
      [
           $("#prenom"),
@@ -20,12 +21,36 @@ function checkInputs(){
                e.removeClass('is-invalid');
           }
      });
+     //Check checkobox is checked
      if(!$("#cgu").is(':checked')){
           $("#cgu").addClass('is-invalid');
           success = false;
      }else{
           $("#cgu").removeClass('is-invalid');
      }
+
+     //test password 5 caracs minimum
+     [$("#password"),$("#secondPassword")].forEach( function(e) {
+          if(e.val().length <= 5){
+               e.addClass('is-invalid');
+               success = false;
+          }else{
+               e.removeClass('is-invalid');
+          }
+     });
+
+     //test if password are the same
+     if(success === true){
+          if($("#password").val() !== $("#secondPassword").val()){
+               $("#password").addClass('is-invalid');
+               $("#secondPassword").addClass('is-invalid');
+               success = false;
+          }else{
+               $("#password").removeClass('is-invalid');
+               $("#secondPassword").removeClass('is-invalid');
+          }
+     }
+
      return success;
 }
 
@@ -36,8 +61,7 @@ function sendRequest(){
               prenom :  $("#prenom").val(),
               nom :  $("#nom").val(),
               mail : $("#mail").val(),
-              password : $("#password").val(),
-              secondPassword : $("#secondPassword").val()
+              password : $("#password").val()
            }
      },function(feedback){
           getResponse(feedback);
@@ -49,13 +73,14 @@ function getResponse(feedback){
      if(feedback.success){
           window.location = "login.html";
      }else{
-          unknowUser();
+          unknowUser(feedback.message);
      }
 }
 
 //Print unknow people information
-function unknowUser(){
+function unknowUser(message){
      $('#unknowUser').removeClass('d-none');
+     $('#erreurMessage').html(message);
 }
 
 

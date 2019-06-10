@@ -14,7 +14,6 @@ array_unshift($data, $conn);
 
 //Call the function
 call_user_func_array($calledFunction, $data);
-
 /**
  * STATIC
  * Check si utilisateur est connecté
@@ -59,9 +58,9 @@ function signIn($conn, $mail, $mdp)
  * Param - $conn : PDO connection
  * Return Feedback
  */
-function register($conn, $prenom, $nom, $mail, $date_naissance, $mdp)
+function register($conn, $nom, $prenom, $mail, $mdp)
 {
-    echo json_encode(Utilisateur::signUpUser($conn, $prenom, $nom, $mail, $date_naissance, $mdp), JSON_PRETTY_PRINT);
+    echo json_encode(Utilisateur::signUpUser($conn, $nom, $prenom, $mail, $mdp), JSON_PRETTY_PRINT);
 }
 
 /**

@@ -98,7 +98,11 @@
             $stmt->bindParam(':prenom', $prenom);
             $stmt->bindParam(':mail', $mail);
             $stmt->bindParam(':mdp', $mdp);
-            $stmt->execute();
+            if($stmt->execute()){
+                return new Feedback($conn->lastInsertId(), true, "");
+            }else{
+                return new Feedback(null, false, "Erreur d'insertion d'un nouvel utilisateur");
+            }
         } else {
             //echo "Vérifiez les champs inscrits";
             return new Feedback(2, false, "Vérifiez les champs inscrits");
