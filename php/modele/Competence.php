@@ -11,6 +11,11 @@ class Competence {
         
     }
 
+    static function getAllCompetence($conn){
+        $stmt = $conn->query("SELECT id,libelle FROM competence"); 
+        return $stmt->fetchAll();
+    }
+
     /**
      * STATIC
      * Return l'id de la competence a partir de son nom

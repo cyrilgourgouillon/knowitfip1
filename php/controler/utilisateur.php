@@ -14,6 +14,7 @@ array_unshift($data, $conn);
 
 //Call the function
 call_user_func_array($calledFunction, $data);
+
 /**
  * STATIC
  * Check si utilisateur est connecté
