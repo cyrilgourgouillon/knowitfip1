@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     require_once('../utils/Feedback.php');
     require_once('Competence.php');
     require_once('CompetenceUtilisateur.php');
@@ -27,11 +29,33 @@
      * 
      * Param - $id
      */
-    static function isConnected($id) {
-        if($_SESSION['id'] == $id) {
-            return Feedback(NULL, true, "Utilisateur connecté");
+    static function isConnected() {
+        if(isset($_SESSION['user'])) {
+            return $_SESSION['user'];
         }else {
-            return Feedback(NULL, false, "Utilisateur non connecté");
+            return false;
+        }
+    }
+
+    /**
+     * Gets the basic user information.
+     *
+     * @param      PDO   $conn   The connection
+     * @param      number   $id     The identifier
+     *
+     * @return     boolean  The basic user information.
+     */
+    static function getBasicUserInfo($conn, $id){
+        $stmt = $conn->prepare("SELECT pseudo,avatar FROM utilisateur WHERE id = ?");
+        if($stmt->execute(array($id))){
+            $row = $stmt->fetch();
+            return[
+                'id' => $id,
+                'pseudo' => $row['pseudo'],
+                'avatar' => $row['avatar']
+            ];
+        }else{
+            return false;
         }
     }
 

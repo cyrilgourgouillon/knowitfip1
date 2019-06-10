@@ -20,8 +20,24 @@ call_user_func_array($calledFunction, $data);
  * 
  * Param - $id
  */
-function isConnected($id) {
-    echo json_encode(Utilisateur::isConnected($id), JSON_PRETTY_PRINT);
+function isConnected() {
+    echo json_encode(new Feedback(null, Utilisateur::isConnected(), '') , JSON_PRETTY_PRINT);
+}
+
+
+
+/**
+ * Gets the basic user information.
+ *
+ * @return     feedback  The basic user information.
+ */
+function getBasicUserInfo($conn){
+     $id = Utilisateur::isConnected();
+     if($id != false){
+          echo json_encode(new Feedback(Utilisateur::getBasicUserInfo($conn, $id), true, ''), JSON_PRETTY_PRINT);
+     }else{
+           echo json_encode(new Feedback(null,false,''), JSON_PRETTY_PRINT);
+     }
 }
 
 /**
