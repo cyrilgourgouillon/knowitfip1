@@ -65,7 +65,7 @@ class Candidature {
     * @return Feedback
     */
     static function getCandidatureByUser($conn, $idUser) {
-        $stmt = $conn->prepare("SELECT p.id, utilisateur, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, etat
+        $stmt = $conn->prepare("SELECT p.id AS idPost, utilisateur, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, etat
                                 FROM post p, utilisateur u, candidature c
                                 WHERE p.utilisateur = $idUser
                                 AND p.utilisateur = c.candidat
@@ -80,7 +80,7 @@ class Candidature {
             $cpt = 0;
             
             foreach ($postDetail as $row) {
-                $idPost = $postDetail[$cpt]['id'];
+                $idPost = $postDetail[$cpt]['idPost'];
 
                 $postDetail[$cpt]['tag'] = CompetencePost::getTagPost($conn, $idPost);
                 $cpt++;
