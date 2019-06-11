@@ -46,10 +46,6 @@ class Candidature {
                 
                 unset($utilisateurDetail[$cpt]['date_naissance']);
                 
-                $stmt = $conn->prepare("SELECT c.id FROM post p, candidature c WHERE p.id = c.post AND p.id = $idPost");
-                $stmt->execute();
-                $count = $stmt->rowCount();
-                
                 $utilisateurDetail[$cpt]['age'] = $age;
                 $utilisateurDetail[$cpt]['tag'] = CompetenceUtilisateur::getTagUser($conn, $idUser);
                 $cpt++;
