@@ -13,10 +13,10 @@ require_once("../utils/Feedback.php");
 // // Push the $conn to the data
 // array_unshift($data, $conn);
 
-$calledFunction = "getCandidatureByPost";
+$calledFunction = "getCandidatureByUser";
 $data = array(
     $conn,
-    13
+    10
 );
 
 //Call the function
