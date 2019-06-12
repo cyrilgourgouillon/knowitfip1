@@ -180,7 +180,7 @@
         if ($data != null) {
             $sqlUser = "UPDATE utilisateur SET ";
             foreach($data as $key => $value) {
-            $sqlUser .= "$key = '$value',";
+                $sqlUser .= "$key = '$value',";
             }
             $sqlUser = rtrim($sqlUser, ',');
             $sqlUser .= " WHERE id = $id;";
