@@ -1,16 +1,30 @@
 <?php
 header('Content-Type: application/json');
 
+ini_set('display_errors',1);
+
 require_once('../utils/dbconnect.php');
 require_once('../modele/Utilisateur.php');
+require_once('../modele/Competence.php');
+require_once('../modele/CompetenceUtilisateur.php');
 require_once("../utils/Feedback.php");
 
-$calledFunction = $_POST["function"];
-$data = $_POST["data"];
 
-// Push the $conn to the data
-array_unshift($data, $conn);
+$calledFunction = "editUser";
+$data = array(
+    $conn,
+    10,
+    array('pseudo' => 'Machenka123'),
+    array(1,2),
+    array(3,4)
+);
 
+
+// $calledFunction = $_POST["function"];
+// $data = $_POST["data"];
+
+// // Push the $conn to the data
+// array_unshift($data, $conn);
 
 //Call the function
 call_user_func_array($calledFunction, $data);
@@ -106,9 +120,9 @@ function showProfile($conn, $id)
  *       - $userTag : [Optionnel] tableau de competence associe à un utilisateur
  * Return Feedback
  */
-function editProfile($conn, $id, $data, $userTag, $wishTag)
+function editUser($conn, $id, $data, $userTag, $wishTag)
 {
-    echo json_encode(Utilisateur::editProfile($conn, $id, $data, $userTag, $wishTag), JSON_PRETTY_PRINT);
+    echo json_encode(Utilisateur::editUser($conn, $id, $data, $userTag, $wishTag), JSON_PRETTY_PRINT);
 }
 
 function showPosts()

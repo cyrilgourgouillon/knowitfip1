@@ -1,10 +1,6 @@
 <?php
     session_start();
 
-    require_once('../utils/Feedback.php');
-    require_once('Competence.php');
-    require_once('CompetenceUtilisateur.php');
-
     class Utilisateur {
 
     protected $id;
@@ -77,11 +73,13 @@
 
             $userDetail = $stmt->fetchObject();
             $userTag = CompetenceUtilisateur::getTagUser($conn, $id);
+            $wishTag = CompetenceUtilisateur::getWishTagUser($conn, $id);
 
             return new Feedback(
                 [
                     "user" => $userDetail,
-                    "tag" => $userTag
+                    "tag" => $userTag,
+                    "wishTag" => $wishTag
                 ]
                 , true, "");
         }
@@ -194,8 +192,8 @@
         $stmt->execute();
 
         //die(var_dump($userTag));
-        if ($userTag != NULL) {
-            CompetenceUtilisateur::editUserTag($conn, $id, $userTag/*, $wishTag*/);
+        if ($userTag != NULL && $userTag != NULL) {
+            CompetenceUtilisateur::editUserTag($conn, $id, $userTag, $wishTag);
         }
 
         return new Feedback(5, true, "Modification utilisateur reussie !");

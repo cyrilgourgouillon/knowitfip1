@@ -30,6 +30,23 @@ class CompetenceUtilisateur {
 			return NULL;
     }
 
+    /**
+     * STATIC
+     * Retourne les tag d'un user
+     * Param - $conn : connexion PDO
+     *       - $id : id d'un user
+     */
+    static function getWishTagUser($conn, $id) {
+        $stmt = $conn->prepare("SELECT libelle, competence FROM competence_souhaitee_utilisateur, competence WHERE utilisateur = $id AND competence.id = competence");
+		$stmt->execute();
+		$count = $stmt->rowCount();
+		
+		if($count != 0)
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		else
+			return NULL;
+    }
+
 	/**
 	 * STATIC
 	 * Modifie les competences d'un utilisateur
@@ -39,9 +56,8 @@ class CompetenceUtilisateur {
 	 *       - $id : id d'un utilisateur
 	 *       - $userTag : [Optionnel] tableau d'id de competences associe à un utilisateur
 	 */
-	static function editUserTag($conn, $id, $userTag, $wishTag = NULL) {
+	static function editUserTag($conn, $id, $userTag, $wishTag ) {
 		//Update user tag
-		
 		$sqlUserTag = "INSERT INTO competence_utilisateur VALUES ";
 		foreach($userTag as $tag) {
 
@@ -53,11 +69,27 @@ class CompetenceUtilisateur {
 			}
 		}
         $sqlUserTag = rtrim($sqlUserTag, ',');
-        
-        echo $sqlUserTag;
 
 		$stmt = $conn->prepare($sqlUserTag); 
-		$stmt->execute();
+        if($stmt->execute() == false){
+            echo "Compétences déjà présentes";
+        }
+        
+        //Update user wish taf
+        $sqlWishTag = "INSERT INTO competence_souhaitee_utilisateur VALUES ";
+		foreach($wishTag as $tag) {
+
+            //si il n'existe pas deja cette compétence chez l'utilisateur
+			$sqlWishTag .= "($id, $tag),";
+
+		}
+        $sqlWishTag = rtrim($sqlWishTag, ',');
+
+        $stmt = $conn->prepare($sqlWishTag);
+        CompetenceUtilisateur::deleteAllWishTag($conn, $id); //Suppression
+		if($stmt->execute() == false){
+            echo "Compétences déjà présentes";
+        }
 	}
 
     /**
@@ -82,5 +114,19 @@ class CompetenceUtilisateur {
         } else {
             return true;
         }
+    }
+
+    /**
+     * STATIC
+     * 
+     * Supprime les compétences utilisateur
+     * 
+     * Param - $conn : connexion PDO
+     *       - $id : id du post
+     */
+    static function deleteAllWishTag($conn, $id) {
+        $sqlUserTag = "DELETE FROM competence_souhaitee_utilisateur WHERE utilisateur = $id";
+		$stmt = $conn->prepare($sqlUserTag); 
+		$stmt->execute();
     }
 }
