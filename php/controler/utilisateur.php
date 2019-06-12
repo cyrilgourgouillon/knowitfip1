@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-ini_set('display_errors',1);
+ini_set('display_errors', 1);
 
 require_once('../utils/dbconnect.php');
 require_once('../modele/Utilisateur.php');
@@ -21,13 +21,13 @@ call_user_func_array($calledFunction, $data);
 /**
  * STATIC
  * Check si utilisateur est connecté
- * 
+ *
  * Param - $id
  */
-function isConnected() {
-    echo json_encode(new Feedback(null, Utilisateur::isConnected(), '') , JSON_PRETTY_PRINT);
+function isConnected()
+{
+    echo json_encode(new Feedback(null, Utilisateur::isConnected(), ''), JSON_PRETTY_PRINT);
 }
-
 
 
 /**
@@ -35,20 +35,21 @@ function isConnected() {
  *
  * @return     feedback  The basic user information.
  */
-function getBasicUserInfo($conn){
-     $id = Utilisateur::isConnected();
-     if($id != false){
-          echo json_encode(new Feedback(Utilisateur::getBasicUserInfo($conn, $id), true, ''), JSON_PRETTY_PRINT);
-     }else{
-           echo json_encode(new Feedback(null,false,''), JSON_PRETTY_PRINT);
-     }
+function getBasicUserInfo($conn)
+{
+    $id = Utilisateur::isConnected();
+    if ($id != false) {
+        echo json_encode(new Feedback(Utilisateur::getBasicUserInfo($conn, $id), true, ''), JSON_PRETTY_PRINT);
+    } else {
+        echo json_encode(new Feedback(null, false, ''), JSON_PRETTY_PRINT);
+    }
 }
 
 /**
  * STATIC
  * Fonction permettant de recevoir les information baasiques d'un utilisateur
  * en fonction de son id
- * 
+ *
  * Param - $conn : PDO connection
  *       - $id  : User ID
  * Return - un objet utilisateur à partir de $id
@@ -61,7 +62,7 @@ function getUser($conn, $id)
 /**
  * STATIC
  * Connecte un utilisateur
- * 
+ *
  * Check si le compte $mail existe et si son mot de passe est valide.
  * Param - $conn : PDO connection
  * Return un object Feedback
@@ -74,7 +75,7 @@ function signIn($conn, $mail, $mdp)
 /**
  * STATIC
  * Inscrit un nouvel utilisateur Knowit, sauf s'il existe déjà
- * 
+ *
  * Param - $conn : PDO connection
  * Return Feedback
  */
@@ -90,8 +91,8 @@ function register($conn, $nom, $prenom, $mail, $mdp)
  * associe à l'utilisateur concerné ses différentes
  * compétences.
  *
- * @param $conn, la connexion à la BDD
- * @param $id, l'id de l'Utilisateur
+ * @param $conn , la connexion à la BDD
+ * @param $id , l'id de l'Utilisateur
  * @return array formaté du profil utilsateur
  */
 function showProfile($conn, $id)
@@ -102,7 +103,7 @@ function showProfile($conn, $id)
 /**
  * STATIC
  * Update les informations d'un utilisateur
- * 
+ *
  * Param - $conn : PDO connection
  *       - $id : id d'un utilisateur
  *       - $data : tableau associatif de type 'nomChampsBD => valeur'
@@ -137,6 +138,18 @@ function evaluateLesson()
 function reward()
 {
 
+}
+
+/**
+ * Permet d'afficher les statistiques sur
+ * la page profil de l'utilisateur
+ *
+ * @param $conn, la connexion à la BDD
+ * @param $id, l'identifiant de l'utilisateur
+ */
+function showStats($conn, $id)
+{
+    echo json_encode(Utilisateur::showStats($conn, $id), JSON_PRETTY_PRINT);
 }
 
 function deconnect()
