@@ -62,10 +62,10 @@
      * 
      * Param - $conn : PDO connection
      *       - $id  : User ID
-     * Return - un objet utilisateur à partir de $id
+     * Return - Feedback
      */
     static function getUser($conn, $id){
-        $stmt = $conn->prepare("SELECT * FROM utilisateur WHERE id = ?");
+        $stmt = $conn->prepare("SELECT id, nom, prenom, pseudo, avatar, mail, date_naissance, credit, description, reseau FROM utilisateur WHERE id = ?");
         $stmt->execute(array($id));
         $count = $stmt->rowCount();
         
