@@ -46,7 +46,7 @@ $("button[tag-type='tagSubmitButton']").click(function(event) {
 function addTag(ul, tag){
      var classes = ['badge-primary', 'badge-success', 'badge-warning', 'badge-danger'];
      var classe = classes[Math.floor(Math.random()*classes.length)];
-     htmlLiTag='<li class="list-group-item d-flex justify-content-between align-items-center "><span  tag-type="libelle" tag-id="' + tag.id + '" class="badge badge-pill text-uppercase '+ classe +'"> ' + tag.libelle + ' </span><button tag-type="btnDelete" type="button" class="close btn rouded-hover" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>'
+     htmlLiTag='<li class="list-group-item d-flex justify-content-between align-items-center "><span  tag-type="libelle" tag-id="' + tag.competence + '" class="badge badge-pill text-uppercase '+ classe +'"> ' + tag.libelle + ' </span><button tag-type="btnDelete" type="button" class="close btn rouded-hover" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>'
      ul.append(htmlLiTag);
 }
 

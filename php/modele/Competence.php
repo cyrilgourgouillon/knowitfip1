@@ -12,7 +12,7 @@ class Competence {
     }
 
     static function getAllCompetence($conn){
-        $stmt = $conn->query("SELECT id,libelle FROM competence"); 
+        $stmt = $conn->query("SELECT id as competence,libelle FROM competence"); 
         return $stmt->fetchAll();
     }
 

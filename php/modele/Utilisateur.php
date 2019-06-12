@@ -150,12 +150,13 @@
             $count=$stmt->rowCount();
             $data=$stmt->fetch(PDO::FETCH_OBJ);
 
+
             if($count && password_verify($mdp, $data->mdp)){
-            $_SESSION["user"] = $data->id;
-            return new Feedback($data->id, true, "Connexion réussie");
+                $_SESSION["user"] = $data->id;
+                return new Feedback($data->id, true, "Connexion réussie");
             }
             else{
-            return new Feedback(3, false, "Adresse mail inconnue ou mot de passe erroné");
+              return new Feedback(3, false, "Adresse mail inconnue ou mot de passe erroné");
             } 
 
         }
@@ -182,7 +183,7 @@
             foreach($data as $key => $value) {
                 if($key == 'mdp')
                     $value = password_hash($value, PASSWORD_DEFAULT);
-                $sqlUser .= "$key = '$value',";
+                $sqlUser .= "$key = " . $conn->quote($value) . ",";
             }
             $sqlUser = rtrim($sqlUser, ',');
             $sqlUser .= " WHERE id = $id;";
@@ -193,7 +194,7 @@
         $stmt = $conn->prepare($sqlUser); 
         $stmt->execute();
 
-        //die(var_dump($userTag));
+
         if ($userTag != NULL && $userTag != NULL) {
             CompetenceUtilisateur::editUserTag($conn, $id, $userTag, $wishTag);
         }
@@ -215,7 +216,7 @@
    */
   static function showProfile($conn, $id)
   {
-     $stmt = $conn->prepare("SELECT u.nom, u.prenom, u.avatar, u.credit, u.description, cu.niveau, cu.points_experience, c.libelle
+     $stmt = $conn->prepare("SELECT u.pseudo, u.avatar, u.credit, u.description, cu.niveau, cu.points_experience, c.libelle
                         FROM utilisateur u, competence c, competence_utilisateur cu WHERE u.id = ? and cu.utilisateur = u.id
                         and c.id = cu.competence");
      $stmt->execute(array($id));
@@ -226,10 +227,10 @@
      $json['competences'] = array();
 
      $formated_array = array_reduce($res, function ($prev, $current) {
-        $prev['prenom'] = $current['prenom'];
-        $prev['nom'] = $current['nom'];
+        $prev['pseudo'] = $current['pseudo'];
         $prev['credit'] = $current['credit'];
-        $prev['$description'] = $current['description'];
+        $prev['description'] = $current['description'];
+        $prev['avatar'] = $current['avatar'];
         $comp['libelle'] = $current['libelle'];
         $comp['niveau'] = $current['niveau'];
         $comp['experience'] = $current['points_experience'];

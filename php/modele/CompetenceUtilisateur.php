@@ -75,7 +75,13 @@ class CompetenceUtilisateur {
             $stmt->execute();
         }
         catch(Exception $e) {
-            echo "Compétences déjà présentes";
+            // :/!\: Merci de ne rien echo, cela casse le JSON de retour
+            // Merci de ne pas commit ce genre de chose à l'avenir
+            // Si je t'encule
+            // fdp
+            // Signé, ton tendre
+            // Nathan
+            //echo "Compétences déjà présentes";
         }
         
         //Update user wish taf

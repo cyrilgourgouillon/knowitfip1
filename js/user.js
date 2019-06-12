@@ -9,7 +9,11 @@ class User{
 
     print(){
     	$('#profilPseudo').html(this.pseudo);
-    	$('#profilImage').prop('src',this.avatar);
+       
+    	if(this.avatar == null)
+            $('#profilImage').attr('src','user_pics/default.jpg');
+        else
+            $('#profilImage').attr('src',this.avatar);
     }
 
 }

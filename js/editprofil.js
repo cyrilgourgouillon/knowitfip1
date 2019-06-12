@@ -32,12 +32,19 @@ function showUser(data){
         addTag($("#listCompetenceSouhaite"), e);
     });
 
+    if(data.user.date_naissance !== '0000-00-00')
+        $('#inputDate').val(data.user.date_naissance);
+
+    if(data.user.avatar == null)
+        $('#inputImage').attr('src','user_pics/default.jpg');
+    else
+        $('#inputImage').attr('src',data.user.avatar);
+
     $('#inputPseudo').val(data.user.pseudo);
-    $('#inputDate').val(data.user.date);
     $('#inputDescription').val(data.user.description);
     $('#inputNom').val(data.user.nom);
     $('#inputPrenom').val(data.user.prenom);
-    $('#inputImage').prop('src',data.user.avatar);
+    $('#inputMail').val(data.user.mail);
 }
 
 //Collect elements and lauch saveModification
@@ -51,7 +58,8 @@ function collectElements(){
         date_naissance : $('#inputDate').val(),
         description : $('#inputDescription').val(),
         nom : $('#inputNom').val(),
-        prenom : $('#inputPrenom').val()
+        prenom : $('#inputPrenom').val(),
+        mail : $('#inputMail').val()
     }
 
     //Check password if it was modified
@@ -108,7 +116,7 @@ function checkPassword(firstPassword, secondPassword){
 //Send modification to the server and redirect if true on the profil
 function saveModication(data, userTag, wishTag){
     $.post('php/controler/utilisateur.php',{
-        function : 'editProfile',
+        function : 'editUser',
         data : {
             id: user.id,
             data : data,
@@ -117,7 +125,7 @@ function saveModication(data, userTag, wishTag){
         }
     }, function(feedback){
         if(feedback.success){
-            //window.location = 'profil.html';
+            window.location = 'profil.html';
         }else{
             console.log('An error occurend while sending the profil modification');
         }

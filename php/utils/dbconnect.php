@@ -5,7 +5,7 @@
  * PDO.
  */
 $user = 'root';
-$pass = '7002n*';
+$pass = '';
 $charset = 'utf8';
 $conn = null;
 
