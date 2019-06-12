@@ -9,11 +9,22 @@ require_once('../modele/Competence.php');
 require_once('../modele/CompetenceUtilisateur.php');
 require_once("../utils/Feedback.php");
 
-$calledFunction = $_POST["function"];
-$data = $_POST["data"];
 
-// Push the $conn to the data
-array_unshift($data, $conn);
+$calledFunction = "editUser";
+$data = array(
+    $conn,
+    10,
+    array('mdp' => 'Machenka123', 'pseudo' => 'BENDONABDENDO'),
+    array(1,2),
+    array(3,4)
+);
+
+
+// $calledFunction = $_POST["function"];
+// $data = $_POST["data"];
+
+// // Push the $conn to the data
+// array_unshift($data, $conn);
 
 //Call the function
 call_user_func_array($calledFunction, $data);

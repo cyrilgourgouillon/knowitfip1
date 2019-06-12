@@ -71,7 +71,10 @@ class CompetenceUtilisateur {
         $sqlUserTag = rtrim($sqlUserTag, ',');
 
 		$stmt = $conn->prepare($sqlUserTag); 
-        if($stmt->execute() == false){
+        try {
+            $stmt->execute();
+        }
+        catch(Exception $e) {
             echo "Compétences déjà présentes";
         }
         
@@ -87,7 +90,10 @@ class CompetenceUtilisateur {
 
         $stmt = $conn->prepare($sqlWishTag);
         CompetenceUtilisateur::deleteAllWishTag($conn, $id); //Suppression
-		if($stmt->execute() == false){
+		try {
+            $stmt->execute();
+        }
+        catch(Exception $e) {
             echo "Compétences déjà présentes";
         }
 	}

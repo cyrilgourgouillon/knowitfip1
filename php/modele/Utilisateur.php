@@ -180,6 +180,8 @@
         if ($data != null) {
             $sqlUser = "UPDATE utilisateur SET ";
             foreach($data as $key => $value) {
+                if($key == 'mdp')
+                    $value = password_hash($value, PASSWORD_DEFAULT);
                 $sqlUser .= "$key = '$value',";
             }
             $sqlUser = rtrim($sqlUser, ',');
