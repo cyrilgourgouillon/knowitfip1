@@ -288,16 +288,17 @@ class Utilisateur
                             FROM utilisateur u, post p 
                             WHERE u.id = ? AND p.utilisateur = u.id AND p.type = 'Request'");
         $stmtNWK = $conn->prepare("SELECT count(r.id) as network_size FROM reseau r, utilisateur u WHERE u.id = ? AND r.utilisateur = u.id");
-        $stmtOLD = $conn->prepare("SELECT date_inscription FROM utilisateur WHERE id = ?");
+        $stmtOLD = $conn->prepare("SELECT date(date_inscription) as date_inscription FROM utilisateur WHERE id = ?");
 
         $stmtKDG->execute(array($id));
         $stmtRQT->execute(array($id));
         $stmtNWK->execute(array($id));
         $stmtOLD->execute(array($id));
 
-        $data = array();
-        array_push($data, $stmtKDG->fetch(PDO::FETCH_ASSOC), $stmtRQT->fetch(PDO::FETCH_ASSOC),
+        $data = array_merge($stmtKDG->fetch(PDO::FETCH_ASSOC), $stmtRQT->fetch(PDO::FETCH_ASSOC),
             $stmtNWK->fetch(PDO::FETCH_ASSOC), $stmtOLD->fetch(PDO::FETCH_ASSOC));
+        
+
 
         return new Feedback($data, true, "Statistiques récupérées avec succès !");
     }

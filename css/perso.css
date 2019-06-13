@@ -104,7 +104,9 @@
 
 @media screen and (max-width: 1200px){
     .text-center-responsive-xl{
-        text-align: center!important;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
     }
 }
 

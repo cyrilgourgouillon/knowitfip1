@@ -116,15 +116,15 @@ function checkPassword(firstPassword, secondPassword){
 //Send modification to the server and redirect if true on the profil
 function saveModication(data, userTag, wishTag){
     // Format empry array before sending
-    [userTag, wishTag].forEach(function(e){
-        if(e.length === 0){
-            e = [""];
-        }
-    });
-
-    console.log(userTag);
-
-    // ne marche pas à modifier
+    if(userTag.length === 0){
+        userTag = [""];
+    }
+    if(wishTag.length === 0){
+        wishTag = [""];
+    }
+    if(data.date_naissance ===''){
+        delete data.date_naissance;
+    }
 
     $.post('php/controler/utilisateur.php',{
         function : 'editUser',
@@ -142,6 +142,23 @@ function saveModication(data, userTag, wishTag){
         }
     });
 }
+
+$("#btnImportImage").click(function(event) {
+    $('#imageFile').click();
+});
+
+$('#imageFile').change(function () {
+    var file = this.files[0];
+    var reader = new FileReader();
+    reader.onloadend = function () {
+        var img = '<div id="inputImage" style="margin-left:auto; margin-right:0; background-size: cover; background-position: center; width:200px; height :200px; background-image : url(\'' + reader.result + '\')" class="img-profile text-center-responsive-xl rounded-circle" ></div>'
+        $('#inputImage').after(img).remove();
+    }
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+    }
+});
 
 function waitForElement(){
     if(typeof user !== "undefined"){

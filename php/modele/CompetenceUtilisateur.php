@@ -66,7 +66,9 @@ class CompetenceUtilisateur {
 
         $test = array_diff($currentTag, $userTag);
 
-        CompetenceUtilisateur::deleteUserTag($conn, $id, $test);
+        if(count($test) != 0){
+            CompetenceUtilisateur::deleteUserTag($conn, $id, $test);
+        }
 
 		//Update user tag
 		$sqlUserTag = "INSERT INTO competence_utilisateur VALUES ";
@@ -111,7 +113,9 @@ class CompetenceUtilisateur {
             $stmt->execute();
         }
         catch(Exception $e) {
-            echo "Compétences déjà présentes";
+            // Je vais t'enculer
+            // Putain d'autiste
+            //echo "Compétences déjà présentes";
         }
 	}
 

@@ -9,7 +9,6 @@ class User{
 
     print(){
     	$('#profilPseudo').html(this.pseudo);
-       
     	if(this.avatar == null)
             $('#profilImage').attr('src','user_pics/default.jpg');
         else
@@ -38,12 +37,12 @@ function handleFeedback(feedback){
 			if(location.href.split('/').pop() !=='editprofil.html')
 				window.location = 'editprofil.html';
         }
-        else{
-        	user.print();
-        }
-        }else{
-            window.location = 'login.html';
-        }
+
+        user.print();
+
+    }else{
+        window.location = 'login.html';
+    }
 }
 
 getCrtUser();

@@ -3,25 +3,6 @@ $(document).ready(function(){
 });
 
 
-//Load the user information from the profile
-function loadProfil(){
-    $.post('php/controler/utilisateur.php',{
-        function : 'showProfile',
-        data : {
-            id: user.id
-        }
-    },
-        function (feedback) {
-           showUser(feedback);
-            /*
-            if(feedback.success)
-                showUser(feedback.data);
-            else
-                console.log("Une erreur est survenue lors du chargement du profil");
-           */
-        }
-    );
-}
 
 //Load the user information from the profile
 function loadStats(){
@@ -41,25 +22,20 @@ function loadStats(){
 }
 
 //Show the data of the feedback on the profile
-function showUser(data){
-     console.log($('#pseudo'));
-    $('#pseudo').html(data.pseudo);
-    $('#description').html(data.description);
+function showStats(data){
 
-    if(data.avatar == null)
-        $('#inputImage').attr('src','user_pics/default.jpg');
-    else
-        $('#inputImage').attr('src',data.avatar);
-
-   $('#credit').html(data.credit);
-
+    $('#nbKnowledge').html(data.knowledge_count);
+    $('#nbRequest').html(data.request_count);
+    $('#nbReseau').html(data.network_size);
+    $('#date_inscription').html(data.date_inscription);
 }
 
 
 function waitForElement(){
     if(typeof user !== "undefined"){
-        loadProfil();
-        loadStats();
+          //laod from API
+          loadProfil();
+          loadStats();
     }
     else{
         setTimeout(waitForElement, 250);
