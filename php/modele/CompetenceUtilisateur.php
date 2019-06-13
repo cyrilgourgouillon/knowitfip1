@@ -149,7 +149,7 @@ class CompetenceUtilisateur {
      *       - $tags : tags à supprimer
      */
     static function deleteUserTag($conn, $id, $tags) {
-        $sqlUserTag = "DELETE FROM competence_utilisateur WHERE utilisateur = 10 AND (competence = ";
+        $sqlUserTag = "DELETE FROM competence_utilisateur WHERE utilisateur = $id AND (competence = ";
         $test = implode(" OR competence = ", $tags);
         $sqlUserTag .= $test . ")";
 
