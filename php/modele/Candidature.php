@@ -123,4 +123,20 @@ class Candidature {
         
         return new Feedback(NULL, true, "Candidature de $idUser pour $idPost effectuée !");
     }
+
+    /**
+     * Renvoie le message et la réponse correspondant
+     * à la candidature sélectionnée
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $idCand, l'identifiant de la candidature
+     * @return un objet Feedback contenant les données
+     */
+    static function commentsOnCandidacy($conn, $idCand) {
+        $stmt = $conn->prepare("SELECT message, reponse FROM candidature WHERE id = ?");
+        $stmt->execute(array($idCand));
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return new Feedback($data, true, "Commentaires récupérés avec succès !");
+    }
 }

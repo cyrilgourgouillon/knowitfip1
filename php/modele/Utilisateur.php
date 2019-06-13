@@ -285,6 +285,51 @@ class Utilisateur
         return new Feedback($data, true, "Statistiques récupérées avec succès !");
     }
 
+    /**
+     * Ajoute l'avatar de l'utilisateur
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $id, l'identifiant de l'utilisateur
+     * @param $img, le chemin sur le serveur menant à l'avatar
+     * @return un objet Feedback sans données indiquant le succès de la fonction
+     */
+    static function addAvatar($conn, $id, $img) {
+        $stmt = $conn->prepare("UPDATE utilisateur SET avatar = ? WHERE id = ?");
+        $stmt->execute(array($img, $id));
+
+        return new Feedback(NULL, true, "Avatar uploadé avec succès !");
+    }
+
+    /**
+     * Récupère le chemin de l'avatar
+     * associé à cet utilisateur
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $id, l'identifiant de l'utilisateur
+     * @return Feedback, un objet Feedback contenant le chemin de l'avatar
+     */
+    static function getAvatarPath($conn, $id) {
+        $stmt = $conn->prepare("SELECT avatar FROM utilisateur WHERE id = ?");
+        $stmt->execute(array($id));
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return new Feedback($data, true, "Avatar trouvé avec succès !");
+    }
+
+    /**
+     * Supprime le chemin de l'avatar
+     * associé à cet utilisateur dans la BDD
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $id, l'identifiant de l'utilisateur
+     * @return Feedback, un objet Feedback sans données indiquant le succès de la fonction
+     */
+    static function deleteAvatar($conn, $id) {
+        $stmt = $conn->prepare("UPDATE utilisateur SET avatar = '' WHERE id = ?");
+        $stmt->execute(array($id));
+
+        return new Feedback(NULL, true, "Avatar supprimé avec succès !");
+    }
 }
 
 ;

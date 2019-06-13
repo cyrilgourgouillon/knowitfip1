@@ -54,3 +54,14 @@ function getCandidatureByUser($conn, $idUser) {
 function candidaterPost($conn, $idUser, $idPost, $data) {
     echo json_encode(Candidature::candidaterPost($conn, $idUser, $idPost, $data),JSON_PRETTY_PRINT);
 }
+
+/**
+ * Permet d'afficher les commentaires
+ * sur la candidature qui a été sélectionné
+ *
+ * @param $conn, la connexion à la BDD
+ * @param $idCand, l'identifiant de la candidature
+ */
+function commentsOnCandidacy($conn, $idCand) {
+    echo json_encode(Candidature::commentsOnCandidacy($conn, $idCand), JSON_PRETTY_PRINT);
+}
