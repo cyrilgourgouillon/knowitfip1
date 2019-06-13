@@ -93,7 +93,7 @@ class Post {
 	 */
 	static function createPost($conn, $idUtil, $data, $postTag) {
         
-        $data["date"] = date("Y-m-d", strtotime($data["date"])); 
+        $data["date"] = date('Y-m-d h:i:s', time()); 
 
 		$stmt = $conn->prepare("INSERT INTO post VALUES (DEFAULT, :titre, :description, :tmp_estime, :date, :type, :utilisateur)");
 		$stmt->bindParam(':titre', $data["titre"]);
@@ -101,7 +101,7 @@ class Post {
 		$stmt->bindParam(':tmp_estime', $data["tmp_estime"]);
 		$stmt->bindParam(':date', $data["date"]);
 		$stmt->bindParam(':type', $data["type"]);
-        $stmt->bindParam(':utilisateur', $data["id"]);
+        $stmt->bindParam(':utilisateur', $idUtil);
 
         if($stmt->execute()){
             CompetencePost::editTagPost($conn, $conn->lastInsertId(), $postTag);
