@@ -173,6 +173,23 @@ function addAvatar($conn, $id) {
     echo json_encode(Utilisateur::addAvatar($conn, $id, $path));
 }
 
+/**
+ * Permet de supprimer le fichier image de l'avatar
+ * de l'utilisateur, contenu dans le serveur et
+ * de supprimer le chemin vers l'avatar en BDD
+ *
+ * @param $conn, la connexion à la BDD
+ * @param $id, l'identifiant de l'utilisateur
+ */
+function deleteAvatar($conn, $id) {
+    $path = Utilisateur::getAvatarPath($conn, $id)->getData()['avatar'];
+    if (unlink($path)) {
+        echo 'File deleted';
+    }
+
+    echo json_encode(Utilisateur::deleteAvatar($conn, $id, $path));
+}
+
 function deconnect()
 {
     session_destroy();
