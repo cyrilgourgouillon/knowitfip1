@@ -250,7 +250,7 @@ class Utilisateur
             return $prev;
         }, $json);
 
-        return $formated_array;
+        return new Feedback($formated_array, true, "Profil récupéré avec succès !");
     }
 
     /**
