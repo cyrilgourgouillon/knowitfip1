@@ -152,6 +152,27 @@ function showStats($conn, $id)
     echo json_encode(Utilisateur::showStats($conn, $id), JSON_PRETTY_PRINT);
 }
 
+/**
+ * Permet d'uploader l'avatar choisi par l'utilisateur
+ * sur le serveur et envoie le chemin de l'image à la
+ * fonction modèle.
+ *
+ * @param $conn, la connexion à la BDD
+ * @param $id, l'identifiant de l'utilisateur
+ */
+function addAvatar($conn, $id) {
+    $path = null;
+    if ( 0 < $_FILES['file']['error'] ) {
+        echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+    }
+    else {
+        $path = '../../img/'. $id . '_' . $_FILES['file']['name'];
+        move_uploaded_file($_FILES['file']['tmp_name'], $path);
+    }
+
+    echo json_encode(Utilisateur::addAvatar($conn, $id, $path));
+}
+
 function deconnect()
 {
     session_destroy();
