@@ -139,4 +139,18 @@ class Candidature {
 
         return new Feedback($data, true, "Commentaires récupérés avec succès !");
     }
+
+    /**
+     * Permet de valider une candidature
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $idCand, l'identifiant de la candidature
+     * @return Feedback, un objet indiquant le succès de la fonction
+     */
+    static function acceptCandidacy($conn, $idCand) {
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'ACCEPTED' WHERE id = ?");
+        $stmt->execute(array($idCand));
+
+        return new Feedback(NULL, true, "Candidature acceptée avec succès !");
+    }
 }

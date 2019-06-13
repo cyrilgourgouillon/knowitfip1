@@ -65,3 +65,14 @@ function candidaterPost($conn, $idUser, $idPost, $data) {
 function commentsOnCandidacy($conn, $idCand) {
     echo json_encode(Candidature::commentsOnCandidacy($conn, $idCand), JSON_PRETTY_PRINT);
 }
+
+
+/**
+ * Permet de valider une candidature
+ *
+ * @param $conn, la connexion à la BDD
+ * @param $idCand, l'identifiant de la candidature
+ */
+function acceptCandidacy($conn, $idCand) {
+    echo json_encode(Candidature::acceptCandidacy($conn, $idCand), JSON_PRETTY_PRINT);
+}
