@@ -170,7 +170,7 @@ function addAvatar($conn, $id) {
         move_uploaded_file($_FILES['file']['tmp_name'], $path);
     }
 
-    echo json_encode(Utilisateur::addAvatar($conn, $id, $path));
+    echo json_encode(Utilisateur::addAvatar($conn, $id, $path), JSON_PRETTY_PRINT);
 }
 
 /**
@@ -187,7 +187,18 @@ function deleteAvatar($conn, $id) {
         echo 'File deleted';
     }
 
-    echo json_encode(Utilisateur::deleteAvatar($conn, $id, $path));
+    echo json_encode(Utilisateur::deleteAvatar($conn, $id, $path), JSON_PRETTY_PRINT);
+}
+
+/**
+ * Modifie l'avatar d'un utilisateur
+ *
+ * @param $conn, la connexion à la BDD
+ * @param $id, l'identifiant de l'utilisateur
+ */
+function editAvatar($conn,$id) {
+    deleteAvatar($conn, $id);
+    addAvatar($conn, $id);
 }
 
 function deconnect()
