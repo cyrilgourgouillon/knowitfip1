@@ -80,10 +80,10 @@ class Utilisateur
             $userTag = CompetenceUtilisateur::getTagUser($conn, $id);
             $wishTag = CompetenceUtilisateur::getWishTagUser($conn, $id);
 
-            if($userTag == NULL)
+            if ($userTag == NULL)
                 $userTag = array();
 
-            if($wishTag == NULL)
+            if ($wishTag == NULL)
                 $wishTag = array();
 
             return new Feedback(
@@ -227,21 +227,37 @@ class Utilisateur
      */
     static function showProfile($conn, $id)
     {
-        $stmt = $conn->prepare("SELECT u.pseudo, u.avatar, u.credit, u.description, cu.niveau, cu.points_experience, c.libelle
+        $stmt = $conn->prepare("SELECT pseudo, avatar, credit, description, date_naissance FROM utilisateur
+                                WHERE id = ?");
+        $stmtSKL = $conn->prepare("SELECT cu.niveau, cu.points_experience, c.libelle
                         FROM utilisateur u, competence c, competence_utilisateur cu WHERE u.id = ? and cu.utilisateur = u.id
                         and c.id = cu.competence");
+        $stmtKDG = $conn->prepare("SELECT count(p.id) as knowledge_count
+                            FROM utilisateur u, post p 
+                            WHERE u.id = ? AND p.utilisateur = u.id AND p.type = 'Knowledge'");
+        $stmtRQT = $conn->prepare("SELECT count(p.id) as request_count
+                            FROM utilisateur u, post p 
+                            WHERE u.id = ? AND p.utilisateur = u.id AND p.type = 'Request'");
         $stmt->execute(array($id));
+        $stmtSKL->execute(array($id));
+        $stmtKDG->execute(array($id));
+        $stmtRQT->execute(array($id));
 
-        $res = $stmt->fetchAll();
+        $userDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+        $skills = $stmtSKL->fetchAll(PDO::FETCH_ASSOC);
+        $knowledges = $stmtKDG->fetch(PDO::FETCH_ASSOC);
+        $requests = $stmtRQT->fetch(PDO::FETCH_ASSOC);
+
+        try {
+            $userDetails['age'] = date_diff(new DateTime($userDetails['date_naissance']), new DateTime(Date('Y-m-d')))->y;
+        } catch (Exception $e) {
+            echo 'Le format de Date est incorrect';
+        }
 
         $json = array();
         $json['competences'] = array();
 
-        $formated_array = array_reduce($res, function ($prev, $current) {
-            $prev['pseudo'] = $current['pseudo'];
-            $prev['credit'] = $current['credit'];
-            $prev['description'] = $current['description'];
-            $prev['avatar'] = $current['avatar'];
+        $formated_array = array_reduce($skills, function ($prev, $current) {
             $comp['libelle'] = $current['libelle'];
             $comp['niveau'] = $current['niveau'];
             $comp['experience'] = $current['points_experience'];
@@ -250,15 +266,17 @@ class Utilisateur
             return $prev;
         }, $json);
 
-        return new Feedback($formated_array, true, "Profil récupéré avec succès !");
+        $data = $userDetails + $knowledges + $requests + $formated_array;
+
+        return new Feedback($data, true, "Profil récupéré avec succès !");
     }
 
     /**
      * Renvoie des statistiques sur l'activité de l'utilisateur
      * (nombre de knowledege, de request, d'amis dans le réseau...)
      *
-     * @param $conn, la connexion à la BDD
-     * @param $id, l'identifiant de l'utilisateur
+     * @param $conn , la connexion à la BDD
+     * @param $id , l'identifiant de l'utilisateur
      * @return Feedback contenant les données statistiques
      */
     static function showStats($conn, $id)
@@ -269,8 +287,8 @@ class Utilisateur
         $stmtRQT = $conn->prepare("SELECT count(p.id) as request_count
                             FROM utilisateur u, post p 
                             WHERE u.id = ? AND p.utilisateur = u.id AND p.type = 'Request'");
-        $stmtNWK = $conn->prepare("SELECT count(r.id) as network_size FROM reseau r, utilisateur u WHERE u.id = ? AND r.utilisateur = U.id");
-        $stmtOLD = $conn->prepare("SELECT inscrit_depuis FROM utilisateur WHERE id = ?");
+        $stmtNWK = $conn->prepare("SELECT count(r.id) as network_size FROM reseau r, utilisateur u WHERE u.id = ? AND r.utilisateur = u.id");
+        $stmtOLD = $conn->prepare("SELECT date_inscription FROM utilisateur WHERE id = ?");
 
         $stmtKDG->execute(array($id));
         $stmtRQT->execute(array($id));
@@ -278,8 +296,7 @@ class Utilisateur
         $stmtOLD->execute(array($id));
 
         $data = array();
-        $data['data'] = array();
-        array_push($data['data'], $stmtKDG->fetch(PDO::FETCH_ASSOC), $stmtRQT->fetch(PDO::FETCH_ASSOC),
+        array_push($data, $stmtKDG->fetch(PDO::FETCH_ASSOC), $stmtRQT->fetch(PDO::FETCH_ASSOC),
             $stmtNWK->fetch(PDO::FETCH_ASSOC), $stmtOLD->fetch(PDO::FETCH_ASSOC));
 
         return new Feedback($data, true, "Statistiques récupérées avec succès !");
@@ -288,12 +305,13 @@ class Utilisateur
     /**
      * Ajoute l'avatar de l'utilisateur
      *
-     * @param $conn, la connexion à la BDD
-     * @param $id, l'identifiant de l'utilisateur
-     * @param $img, le chemin sur le serveur menant à l'avatar
+     * @param $conn , la connexion à la BDD
+     * @param $id , l'identifiant de l'utilisateur
+     * @param $img , le chemin sur le serveur menant à l'avatar
      * @return un objet Feedback sans données indiquant le succès de la fonction
      */
-    static function addAvatar($conn, $id, $img) {
+    static function addAvatar($conn, $id, $img)
+    {
         $stmt = $conn->prepare("UPDATE utilisateur SET avatar = ? WHERE id = ?");
         $stmt->execute(array($img, $id));
 
@@ -304,11 +322,12 @@ class Utilisateur
      * Récupère le chemin de l'avatar
      * associé à cet utilisateur
      *
-     * @param $conn, la connexion à la BDD
-     * @param $id, l'identifiant de l'utilisateur
+     * @param $conn , la connexion à la BDD
+     * @param $id , l'identifiant de l'utilisateur
      * @return Feedback, un objet Feedback contenant le chemin de l'avatar
      */
-    static function getAvatarPath($conn, $id) {
+    static function getAvatarPath($conn, $id)
+    {
         $stmt = $conn->prepare("SELECT avatar FROM utilisateur WHERE id = ?");
         $stmt->execute(array($id));
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -320,11 +339,12 @@ class Utilisateur
      * Supprime le chemin de l'avatar
      * associé à cet utilisateur dans la BDD
      *
-     * @param $conn, la connexion à la BDD
-     * @param $id, l'identifiant de l'utilisateur
+     * @param $conn , la connexion à la BDD
+     * @param $id , l'identifiant de l'utilisateur
      * @return Feedback, un objet Feedback sans données indiquant le succès de la fonction
      */
-    static function deleteAvatar($conn, $id) {
+    static function deleteAvatar($conn, $id)
+    {
         $stmt = $conn->prepare("UPDATE utilisateur SET avatar = '' WHERE id = ?");
         $stmt->execute(array($id));
 
