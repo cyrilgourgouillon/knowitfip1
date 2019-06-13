@@ -92,14 +92,11 @@ class Post {
 	 * Return Feedback
 	 */
 	static function createPost($conn, $idUtil, $data, $postTag) {
-        
-        $data["date"] = date('Y-m-d h:i:s', time()); 
 
-		$stmt = $conn->prepare("INSERT INTO post VALUES (DEFAULT, :titre, :description, :tmp_estime, :date, :type, :utilisateur)");
+		$stmt = $conn->prepare("INSERT INTO post VALUES (DEFAULT, :titre, :description, :tmp_estime, DEFAULT, :type, :utilisateur)");
 		$stmt->bindParam(':titre', $data["titre"]);
 		$stmt->bindParam(':description', $data["description"]);
 		$stmt->bindParam(':tmp_estime', $data["tmp_estime"]);
-		$stmt->bindParam(':date', $data["date"]);
 		$stmt->bindParam(':type', $data["type"]);
         $stmt->bindParam(':utilisateur', $idUtil);
 
