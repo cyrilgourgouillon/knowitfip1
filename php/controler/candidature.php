@@ -6,8 +6,8 @@ ini_set('display_errors',1);
 require_once("../utils/dbconnect.php");
 require_once('../utils/Feedback.php');
 require_once("../modele/Candidature.php");
-require_once('CompetenceUtilisateur.php');
-require_once('CompetencePost.php');
+require_once('../modele/CompetenceUtilisateur.php');
+require_once('../modele/CompetencePost.php');
 
 $calledFunction = $_POST["function"];
 $data = $_POST["data"];
