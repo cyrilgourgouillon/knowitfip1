@@ -115,6 +115,17 @@ function checkPassword(firstPassword, secondPassword){
 
 //Send modification to the server and redirect if true on the profil
 function saveModication(data, userTag, wishTag){
+    // Format empry array before sending
+    [userTag, wishTag].forEach(function(e){
+        if(e.length === 0){
+            e = [""];
+        }
+    });
+
+    console.log(userTag);
+
+    // ne marche pas à modifier
+
     $.post('php/controler/utilisateur.php',{
         function : 'editUser',
         data : {

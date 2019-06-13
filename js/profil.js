@@ -23,6 +23,23 @@ function loadProfil(){
     );
 }
 
+//Load the user information from the profile
+function loadStats(){
+    $.post('php/controler/utilisateur.php',{
+        function : 'showStats',
+        data : {
+            id: user.id
+        }
+    },
+        function (feedback) {
+            if(feedback.success)
+                showStats(feedback.data);
+            else
+                console.log("Une erreur est survenue lors du chargement du profil");
+        }
+    );
+}
+
 //Show the data of the feedback on the profile
 function showUser(data){
      console.log($('#pseudo'));
@@ -42,6 +59,7 @@ function showUser(data){
 function waitForElement(){
     if(typeof user !== "undefined"){
         loadProfil();
+        loadStats();
     }
     else{
         setTimeout(waitForElement, 250);
