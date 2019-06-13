@@ -56,16 +56,17 @@ class CompetenceUtilisateur {
 	 *       - $id : id d'un utilisateur
 	 *       - $userTag : [Optionnel] tableau d'id de competences associe à un utilisateur
 	 */
-	static function editUserTag($conn, $id, $userTag, $wishTag ) {
-        $currentTag = array();
-        $sqlCurrentTag = "SELECT competence FROM competence_utilisateur WHERE utilisateur = $id";
+	static function editUserTag($conn, $id, $userTag, $wishTag) {
+        $sqlCurrentTag = "SELECT competence FROM competence_utilisateur WHERE utilisateur = :id";
         $stmt = $conn->prepare($sqlCurrentTag);
-        $count = $stmt->rowCount();
+        $stmt->bindParam('id',$id);
+        $stmt->execute();
+        
+        $currentTag = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-		if($count != 0)
-			$currentTag = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $test = array_diff($currentTag, $userTag);
 
-        die(var_dump($currentTag));
+        CompetenceUtilisateur::deleteUserTag($conn, $id, $test);
 
 		//Update user tag
 		$sqlUserTag = "INSERT INTO competence_utilisateur VALUES ";
@@ -141,10 +142,28 @@ class CompetenceUtilisateur {
     /**
      * STATIC
      * 
+     * Supprime les compétences d'un utilisateur
+     * 
+     * Param - $conn : connexion PDO
+     *       - $id : id de l'utilisateur
+     *       - $tags : tags à supprimer
+     */
+    static function deleteUserTag($conn, $id, $tags) {
+        $sqlUserTag = "DELETE FROM competence_utilisateur WHERE utilisateur = 10 AND (competence = ";
+        $test = implode(" OR competence = ", $tags);
+        $sqlUserTag .= $test . ")";
+
+		$stmt = $conn->prepare($sqlUserTag); 
+		$stmt->execute();
+    }
+
+    /**
+     * STATIC
+     * 
      * Supprime les compétences utilisateur
      * 
      * Param - $conn : connexion PDO
-     *       - $id : id du post
+     *       - $id : id de l'utilisateur
      */
     static function deleteAllWishTag($conn, $id) {
         $sqlUserTag = "DELETE FROM competence_souhaitee_utilisateur WHERE utilisateur = $id";
