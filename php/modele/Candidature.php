@@ -108,10 +108,11 @@ class Candidature {
         return new Feedback(NULL, false, "Candidature déjà effectuée sur ce post.");
         
         if ($data != null) {
-            $sqlPost = "INSERT INTO candidature VALUES (DEFAULT, :message, :tmp_estime, DEFAULT, :candidat, :post)";
+            $sqlPost = "INSERT INTO candidature VALUES (DEFAULT, :message, NULL, :etat, :tmp_estime, DEFAULT, :candidat, :post)";
             $stmt = $conn->prepare($sqlPost);
             $stmt->bindParam("message", $data['message'], PDO::PARAM_STR);
             $stmt->bindParam("tmp_estime", $data['tmp_estime']); //nullable
+            $stmt->bindParam("etat", "En attente");
             $stmt->bindParam("candidat", $idUser);
             $stmt->bindParam("post", $idPost);
             
