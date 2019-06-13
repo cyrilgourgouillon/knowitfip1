@@ -80,6 +80,12 @@ class Utilisateur
             $userTag = CompetenceUtilisateur::getTagUser($conn, $id);
             $wishTag = CompetenceUtilisateur::getWishTagUser($conn, $id);
 
+            if($userTag == NULL)
+                $userTag = array();
+
+            if($wishTag == NULL)
+                $wishTag = array();
+
             return new Feedback(
                 [
                     "user" => $userDetail,
@@ -102,8 +108,8 @@ class Utilisateur
     static function signUpUser($conn, $nom, $prenom, $mail, $mdp)
     {
         //Si ce n'est pas vide
-        if (preg_match("#^[a-zA-Z]{5,50}$#", $prenom) &&
-            preg_match("#^[a-zA-Z]{5,50}$#", $nom) &&
+        if (preg_match("#^[a-zA-Z]{1,50}$#", $prenom) &&
+            preg_match("#^[a-zA-Z]{1,50}$#", $nom) &&
             preg_match("#^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$#", $mail) &&
             preg_match("#^[a-zA-Z0-9]{5,100}$#", $mdp)) {
 
