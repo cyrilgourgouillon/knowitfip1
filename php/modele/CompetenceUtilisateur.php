@@ -57,6 +57,16 @@ class CompetenceUtilisateur {
 	 *       - $userTag : [Optionnel] tableau d'id de competences associe à un utilisateur
 	 */
 	static function editUserTag($conn, $id, $userTag, $wishTag ) {
+        $currentTag = array();
+        $sqlCurrentTag = "SELECT competence FROM competence_utilisateur WHERE utilisateur = $id";
+        $stmt = $conn->prepare($sqlCurrentTag);
+        $count = $stmt->rowCount();
+
+		if($count != 0)
+			$currentTag = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        die(var_dump($currentTag));
+
 		//Update user tag
 		$sqlUserTag = "INSERT INTO competence_utilisateur VALUES ";
 		foreach($userTag as $tag) {
