@@ -161,16 +161,15 @@ function showStats($conn, $id)
  * @param $id, l'identifiant de l'utilisateur
  */
 function addAvatar($conn, $id) {
-    $path = null;
     if ( 0 < $_FILES['file']['error'] ) {
         echo 'Error: ' . $_FILES['file']['error'] . '<br>';
     }
     else {
-        $path = '../../img/'. $id . '_' . $_FILES['file']['name'];
+        $path = '../../user_pics/'. $id . '.jpg';
         move_uploaded_file($_FILES['file']['tmp_name'], $path);
     }
 
-    echo json_encode(Utilisateur::addAvatar($conn, $id, $path), JSON_PRETTY_PRINT);
+    echo json_encode(Utilisateur::addAvatar($conn, $id, 'user_pics/'. $id . '.jpg'), JSON_PRETTY_PRINT);
 }
 
 /**
@@ -182,7 +181,7 @@ function addAvatar($conn, $id) {
  * @param $id, l'identifiant de l'utilisateur
  */
 function deleteAvatar($conn, $id) {
-    $path = Utilisateur::getAvatarPath($conn, $id)->getData()['avatar'];
+    $path = '../../'.Utilisateur::getAvatarPath($conn, $id)->getData()['avatar'];
     if (unlink($path)) {
         echo 'File deleted';
     }
@@ -190,16 +189,6 @@ function deleteAvatar($conn, $id) {
     echo json_encode(Utilisateur::deleteAvatar($conn, $id, $path), JSON_PRETTY_PRINT);
 }
 
-/**
- * Modifie l'avatar d'un utilisateur
- *
- * @param $conn, la connexion à la BDD
- * @param $id, l'identifiant de l'utilisateur
- */
-function editAvatar($conn,$id) {
-    deleteAvatar($conn, $id);
-    addAvatar($conn, $id);
-}
 
 function deconnect()
 {

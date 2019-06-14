@@ -1,3 +1,5 @@
+var imgChange = false;
+
 $(document).ready(function(){
     waitForElement();
 });
@@ -126,6 +128,8 @@ function saveModication(data, userTag, wishTag){
         delete data.date_naissance;
     }
 
+    handleImage();
+
     $.post('php/controler/utilisateur.php',{
         function : 'editUser',
         data : {
@@ -143,9 +147,46 @@ function saveModication(data, userTag, wishTag){
     });
 }
 
+function handleImage(){
+    if(imgChange){
+       if($('#inputImage').is('div')){
+            var file_data = $('#imageFile').prop('files')[0];   
+            var form_data = new FormData();                  
+            form_data.append('file', file_data);        
+            form_data.append('function', 'addAvatar');     
+            form_data.append('data[id]',  user.id);     
+            $.ajax({
+                url: 'php/controler/utilisateur.php', // point to server-side PHP script 
+                dataType: 'json', 
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,     
+                type: 'post'
+             });
+       }else {
+            $.post('php/controler/utilisateur.php',{
+                function : 'deleteAvatar',
+                data : {
+                    id: user.id,
+                }
+            });
+       }
+      
+       
+    }
+}
+
 $("#btnImportImage").click(function(event) {
     $('#imageFile').click();
 });
+
+$("#btnDeleteImage").click(function(event) {
+    var img = '<img id="inputImage" width="200px" height="200px" class="img-profile rounded-circle" src="user_pics/default.jpg">';
+    $('#inputImage').after(img).remove();
+    imgChange = true;
+});
+
 
 $('#imageFile').change(function () {
     var file = this.files[0];
@@ -153,12 +194,14 @@ $('#imageFile').change(function () {
     reader.onloadend = function () {
         var img = '<div id="inputImage" style="margin-left:auto; margin-right:0; background-size: cover; background-position: center; width:200px; height :200px; background-image : url(\'' + reader.result + '\')" class="img-profile text-center-responsive-xl rounded-circle" ></div>'
         $('#inputImage').after(img).remove();
+        imgChange = true;
     }
     if (file) {
         reader.readAsDataURL(file);
     } else {
     }
 });
+
 
 function waitForElement(){
     if(typeof user !== "undefined"){

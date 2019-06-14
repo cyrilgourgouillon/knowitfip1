@@ -346,7 +346,7 @@ class Utilisateur
      */
     static function deleteAvatar($conn, $id)
     {
-        $stmt = $conn->prepare("UPDATE utilisateur SET avatar = '' WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE utilisateur SET avatar = NULL WHERE id = ?");
         $stmt->execute(array($id));
 
         return new Feedback(NULL, true, "Avatar supprimé avec succès !");
