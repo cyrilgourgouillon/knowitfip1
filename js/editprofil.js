@@ -140,7 +140,9 @@ function saveModication(data, userTag, wishTag){
         }
     }, function(feedback){
         if(feedback.success){
-            window.location = 'profil.html';
+            if(!imgChange){ 
+                window.location = 'profil.html';
+            }
         }else{
             console.log('An error occurend while sending the profil modification');
         }
@@ -162,13 +164,23 @@ function handleImage(){
                 contentType: false,
                 processData: false,
                 data: form_data,     
-                type: 'post'
+                type: 'post',
+                success: function(feedback){
+                    if(feedback.success){
+                         window.location = 'profil.html';
+                     }else{
+                        $("#inputImage").addClass('border border-danger');
+                        console.log('Une erreur est survenue : ' + feedback.message);
+                     }
+                }
              });
        }else {
             $.post('php/controler/utilisateur.php',{
                 function : 'deleteAvatar',
                 data : {
                     id: user.id,
+                },function(){
+                    window.location = 'profil.html';
                 }
             });
        }

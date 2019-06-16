@@ -47,6 +47,12 @@
   background-color: #8F54AC;
   border-color: #8F54AC;
 }
+
+.btn-violet.active {
+  color: #fff;
+  background-color: #8639ac;
+  border-color: #8639ac;
+}
   
 .chevron-rounded:hover {
     color: #8B8B8B!important;

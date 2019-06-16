@@ -162,14 +162,13 @@ function showStats($conn, $id)
  */
 function addAvatar($conn, $id) {
     if ( 0 < $_FILES['file']['error'] ) {
-        echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+        echo json_encode( new Feedback(null, false, 'Fichier trop volumineux'), JSON_PRETTY_PRINT);
     }
     else {
         $path = '../../user_pics/'. $id . '.jpg';
         move_uploaded_file($_FILES['file']['tmp_name'], $path);
-    }
-
-    echo json_encode(Utilisateur::addAvatar($conn, $id, 'user_pics/'. $id . '.jpg'), JSON_PRETTY_PRINT);
+        echo json_encode(Utilisateur::addAvatar($conn, $id, 'user_pics/'. $id . '.jpg'), JSON_PRETTY_PRINT);
+    } 
 }
 
 /**
