@@ -7,8 +7,8 @@ $(document).ready(function(){
      });
 
      function chooseType(selected, other){
-          $(selected).addClass('active');
-          $(other).removeClass('active');
+          $(selected).removeClass('btn-unselected');
+          $(other).addClass('btn-unselected');
      }
 
 

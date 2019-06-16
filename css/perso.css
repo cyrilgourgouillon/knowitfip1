@@ -63,6 +63,10 @@
   border-left: 0.25rem solid #AA66CC !important;
 }
 
+.btn-unselected{
+    opacity: .5;
+}
+
 .logo-rounded{
     width: 7.1rem;
     height: 7.1rem;

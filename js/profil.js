@@ -34,7 +34,7 @@ function showStats(data){
 function waitForElement(){
     if(typeof user !== "undefined"){
           //laod from API
-          loadProfil();
+          loadProfil(user.id);
           loadStats();
     }
     else{

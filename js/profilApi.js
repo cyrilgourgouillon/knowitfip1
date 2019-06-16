@@ -1,9 +1,9 @@
 //Load the user information from the profile
-function loadProfil(){
+function loadProfil(id){
     $.post('php/controler/utilisateur.php',{
         function : 'showProfile',
         data : {
-            id: user.id
+            id: id
         }
     },
         function (feedback) {
