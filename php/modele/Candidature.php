@@ -35,11 +35,26 @@ class Candidature {
             
             foreach ($utilisateurDetail as $row) {
                 $idUser = $utilisateurDetail[$cpt]['id'];
+
+                $stmtKDG = $conn->prepare("SELECT count(p.id) as knowledge_count
+                                            FROM utilisateur u, post p 
+                                            WHERE u.id = ? AND p.utilisateur = u.id AND p.type = 'Knowledge'");
+                $stmtRQT = $conn->prepare("SELECT count(p.id) as request_count
+                                            FROM utilisateur u, post p 
+                                            WHERE u.id = ? AND p.utilisateur = u.id AND p.type = 'Request'");
+
+                $stmtKDG->execute(array($idUser));
+                $stmtRQT->execute(array($idUser));
+                $knowledges = $stmtKDG->fetch();
+                $requests = $stmtRQT->fetch(PDO::FETCH_ASSOC);
+
+                $utilisateurDetail[$cpt]['knowledge_count'] = $knowledges['knowledge_count'];
+                $utilisateurDetail[$cpt]['request_count'] = $requests['request_count'];
                 
                 $age = NULL;
                 
                 if($utilisateurDetail[$cpt]['date_naissance'] != NULL)
-                @$age = @date("Y-m-d") - @$utilisateurDetail[$cpt]['date_naissance'];
+                    @$age = @date("Y-m-d") - @$utilisateurDetail[$cpt]['date_naissance'];
                 
                 unset($utilisateurDetail[$cpt]['date_naissance']);
                 
