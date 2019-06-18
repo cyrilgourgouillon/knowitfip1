@@ -18,7 +18,6 @@ array_unshift($data, $conn);
 //Call the function
 call_user_func_array($calledFunction, $data);
 
-
 /**
  * STATIC
  * Recupere les informations des candidatures d'un post
