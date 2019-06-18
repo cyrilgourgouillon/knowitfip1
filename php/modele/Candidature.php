@@ -150,7 +150,7 @@ class Candidature {
      * @param $idCand, l'identifiant de la candidature
      * @return un objet Feedback contenant les données
      */
-    static function commentsOnCandidacy($conn, $idCand) {
+    static function getCommentCandidature($conn, $idCand) {
         $stmt = $conn->prepare("SELECT message, reponse FROM candidature WHERE id = ?");
         $stmt->execute(array($idCand));
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -165,7 +165,7 @@ class Candidature {
      * @param $idCand, l'identifiant de la candidature
      * @return Feedback, un objet indiquant le succès de la fonction
      */
-    static function acceptCandidacy($conn, $idCand) {
+    static function accepterCandidature($conn, $idCand) {
         $stmt = $conn->prepare("UPDATE candidature SET etat = 'ACCEPTED' WHERE id = ?");
         $stmt->execute(array($idCand));
 

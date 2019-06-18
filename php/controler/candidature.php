@@ -61,8 +61,8 @@ function candidaterPost($conn, $idUser, $idPost, $data) {
  * @param $conn, la connexion à la BDD
  * @param $idCand, l'identifiant de la candidature
  */
-function commentsOnCandidacy($conn, $idCand) {
-    echo json_encode(Candidature::commentsOnCandidacy($conn, $idCand), JSON_PRETTY_PRINT);
+function getCommentCandidature($conn, $idCand) {
+    echo json_encode(Candidature::getCommentCandidature($conn, $idCand), JSON_PRETTY_PRINT);
 }
 
 
@@ -72,6 +72,6 @@ function commentsOnCandidacy($conn, $idCand) {
  * @param $conn, la connexion à la BDD
  * @param $idCand, l'identifiant de la candidature
  */
-function acceptCandidacy($conn, $idCand) {
-    echo json_encode(Candidature::acceptCandidacy($conn, $idCand), JSON_PRETTY_PRINT);
+function accepterCandidature($conn, $idCand) {
+    echo json_encode(Candidature::accepterCandidature($conn, $idCand), JSON_PRETTY_PRINT);
 }
