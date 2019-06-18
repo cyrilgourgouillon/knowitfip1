@@ -21,10 +21,10 @@ class Candidature {
     * @return Feedback
     */
     static function getCandidatureByPost($conn, $idPost) {
-        $stmt = $conn->prepare("SELECT u.id, u.avatar, u.pseudo, u.description, u.date_naissance
-                                FROM candidature c, utilisateur u
-                                WHERE post = $idPost
-                                AND c.candidat = u.id");
+        $stmt = $conn->prepare("SELECT c.id as idCandidature, c.candidat as idCandidat, u.pseudo, u.date_naissance, u.avatar, u.description FROM
+                                candidature c, utilisateur u
+                                WHERE u.id = c.candidat
+                                AND c.post =". $idPost);
         $stmt->execute();
         $count = $stmt->rowCount();
         
@@ -34,7 +34,7 @@ class Candidature {
             $cpt = 0;
             
             foreach ($utilisateurDetail as $row) {
-                $idUser = $utilisateurDetail[$cpt]['id'];
+                $idUser = $utilisateurDetail[$cpt]['idCandidat'];
                 
                 $age = NULL;
                 
@@ -107,12 +107,13 @@ class Candidature {
         if($count != 0)
         return new Feedback(NULL, false, "Candidature déjà effectuée sur ce post.");
         
+        $message =  "En attente";
         if ($data != null) {
-            $sqlPost = "INSERT INTO candidature VALUES (DEFAULT, :message, NULL, :etat, :tmp_estime, DEFAULT, :candidat, :post)";
+            $sqlPost = "INSERT INTO candidature VALUES (DEFAULT, :message, NULL, :tmp_estime, :etat, DEFAULT, :candidat, :post)";
             $stmt = $conn->prepare($sqlPost);
             $stmt->bindParam("message", $data['message'], PDO::PARAM_STR);
             $stmt->bindParam("tmp_estime", $data['tmp_estime']); //nullable
-            $stmt->bindParam("etat", "En attente");
+            $stmt->bindParam("etat", $message);
             $stmt->bindParam("candidat", $idUser);
             $stmt->bindParam("post", $idPost);
             

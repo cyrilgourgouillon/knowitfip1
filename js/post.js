@@ -74,11 +74,12 @@ function showAuteur(data){
         }
     });
 
+    /* DISABLE FOR TEST
     if(user.id === data.post.utilisateur){
         $('#postBtn').addClass('disabled');
         $('#postulationTextarea').prop('disabled', true);
         $('#heureCheck').prop('disabled', true);
-    }
+    }*/
 
 }
 
@@ -89,6 +90,38 @@ function waitForElement(){
     else{
         setTimeout(waitForElement, 250);
     }
+}
+
+$("#postBtn").click(function(){
+	var elems =  collectElements();
+	if(elems !== false){
+		$.post('php/controler/candidature.php',{
+	        function : 'candidaterPost',
+	        data : {
+	            idUser: user.id,
+	            idPost : findGetParameter('post'),
+	            data : elems
+	        }
+		    },function(feedback){
+		     	if(feedback.success){
+		     		location.reload("postulation.html");
+		     	}else{
+		     		console.log("An error occured : " + feedback.message);
+		     	}
+		});
+	}
+});
+
+function collectElements(){
+	if($("#postulationTextarea").val() !== ""){
+	  	$("#postulationTextarea").removeClass('is-invalid');
+		return{
+		    message : $("#postulationTextarea").val(),
+		    tmp_estime : parseInt($("#nbHeure").html())
+		}
+	}
+	$("#postulationTextarea").addClass('is-invalid');
+	return false;
 }
 
 
