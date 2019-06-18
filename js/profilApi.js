@@ -22,6 +22,8 @@ function loadProfil(id){
 function showUser(data){
 
     $('#pseudo').html(data.pseudo);
+    $('#pseudo1').html(data.pseudo);
+    $('#pseudo2').html(data.pseudo);
     $('#description').html(data.description);
     $('#nbKnowledge1').html(data.knowledge_count);
     $('#nbRequest1').html(data.request_count);

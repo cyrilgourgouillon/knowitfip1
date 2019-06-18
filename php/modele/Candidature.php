@@ -151,7 +151,7 @@ class Candidature {
      * @return un objet Feedback contenant les données
      */
     static function getCommentCandidature($conn, $idCand) {
-        $stmt = $conn->prepare("SELECT message, reponse FROM candidature WHERE id = ?");
+        $stmt = $conn->prepare("SELECT candidat, message, tmp_estime, reponse FROM candidature WHERE id = ?");
         $stmt->execute(array($idCand));
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 

@@ -27,7 +27,7 @@ function createProfil(candidat){
 	var html = '<div class="col-xl-4"><div class="card shadow mb-4"><div class="card-body"><div class="text-center">';
     html += '<img width="150px" height="150px" class="img-profile rounded-circle" src="' + candidat.avatar + '"><h3 class="mt-3 mb-0">';
     html +=  candidat.pseudo + '</h3><div class="text-gray-500"><div>';
-    html += '45 knowledges • 18 requests</div><div>';
+    html += candidat.knowledge_count + ' knowledges • ' + candidat.request_count + ' requests</div><div>';
     html +=  candidat.age + ' ans</div></div></div><div class="mt-4 px-1">';
     html +=  candidat.description + '</div> <div class="mt-3 px-1">';
 
