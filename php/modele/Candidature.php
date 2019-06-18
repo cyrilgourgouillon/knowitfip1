@@ -34,10 +34,8 @@ class Candidature {
             $cpt = 0;
             
             foreach ($utilisateurDetail as $row) {
-<<<<<<< HEAD
+
                 $idUser = $utilisateurDetail[$cpt]['idCandidat'];
-=======
-                $idUser = $utilisateurDetail[$cpt]['id'];
 
                 $stmtKDG = $conn->prepare("SELECT count(p.id) as knowledge_count
                                             FROM utilisateur u, post p 
@@ -53,7 +51,7 @@ class Candidature {
 
                 $utilisateurDetail[$cpt]['knowledge_count'] = $knowledges['knowledge_count'];
                 $utilisateurDetail[$cpt]['request_count'] = $requests['request_count'];
->>>>>>> b091e6b97630c796b4a6f9727af84a9ca7a78bb3
+
                 
                 $age = NULL;
                 
