@@ -2,6 +2,8 @@ $(document).ready(function(){
     waitForElement();
 });
 
+var post;
+
 function loadCandidature(){
      $.post('php/controler/candidature.php',{
           function : 'getCommentCandidature',
@@ -10,46 +12,103 @@ function loadCandidature(){
           }
      },function(feedback){
           if(feedback.success){
-               showComments(feedback.data.message, feedback.data.tmp_estime);
+               showComments(feedback.data.message, feedback.data.tmp_estime, feedback.data.date);
+               post = feedback.data.post;
                loadProfil(feedback.data.candidat);
-               loadStats(feedback.data.candidat);
+               loadPost(post);
           }else{
                console.log('An error occured while loading the data');
           }
      });
 }
 
-function showComments(message, tmp_estime){
+function showComments(message, tmp_estime, date){
 	$("#message").html(message);
 	$("#tmp_estime").html(tmp_estime);
+	$("#dateCandidat").html(date);
 }
 
-//Load the user information from the profile
-function loadStats(id){
-    $.post('php/controler/utilisateur.php',{
-        function : 'showStats',
+function loadPost(id){
+     $.post('php/controler/post.php',{
+          function : 'getPost',
+          data : {
+               id: id
+          }
+     },function(feedback){
+          if(feedback.success){
+               showAuteur(feedback.data);
+          }else{
+               console.log('An error occured while loading the data');
+          }
+     });
+}
+
+function showAuteur(data){
+    var classes = ['badge-primary', 'badge-success', 'badge-warning', 'badge-danger'];
+
+    $("#imgAuteur").attr('src', 'user_pics/'+ data.post.utilisateur +'.jpg');
+    $("#pseudoAuteur").html(data.post.pseudo);
+    $("#descAuteur").html(data.post.description);
+    $("#nbHeureAuteur").html(data.post.tmp_estime);
+
+    data.tag.forEach(function(tag){
+        var classe = classes[Math.floor(Math.random()*classes.length)];
+        var badge = '<span class="badge mx-1 '+ classe +'">'+tag.libelle+'</span>'
+        $("#categories").append(badge);
+    });
+
+    $("#dateAuteur").html(data.post.date);
+
+}
+
+
+$("#acceptBtn").click(function(event) {
+	$('#acceptModal').modal('show');
+});
+
+$("#declinetBtn").click(function(event) {
+	$('#declineModal').modal('show');
+});
+$("#acceptConfirm").click(function(event) {
+	if($("#messageConfirm").val() !== ""){
+		$("#messageConfirm").removeClass('is-invalid');
+
+		 $.post('php/controler/candidature.php',{
+	        function : 'accepterCandidature',
+	        data : {
+	            id: findGetParameter('candidature'),
+	            reponse: $("#messageConfirm").val()
+	        }
+     	},function(feedback){
+     		if(feedback.success){
+     			window.location="candidat.html?post="+post;
+     		}else{
+     			console.log('Une erreur est survenue');
+     		}
+     	});
+
+	}else{
+		$("#messageConfirm").addClass('is-invalid');
+	}
+});
+	
+
+$("#declineConfirm").click(function(event) {
+
+	$.post('php/controler/candidature.php',{
+        function : 'refuserCandidature',
         data : {
-            id: id
+            id: findGetParameter('candidature')
         }
-    },
-        function (feedback) {
-            if(feedback.success)
-                showStats(feedback.data);
-            else
-                console.log("Une erreur est survenue lors du chargement du profil");
-        }
-    );
-}
+ 	},function(feedback){
+ 		if(feedback.success){
+ 			window.location="candidat.html?post="+post;
+ 		}else{
+ 			console.log('Une erreur est survenue');
+ 		}
+ 	});
 
-//Show the data of the feedback on the profile
-function showStats(data){
-
-    $('#nbKnowledge').html(data.knowledge_count);
-    $('#nbRequest').html(data.request_count);
-    $('#nbReseau').html(data.network_size);
-    $('#date_inscription').html(data.date_inscription);
-}
-
+});
 
 
 function waitForElement(){

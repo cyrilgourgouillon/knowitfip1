@@ -67,11 +67,21 @@ function getCommentCandidature($conn, $idCand) {
 
 
 /**
+ * Permet de reffuser une candidature
+ *
+ * @param $conn, la connexion à la BDD
+ * @param $idCand, l'identifiant de la candidature
+ */
+function refuserCandidature($conn, $idCand) {
+    echo json_encode(Candidature::refuserCandidature($conn, $idCand), JSON_PRETTY_PRINT);
+}
+
+/**
  * Permet de valider une candidature
  *
  * @param $conn, la connexion à la BDD
  * @param $idCand, l'identifiant de la candidature
  */
-function accepterCandidature($conn, $idCand) {
-    echo json_encode(Candidature::accepterCandidature($conn, $idCand), JSON_PRETTY_PRINT);
+function accepterCandidature($conn, $idCand, $reponse) {
+    echo json_encode(Candidature::accepterCandidature($conn, $idCand,  $reponse), JSON_PRETTY_PRINT);
 }

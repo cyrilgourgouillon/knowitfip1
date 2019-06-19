@@ -76,7 +76,7 @@ $(document).ready(function(){
           var selected = [
           {btn : '#btnKnowledge', dbName : 'knowledge'},
           {btn : '#btnRequest', dbName : 'request'}
-          ].find(function(e){ return $(e.btn).hasClass('active'); });
+          ].find(function(e){ return !$(e.btn).hasClass('btn-unselected'); });
           if(selected){
                elems.inputs['type'] = selected.dbName;
                $("#selectText").removeClass('text-danger');

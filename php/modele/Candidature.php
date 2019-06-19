@@ -21,7 +21,7 @@ class Candidature {
     * @return Feedback
     */
     static function getCandidatureByPost($conn, $idPost) {
-        $stmt = $conn->prepare("SELECT c.id as idCandidature, c.candidat as idCandidat, u.pseudo, u.date_naissance, u.avatar, u.description FROM
+        $stmt = $conn->prepare("SELECT c.id as idCandidature, c.candidat as idCandidat, c.etat, u.pseudo, u.date_naissance, u.avatar, u.description FROM
                                 candidature c, utilisateur u
                                 WHERE u.id = c.candidat
                                 AND c.post =". $idPost);
@@ -151,7 +151,7 @@ class Candidature {
      * @return un objet Feedback contenant les données
      */
     static function getCommentCandidature($conn, $idCand) {
-        $stmt = $conn->prepare("SELECT candidat, message, tmp_estime, reponse FROM candidature WHERE id = ?");
+        $stmt = $conn->prepare("SELECT candidat, message, tmp_estime, reponse, post, date FROM candidature WHERE id = ?");
         $stmt->execute(array($idCand));
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -165,10 +165,24 @@ class Candidature {
      * @param $idCand, l'identifiant de la candidature
      * @return Feedback, un objet indiquant le succès de la fonction
      */
-    static function accepterCandidature($conn, $idCand) {
-        $stmt = $conn->prepare("UPDATE candidature SET etat = 'ACCEPTED' WHERE id = ?");
-        $stmt->execute(array($idCand));
+    static function accepterCandidature($conn, $idCand, $reponse) {
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'ACCEPTED', reponse = ? WHERE id = ?");
+        $stmt->execute(array($reponse, $idCand));
 
         return new Feedback(NULL, true, "Candidature acceptée avec succès !");
+    }
+
+    /**
+     * Permet de refuser une candidature
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $idCand, l'identifiant de la candidature
+     * @return Feedback, un objet indiquant le succès de la fonction
+     */
+    static function refuserCandidature($conn, $idCand) {
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'DECLINED' WHERE id = ?");
+        $stmt->execute(array($idCand));
+
+        return new Feedback(NULL, true, "Candidature refisée avec succès !");
     }
 }

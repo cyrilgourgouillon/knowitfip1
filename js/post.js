@@ -2,7 +2,7 @@ $(document).ready(function(){
     waitForElement();
 });
 
-function loadKnowledges(){
+function loadPost(){
      $.post('php/controler/post.php',{
           function : 'getPost',
           data : {
@@ -85,7 +85,7 @@ function showAuteur(data){
 
 function waitForElement(){
     if(typeof user !== "undefined"){
-        loadKnowledges();
+        loadPost();
     }
     else{
         setTimeout(waitForElement, 250);
