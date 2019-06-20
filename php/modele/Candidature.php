@@ -160,14 +160,30 @@ class Candidature {
 
     /**
      * Permet de valider une candidature
+     * Valider une candidature refuse toutes les autres
      *
      * @param $conn, la connexion à la BDD
      * @param $idCand, l'identifiant de la candidature
      * @return Feedback, un objet indiquant le succès de la fonction
      */
     static function accepterCandidature($conn, $idCand, $reponse) {
-        $stmt = $conn->prepare("UPDATE candidature SET etat = 'ACCEPTED', reponse = ? WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Accepté', reponse = ? WHERE id = ?");
         $stmt->execute(array($reponse, $idCand));
+
+        $stmt = $conn->prepare("SELECT post FROM candidature WHERE id = ?");
+        $stmt->execute(array($idCand));
+
+        $idPost = $stmt->fetch();
+
+        $stmt = $conn->prepare("INSERT INTO session (post, candidature, date_depart, date_fin) VALUES (:post, :candidature, DEFAULT, null)");
+        $stmt->bindParam("post", $idPost[0]);
+        $stmt->bindParam("candidature", $idCand);
+        $stmt->execute();
+
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Refusé' WHERE post = $idPost[0] AND etat <> 'Accepté'");
+        $stmt->bindParam("post", $idPost[0]);
+        $stmt->bindParam("candidature", $idCand);
+        $stmt->execute();
 
         return new Feedback(NULL, true, "Candidature acceptée avec succès !");
     }
