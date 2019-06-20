@@ -169,6 +169,17 @@ class Candidature {
         $stmt = $conn->prepare("UPDATE candidature SET etat = 'Accepté', reponse = ? WHERE id = ?");
         $stmt->execute(array($reponse, $idCand));
 
+        return new Feedback(NULL, true, "Candidature acceptée avec succès !");
+    }
+
+    /**
+     * Lance une nouvelle session
+     * 
+     * @param $conn, la connexion à la BDD
+     * @param $idCand, l'identifiant de la candidature
+     * @return Feedback, un objet indiquant le succès de la fonction
+     */
+    static function startSession($conn, $idCand) {
         $stmt = $conn->prepare("SELECT post FROM candidature WHERE id = ?");
         $stmt->execute(array($idCand));
 
@@ -184,7 +195,7 @@ class Candidature {
         $stmt->bindParam("candidature", $idCand);
         $stmt->execute();
 
-        return new Feedback(NULL, true, "Candidature acceptée avec succès !");
+        return new Feedback(NULL, true, "Session démarée avec succès !");
     }
 
     /**

@@ -85,3 +85,14 @@ function refuserCandidature($conn, $idCand) {
 function accepterCandidature($conn, $idCand, $reponse) {
     echo json_encode(Candidature::accepterCandidature($conn, $idCand,  $reponse), JSON_PRETTY_PRINT);
 }
+
+/**
+ * Lance une nouvelle session
+ * 
+ * @param $conn, la connexion à la BDD
+ * @param $idCand, l'identifiant de la candidature
+ * @return Feedback, un objet indiquant le succès de la fonction
+ */
+function startSession($conn, $idCand) {
+    echo json_encode(Candidature::startSession($conn, $idCand), JSON_PRETTY_PRINT);
+}
