@@ -196,7 +196,7 @@ class Candidature {
      * @return Feedback, un objet indiquant le succès de la fonction
      */
     static function refuserCandidature($conn, $idCand) {
-        $stmt = $conn->prepare("UPDATE candidature SET etat = 'DECLINED' WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Refusé' WHERE id = ?");
         $stmt->execute(array($idCand));
 
         return new Feedback(NULL, true, "Candidature refisée avec succès !");
