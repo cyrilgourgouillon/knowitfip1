@@ -1,8 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-ini_set('display_errors',1);
-
 require_once("../utils/dbconnect.php");
 require_once('../utils/Feedback.php');
 require_once("../modele/Candidature.php");
