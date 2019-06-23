@@ -64,7 +64,7 @@ function createPostulation(postulation){
      }else if(postulation.etat === 'Annulé'){
         html += '<div class="badge-warning badge-pill px-3 py-1">Postulation annulée</div> ';
      }else if(postulation.etat === 'Accepté'){
-         html += '<a href="confirmation.html?candidature='+ postulation.idCandid +'" class="btn btn-success badge-pill px-3 py-1"> Vous avez été choisis !</a>';
+         html += '<a href="confirmation.html?candidature='+ postulation.idCandid +'" class="btn btn-success"> Vous avez été choisis !</a>';
      }
     html +='</div></div></div></div></div></div>';
 

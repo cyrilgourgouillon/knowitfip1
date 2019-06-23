@@ -21,7 +21,7 @@ class Session {
      * @return feedback
      */
     static function getSessionByUser($conn, $idUser) {
-        $stmt = $conn->prepare("SELECT c.candidat, p.id AS idPost, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, s.etat
+        $stmt = $conn->prepare("SELECT s.id as idSession, c.candidat, p.id AS idPost, u.id AS idUser, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, s.etat
                                 FROM session s, post p, candidature c, utilisateur u
                                 WHERE s.post = p.id
                                 AND s.candidature = c.id
@@ -30,7 +30,7 @@ class Session {
                                 
                                 UNION
                                 
-                                SELECT c.candidat, p.id AS idPost, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, s.etat
+                                SELECT s.id as idSession, c.candidat, p.id AS idPost,  u.id AS idUser, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, s.etat
                                 FROM session s, post p, candidature c, utilisateur u
                                 WHERE s.post = p.id
                                 AND s.candidature = c.id

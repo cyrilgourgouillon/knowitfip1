@@ -185,7 +185,7 @@ class Candidature {
 
         $idPost = $stmt->fetch();
 
-        $stmt = $conn->prepare("INSERT INTO session (post, candidature, date_depart, date_fin) VALUES (:post, :candidature, DEFAULT, null)");
+        $stmt = $conn->prepare("INSERT INTO session (post, candidature, date_depart, date_fin, etat) VALUES (:post, :candidature, DEFAULT, null, 'En cours')");
         $stmt->bindParam("post", $idPost[0]);
         $stmt->bindParam("candidature", $idCand);
         $stmt->execute();
