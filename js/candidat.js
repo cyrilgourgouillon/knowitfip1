@@ -19,7 +19,7 @@ function loadCandidats(){
 
 function showCandidats(candidats){
 	var isOneAccepted = candidats.filter(function(e) { 
-		return e.etat === 'ACCEPTED';}
+		return e.etat === 'Accepté';}
 		).length > 0 
     candidats.forEach(function(candidat){
         createProfil(candidat, isOneAccepted);
@@ -47,10 +47,10 @@ function createProfil(candidat, isOneAccepted){
   	html += '<button   style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-secondary border-0 text-white disabled" id="newBtn">';
     html += '<i class="mt-1 fas fa-pause"></i></button></div></div></div></div>';
   }
-  if(candidat.etat === 'ACCEPTED'){
+  if(candidat.etat === 'Accepté'){
   	html += '<button   style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-success border-0 text-white disabled" id="newBtn">';
     html += '<i class="mt-1 fas fa-check"></i></button></div></div></div></div>';
-  }else if(candidat.etat === 'DECLINED'){
+  }else if(candidat.etat === 'Refusé'){
     html += '<button   style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-danger border-0 text-white disabled" id="newBtn">';
     html += '<i class="mt-1 fas fa-times"></i></button></div></div></div></div>';
   }
