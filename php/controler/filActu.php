@@ -1,10 +1,10 @@
 <?php
 header('Content-Type: application/json');
 
+ini_set('display_errors', 1);
+
 require_once("../utils/dbconnect.php");
 require_once('../utils/Feedback.php');
-require_once('../modele/CompetencePost.php');
-require_once('../modele/Session.php');
 
 $calledFunction = $_POST["function"];
 $data = $_POST["data"];
@@ -23,6 +23,6 @@ call_user_func_array($calledFunction, $data);
  * @param $id = id utilisateur
  * @return feedback
  */
-function getSessionByUser($conn, $idUser) {
-    echo json_encode(Session::getSessionByUser($conn, $idUser), JSON_PRETTY_PRINT);
+function afficherFilActu($conn, $idUser) {
+    echo json_encode(FilActu::afficherFilActu($conn, $idUser), JSON_PRETTY_PRINT);
 }
