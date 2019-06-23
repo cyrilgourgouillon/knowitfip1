@@ -330,7 +330,7 @@
                                                             <div id="categories" class="col-auto">
                                                             </div>
                                                             <div class="col small text-gray-500">
-                                                                 Publié le <span id="dateAuteur">9</span>
+                                                                 Publié le <span id="dateAuteur"></span>
                                                             </div>
                                                        </div>
                                                   </div>
@@ -341,34 +341,48 @@
                                                   <h5 class="m-0 font-weight-bold text-primary">Postulation</h5>
                                              </div>
                                              <div class="card-body">
-                                                  <form class="user">
-                                                       <label for="postulationTextarea">Écrivez quelque chose pour <span id="ecrirePour"></span> :</label>
-                                                       <textarea class="form-control mt-2" id="postulationTextarea" rows="5" required=""></textarea>
-                                                       <div class="form-group mt-4 mb-0">
-                                                            <div class=" custom-control custom-checkbox small">
-                                                                 <input type="checkbox" class="custom-control-input" id="heureCheck">
-                                                                 <label class="custom-control-label" for="heureCheck">Proposez un nombre d'heure</label>
+                                                  <div id="postForm" class="d-none">
+                                                       <form class="user">
+                                                            <label for="postulationTextarea">Écrivez quelque chose pour <span id="ecrirePour"></span> :</label>
+                                                            <textarea class="form-control mt-2" id="postulationTextarea" rows="5" required=""></textarea>
+                                                            <div class="form-group mt-4 mb-0">
+                                                                 <div class=" custom-control custom-checkbox small">
+                                                                      <input type="checkbox" class="custom-control-input" id="heureCheck">
+                                                                      <label class="custom-control-label" for="heureCheck">Proposez un nombre d'heure</label>
+                                                                 </div>
                                                             </div>
-                                                       </div>
-                                                       <div class="row d-flex align-items-center ">
-                                                            <div class="col-md-8">
-                                                                 <div class="input-slider-container">
-                                                                      <div id="input-slider" class="input-slider mx-2" data-range-value-min="100" data-range-value-max="500"></div>
-                                                                      <div class="row mt-3 d-none">
-                                                                           <div class="col-6">
-                                                                                <span id="input-slider-value" class="range-slider-value" data-range-value-low="100"></span>
+                                                            <div class="row d-flex align-items-center ">
+                                                                 <div class="col-md-8">
+                                                                      <div class="input-slider-container">
+                                                                           <div id="input-slider" class="input-slider mx-2" data-range-value-min="100" data-range-value-max="500"></div>
+                                                                           <div class="row mt-3 d-none">
+                                                                                <div class="col-6">
+                                                                                     <span id="input-slider-value" class="range-slider-value" data-range-value-low="100"></span>
+                                                                                </div>
                                                                            </div>
                                                                       </div>
                                                                  </div>
+                                                                 <div class="col">
+                                                                      <div class="text-primary"><span id="nbHeure"></span> heures estimées</div>
+                                                                 </div>
                                                             </div>
-                                                            <div class="col">
-                                                                 <div class="text-primary"><span id="nbHeure"></span> heures estimées</div>
-                                                            </div>
+                                                            <a id="postBtn" href="javascript:void(0)" class="mt-4 btn btn-primary btn-user btn-block">
+                                                                 Postuler
+                                                            </a>
+                                                       </form>
+                                                   </div>
+                                                   <div id="candidature" class="d-none">
+                                                       <img id="imgCandidat" height="30px" width="30px" class="img-profile mr-1 rounded-circle"> 
+                                                       <span class="mr-2 d-lg-inline text-gray-600 small"> Vous avez postulé à ce post : </span>
+                                                       <div id="message" class="mt-3">
                                                        </div>
-                                                       <a id="postBtn" href="javascript:void(0)" class="mt-4 btn btn-primary btn-user btn-block">
-                                                            Postuler
-                                                       </a>
-                                                  </form>
+                                                       <div class="text-primary mt-3 small">
+                                                            <span id="nbHeureCandidat"></span> heures de cours estimées
+                                                       </div>
+                                                       <div class="small text-gray-500 mt-2">
+                                                            Postulé le <span id="dateCandidat"></span>
+                                                       </div>
+                                                   </div>
                                              </div>
                                         </div>
                                    </div>

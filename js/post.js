@@ -10,13 +10,46 @@ function loadPost(){
           }
      },function(feedback){
           if(feedback.success){
-               showType(feedback.data.post.type);
-               loadProfil(feedback.data.post.utilisateur);
-               showAuteur(feedback.data);
+              showType(feedback.data.post.type);
+              loadProfil(feedback.data.post.utilisateur);
+              showAuteur(feedback.data);
+              isCandidat(findGetParameter('post'), user.id)
           }else{
                console.log('An error occured while loading the data');
           }
      });
+}
+
+function isCandidat(post, user){
+	 $.post('php/controler/candidature.php',{
+          function : 'isCandidat',
+          data : {
+               post: post,
+               user: user
+          }
+     },function(feedback){
+     	if(feedback.success){
+     		if(feedback.data){
+     			showCandidat(feedback.data);
+     		}else{
+     			showForm();
+     		}
+     	}else{
+     		console.log('Une erreur est survenue');
+     	}
+     });
+}
+
+function showCandidat(data){
+	$("#candidature").removeClass('d-none');
+	$("#imgCandidat").attr('src', 'user_pics/'+ data.idUser +'.jpg');
+	$("#message").html(data.message);
+	$("#nbHeureCandidat").html(data.tmp_estime);
+	$("#dateCandidat").html(data.date);
+}
+
+function showForm(){
+	$("#postForm").removeClass('d-none');
 }
 
 function showType(tag){
@@ -74,12 +107,12 @@ function showAuteur(data){
         }
     });
 
-    /* DISABLE FOR TEST
+
     if(user.id === data.post.utilisateur){
         $('#postBtn').addClass('disabled');
         $('#postulationTextarea').prop('disabled', true);
         $('#heureCheck').prop('disabled', true);
-    }*/
+    }
 
 }
 
@@ -93,35 +126,35 @@ function waitForElement(){
 }
 
 $("#postBtn").click(function(){
-	var elems =  collectElements();
-	if(elems !== false){
-		$.post('php/controler/candidature.php',{
-	        function : 'candidaterPost',
-	        data : {
-	            idUser: user.id,
-	            idPost : findGetParameter('post'),
-	            data : elems
-	        }
-		    },function(feedback){
-		     	if(feedback.success){
-		     		location.reload("postulation.html");
-		     	}else{
-		     		console.log("An error occured : " + feedback.message);
-		     	}
-		});
-	}
+    var elems =  collectElements();
+    if(elems !== false){
+        $.post('php/controler/candidature.php',{
+            function : 'candidaterPost',
+            data : {
+                idUser: user.id,
+                idPost : findGetParameter('post'),
+                data : elems
+            }
+            },function(feedback){
+                if(feedback.success){
+                    location.reload("postulation.html");
+                }else{
+                    console.log("An error occured : " + feedback.message);
+                }
+        });
+    }
 });
 
 function collectElements(){
-	if($("#postulationTextarea").val() !== ""){
-	  	$("#postulationTextarea").removeClass('is-invalid');
-		return{
-		    message : $("#postulationTextarea").val(),
-		    tmp_estime : parseInt($("#nbHeure").html())
-		}
-	}
-	$("#postulationTextarea").addClass('is-invalid');
-	return false;
+    if($("#postulationTextarea").val() !== ""){
+        $("#postulationTextarea").removeClass('is-invalid');
+        return{
+            message : $("#postulationTextarea").val(),
+            tmp_estime : parseInt($("#nbHeure").html())
+        }
+    }
+    $("#postulationTextarea").addClass('is-invalid');
+    return false;
 }
 
 

@@ -237,4 +237,13 @@ class Candidature {
 
         return new Feedback(NULL, true, "Candidature refusée avec succès !");
     }
+
+
+    static function isCandidat($conn, $idPost, $idUser) {
+        $stmt = $conn->prepare("SELECT c.candidat AS idUser, c.message,  c.date, c.tmp_estime,  p.id as idPost FROM candidature c, post p WHERE c.post = p.id AND c.candidat = ? AND p.id = ? ");
+        $stmt->execute(array($idUser, $idPost));
+
+        return new Feedback($stmt->fetch(PDO::FETCH_ASSOC), true, '');
+    }
+
 }

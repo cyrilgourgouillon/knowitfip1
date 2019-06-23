@@ -27,6 +27,18 @@ function getCandidatureByPost($conn, $idPost) {
     echo json_encode(Candidature::getCandidatureByPost($conn, $idPost),JSON_PRETTY_PRINT);
 }
 
+
+/**
+ * STATIC
+ * Vérifie si un utilisateur est déjà candidat d'un post
+ * 
+ * @param - $idPost : id du post
+ * @return Feedback
+ */
+function isCandidat($conn, $idPost, $idUser) {
+    echo json_encode(Candidature::isCandidat($conn, $idPost, $idUser),JSON_PRETTY_PRINT);
+}
+
 /**
  * STATIC
  * Recupere les informations des candidatures d'un utilisateur
