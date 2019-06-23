@@ -18,15 +18,12 @@ function loadCandidats(){
 }
 
 function showCandidats(candidats){
-	var isOneAccepted = candidats.filter(function(e) { 
-		return e.etat === 'Accepté';}
-		).length > 0 
     candidats.forEach(function(candidat){
-        createProfil(candidat, isOneAccepted);
+        createProfil(candidat);
     })
 }
 
-function createProfil(candidat, isOneAccepted){
+function createProfil(candidat){
     var html = '<div class="col-xl-4"><div class="card shadow mb-4"><div class="card-body"><div class="text-center">';
     html += '<img width="150px" height="150px" class="img-profile rounded-circle" src="' + candidat.avatar + '"><h3 class="mt-3 mb-0">';
     html +=  candidat.pseudo + '</h3><div class="text-gray-500"><div>';
@@ -39,21 +36,25 @@ function createProfil(candidat, isOneAccepted){
         html += '<div class="progress-bar bg-warning" role="progressbar" style="width: ' + tag.points_experience/10 + '%" aria-valuenow="' + tag.points_experience/10 + '" aria-valuemin="0" aria-valuemax="100"></div></div></div>';
     });
 
-    html += '</div> <div class="text-center">';
-  if(candidat.etat === 'En attente' && !isOneAccepted){
-    html += '<button  onclick="window.location = \'profilpost.html?candidature='+ candidat.idCandidature +'\';" style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-primary border-0 text-white" id="newBtn">';
-    html += '<i class="mt-1 fas fa-chevron-down"></i></button></div></div></div></div>';
-  }else if(candidat.etat === 'En attente'){
-  	html += '<button   style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-secondary border-0 text-white disabled" id="newBtn">';
-    html += '<i class="mt-1 fas fa-pause"></i></button></div></div></div></div>';
-  }
-  if(candidat.etat === 'Accepté'){
-  	html += '<button   style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-success border-0 text-white disabled" id="newBtn">';
-    html += '<i class="mt-1 fas fa-check"></i></button></div></div></div></div>';
+   html += '</div> <div class="text-center">';
+
+  	if(candidat.etat === 'En attente'){
+   		html += '<button  onclick="window.location = \'profilpost.html?candidature='+ candidat.idCandidature +'\';" style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-primary border-0 text-white" id="newBtn">';
+  		html += '<i class="mt-1 fas fa-chevron-down"></i></button></div></div></div></div>';
+  	}else if(candidat.etat === 'Accepté'){
+   		html += '<button   style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-success border-0 text-white disabled" id="newBtn">';
+   		html += '<i class="mt-1 fas fa-check"></i></button></div></div></div></div>';
   }else if(candidat.etat === 'Refusé'){
-    html += '<button   style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-danger border-0 text-white disabled" id="newBtn">';
-    html += '<i class="mt-1 fas fa-times"></i></button></div></div></div></div>';
+   		html += '<button   style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-danger border-0 text-white disabled" id="newBtn">';
+    	html += '<i class="mt-1 fas fa-times"></i></button></div></div></div></div>';
+  }else if(candidat.etat === 'Annulé'){
+   		html += '<button   style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-warning border-0 text-white disabled" id="newBtn">';
+    	html += '<i class="mt-1 fas fa-ban"></i></button></div></div></div></div>';
+  }else if(candidat.etat === 'Validé'){
+   		html += '<button   style="width: 3rem; height: 3rem;" class="btn rounded-circle btn-info border-0 text-white disabled" id="newBtn">';
+    	html += '<i class="fas fa-check-double"></i></button></div></div></div></div>';
   }
+
     $("#candidatureContainer").append(html);
 }
 

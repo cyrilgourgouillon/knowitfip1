@@ -92,5 +92,17 @@ function accepterCandidature($conn, $idCand, $reponse) {
  * @return Feedback, un objet indiquant le succès de la fonction
  */
 function startSession($conn, $idCand) {
-    echo json_encode(Candidature::startSession($conn, $idCand), JSON_PRETTY_PRINT);
+     echo json_encode(Candidature::startSession($conn, $idCand), JSON_PRETTY_PRINT);
+     Candidature::valideCandidature($conn, $idCand);
+}
+
+/**
+ * Annule une candidature
+ *
+ * @param      PDO  $conn    The connection
+ * @param      int  $idCand  The identifier candidature
+ * @return     Feedback, un objet indiquant le succès de la fonction
+ */
+function annuleCandidature($conn, $idCand) {
+     echo json_encode(Candidature::annuleCandidature($conn, $idCand), JSON_PRETTY_PRINT);
 }

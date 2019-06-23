@@ -52,15 +52,19 @@ function createPostulation(postulation){
     if(postulation.type === "knowledge"){
     html +='<button onclick="window.location=\'post.html?post='+ postulation.idPost +'\'" class="btn rounded-circle chevron-rounded border-0 text-success" id="newBtn"><i class="fas fa-chevron-right"></i></button>';
     }else{
-        html +='<button onclick="window.location = \'post.html\';" class="btn rounded-circle chevron-rounded border-0 violet" id="newBtn"><i class="fas fa-chevron-right"></i></button>';
+        html +='<button onclick="window.location=\'post.html?post='+ postulation.idPost +'\'" class="btn rounded-circle chevron-rounded border-0 violet" id="newBtn"><i class="fas fa-chevron-right"></i></button>';
     }
     html +='</div><div class="col-md-6 d-flex justify-content-around align-items-center">';
     if(postulation.etat === 'En attente'){
         html += '<div class="badge-light badge-pill px-3 py-1">En attente de réponse...</div> ';
      }else if(postulation.etat === 'Refusé'){
         html += '<div class="badge-danger badge-pill px-3 py-1">Vous n\'avez pas été choisis</div> ';
+     }else if(postulation.etat === 'Validé'){
+        html += '<div class="badge-info badge-pill px-3 py-1">Postulation finalisée</div> ';
+     }else if(postulation.etat === 'Annulé'){
+        html += '<div class="badge-warning badge-pill px-3 py-1">Postulation annulée</div> ';
      }else if(postulation.etat === 'Accepté'){
-         html += '<a href="confirmation.html" class="btn btn-success badge-pill px-3 py-1"> Vous avez été choisis !</a>';
+         html += '<a href="confirmation.html?candidature='+ postulation.idCandid +'" class="btn btn-success badge-pill px-3 py-1"> Vous avez été choisis !</a>';
      }
     html +='</div></div></div></div></div></div>';
 

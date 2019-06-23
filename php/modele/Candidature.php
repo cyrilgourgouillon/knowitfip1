@@ -79,7 +79,7 @@ class Candidature {
     * @return Feedback
     */
     static function getCandidatureByUser($conn, $idUser) {
-        $stmt = $conn->prepare("SELECT p.id AS idPost, pseudo, u.id AS idUser, titre, p.description, p.tmp_estime, p.date, p.type, etat
+        $stmt = $conn->prepare("SELECT p.id AS idPost, pseudo, u.id AS idUser, c.id AS idCandid, titre, p.description, p.tmp_estime, p.date, p.type, etat
                                 FROM post p, utilisateur u, candidature c
                                 WHERE c.candidat = $idUser
                                 AND p.utilisateur = u.id
@@ -199,16 +199,42 @@ class Candidature {
     }
 
     /**
+     * Valide la candidature une fois que la session commence
+     *
+     * @param      PDO   $conn      The connection
+     * @param      int  $isCandid   Id of the candid
+     */
+    static function valideCandidature($conn, $idCandid){
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Validé' WHERE id = ?");
+        $stmt->execute(array($idCandid));
+
+        return new Feedback(NULL, true, "Candidature validée avec succès !");
+    }
+
+    /**
+     * Annule une candidature
+     *
+     * @param      PDO  $conn      The connection
+     * @param      int  $idCandid  The identifier candid
+     */     
+    static function annuleCandidature($conn, $idCandid){
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Annulé' WHERE id = ?");
+        $stmt->execute(array($idCandid));
+
+        return new Feedback(NULL, true, "Candidature annulée avec succès !");
+    }
+
+    /**
      * Permet de refuser une candidature
      *
      * @param $conn, la connexion à la BDD
      * @param $idCand, l'identifiant de la candidature
      * @return Feedback, un objet indiquant le succès de la fonction
      */
-    static function refuserCandidature($conn, $idCand) {
+    static function refuserCandidature($conn, $idCandid) {
         $stmt = $conn->prepare("UPDATE candidature SET etat = 'Refusé' WHERE id = ?");
-        $stmt->execute(array($idCand));
+        $stmt->execute(array($idCandid));
 
-        return new Feedback(NULL, true, "Candidature refisée avec succès !");
+        return new Feedback(NULL, true, "Candidature refusée avec succès !");
     }
 }
