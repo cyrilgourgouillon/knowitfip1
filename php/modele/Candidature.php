@@ -79,7 +79,7 @@ class Candidature {
     * @return Feedback
     */
     static function getCandidatureByUser($conn, $idUser) {
-        $stmt = $conn->prepare("SELECT p.id AS idPost, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, etat
+        $stmt = $conn->prepare("SELECT p.id AS idPost, pseudo, u.id AS idUser, titre, p.description, p.tmp_estime, p.date, p.type, etat
                                 FROM post p, utilisateur u, candidature c
                                 WHERE c.candidat = $idUser
                                 AND p.utilisateur = u.id
