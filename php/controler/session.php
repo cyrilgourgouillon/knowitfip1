@@ -26,3 +26,18 @@ call_user_func_array($calledFunction, $data);
 function getSessionByUser($conn, $idUser) {
     echo json_encode(Session::getSessionByUser($conn, $idUser), JSON_PRETTY_PRINT);
 }
+
+
+/**
+ * STATIC
+ *
+ * Permet au candidat d'un knowledge ou à l'auteur d'une request
+ * de noter la session qu'il a suivie. Clôt la session.
+ *
+ * @param $conn, la connexion à la BDD
+ * @param $idSession, l'id de la session à noter
+ * @param $note, la note attribuée
+ */
+function evaluateSession($conn, $idSession, $note) {
+    echo json_encode(Session::evaluateSession($conn, $idSession, $note), JSON_PRETTY_PRINT);
+}
