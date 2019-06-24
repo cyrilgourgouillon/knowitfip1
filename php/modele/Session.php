@@ -56,4 +56,22 @@ class Session {
         else
         return new Feedback(NULL, false, "Aucune candidature.");
     }
+
+    /**
+     * STATIC
+     *
+     * Permet au candidat d'un knowledge ou à l'auteur d'une request
+     * de noter la session qu'il a suivie. Clôt la session.
+     *
+     * @param $conn , la connexion à la BDD
+     * @param $idSession , l'id de la session à noter
+     * @param $note , la note attribuée
+     * @return Feedback, l'objet indiquant le succès de la méthode
+     */
+    static function evaluateSession($conn, $idSession, $note) {
+        $stmt = $conn->prepare("UPDATE session SET note = ?, etat = 'TERMINEE' WHERE id = ?");
+        $stmt->execute(array($note, $idSession));
+
+        return new Feedback(NULL, true, "Note affectée avec succès !");
+    }
 }
