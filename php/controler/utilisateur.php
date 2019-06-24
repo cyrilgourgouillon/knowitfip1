@@ -1,6 +1,9 @@
 <?php
 header('Content-Type: application/json');
 
+//mdp Michel Tahal : lebeauGosse1
+//mdp Cyril Gourgou : cestCyril1
+
 ini_set('display_errors', 1);
 
 require_once('../utils/dbconnect.php');
