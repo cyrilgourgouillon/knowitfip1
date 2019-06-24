@@ -7,7 +7,7 @@ class FilActu {
 
     static function afficherFilActu($conn, $idUser) {
         $sql = "
-        (SELECT p.id as idPost, p.type,  u.avatar, u.pseudo, p.titre, p.description, p.date
+        (SELECT p.id as idPost, u.id AS idUser, p.type,  u.avatar, u.pseudo, p.titre, p.description, p.date
         FROM post p , competence_post cp, utilisateur u
         WHERE p.type = 'Request'
         AND p.id = cp.post
@@ -17,7 +17,7 @@ class FilActu {
 
         UNION
 
-        (SELECT p.id as idPost, p.type, u.avatar, u.pseudo, p.titre, p.description, p.date
+        (SELECT p.id as idPost, u.id AS idUser,  p.type, u.avatar, u.pseudo, p.titre, p.description, p.date
         FROM post p , competence_post cp, utilisateur u
         WHERE p.type = 'Knowledge'
         AND p.id = cp.post
