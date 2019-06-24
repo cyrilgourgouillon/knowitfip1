@@ -48,6 +48,10 @@ class Session {
                 $idPost = $postDetail[$cpt]['idPost'];
 
                 $postDetail[$cpt]['tag'] = CompetencePost::getTagPost($conn, $idPost);
+
+                if ($postDetail[$cpt]['tag'] == NULL)
+                    $postDetail[$cpt]['tag'] = array();
+                
                 $cpt++;
             }
             

@@ -101,8 +101,8 @@ class Candidature {
 
                 $postDetail[$cpt]['tag'] = CompetencePost::getTagPost($conn, $idPost);
 
-                if ($utilisateurDetail[$cpt]['tag'] == NULL)
-                    $utilisateurDetail[$cpt]['tag'] = array();
+                if ($postDetail[$cpt]['tag'] == NULL)
+                    $postDetail[$cpt]['tag'] = array();
                 
                 $cpt++;
             }
