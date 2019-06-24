@@ -62,6 +62,10 @@ class Candidature {
                 
                 $utilisateurDetail[$cpt]['age'] = $age;
                 $utilisateurDetail[$cpt]['tag'] = CompetenceUtilisateur::getTagUser($conn, $idUser);
+
+                if ($utilisateurDetail[$cpt]['tag'] == NULL)
+                    $utilisateurDetail[$cpt]['tag'] = array();
+
                 $cpt++;
             }
             
@@ -96,6 +100,10 @@ class Candidature {
                 $idPost = $postDetail[$cpt]['idPost'];
 
                 $postDetail[$cpt]['tag'] = CompetencePost::getTagPost($conn, $idPost);
+
+                if ($utilisateurDetail[$cpt]['tag'] == NULL)
+                    $utilisateurDetail[$cpt]['tag'] = array();
+                
                 $cpt++;
             }
             
