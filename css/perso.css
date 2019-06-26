@@ -12,13 +12,13 @@
 }
 
 
-  
-  .sidebar-rounded:hover {
+
+.sidebar-rounded:hover {
     background-color: rgba(255, 255, 255, 0.25);
     color: rgba(255, 255, 255, 1);
-  }
+}
 
-  .chevron-rounded{
+.chevron-rounded{
     background-color: #F7F7F7;
     width: 5rem;
     height: 5rem;
@@ -53,12 +53,12 @@
   background-color: #8639ac;
   border-color: #8639ac;
 }
-  
+
 .chevron-rounded:hover {
     color: #8B8B8B!important;
     background-color: #E7E7E7;
 }
-  
+
 .border-left-violet {
   border-left: 0.25rem solid #AA66CC !important;
 }
@@ -87,6 +87,70 @@
 .btn-sideToogle{
     border-bottom-right-radius: 0px 0px;
     border-top-right-radius: 0px 0px;
+}
+
+.fixed-btn{
+    position: absolute;
+    bottom: 90px;
+    right: 20px;
+}
+
+.chat-size{
+    position: absolute;
+    bottom: 90px;
+    right: 20px;
+    width: 400px;
+    border-radius: 30px 30px 0px 30px;
+}
+
+.chat-col-name{
+    border-radius: 0px 0px 0px 30px;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 33.33333%;
+    flex: 0 0 33.33333%;
+    max-width: 33.33333%;
+    height : 356px;
+}
+
+.chat-col-message{
+    border-radius: 0px 0px 0px 0px;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 66.66667%;
+    flex: 0 0 66.66667%;
+    max-width: 66.66667%;
+    height : 356px;
+}
+
+@media screen and (max-width: 576px){
+
+
+    .chat-col-name{
+        border-radius: 0px 0px 0px 0px;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        height : 100px;
+    }
+    .chat-col-message{
+        border-radius: 0px 0px 0px 30px;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        height : 256px;
+    }
+}
+
+@media screen and (max-width: 576px){
+    .chat-size{
+     position: absolute;
+     bottom: 90px;
+     right: 20px;
+     width: calc(100% - 9rem);
+     min-width: 100px;
+     border-radius: 30px 30px 0px 30px;
+ }
 }
 
 .btn-sideToogle:hover {
@@ -130,15 +194,36 @@
     background-color: #eaecf4;
 }
 
+.close-hover{
+    width: 30px;
+    height: 30px;
+    border-radius: 50% !important;
+}
+
+.chat-close{
+    padding: 0;
+    padding-bottom: 2px;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 0;
+    color: #fff;
+    text-shadow: 0 1px 0 #93a9eb;
+}
+
+.close-hover:hover{
+    background-color: #93a9eb;
+}
+
 .smooth{
-        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 
 /**
  * Auto complete
  */
 
-.autocomplete {
+ .autocomplete {
   /*the container must be positioned relative:*/
   position: relative;
   display: inline-block;
@@ -228,12 +313,12 @@
 .noUi-target *
 {Modification
     box-Modificationsizing: border-box; 
-Modification
+    Modification
     -webModificationkit-user-select: none;
-       -Modificationmoz-user-select: none;
-        Modification-ms-user-select: none;
-        Modification    user-select: none;
-Modification
+    -Modificationmoz-user-select: none;
+    Modification-ms-user-select: none;
+    Modification    user-select: none;
+    Modification
     -webModificationkit-touch-callout: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     touch-action: none;
@@ -257,7 +342,7 @@ Modification
 }
 
 /* Wrapper for all connect elements.
- */
+*/
 .noUi-connects
 {
     z-index: 0; 
@@ -384,7 +469,7 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 }
 
 /* Disabled state;
- */
+*/
 [disabled] .noUi-connect
 {
     background: #b8b8b8;
@@ -400,9 +485,9 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 /* Base;
  *
  */
-.noUi-pips,
-.noUi-pips *
-{
+ .noUi-pips,
+ .noUi-pips *
+ {
     box-sizing: border-box;
 }
 
@@ -416,8 +501,8 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 /* Values;
  *
  */
-.noUi-value
-{
+ .noUi-value
+ {
     position: absolute;
 
     text-align: center; 
@@ -434,8 +519,8 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 /* Markings;
  *
  */
-.noUi-marker
-{
+ .noUi-marker
+ {
     position: absolute;
 
     background: #ccc;
@@ -454,8 +539,8 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 /* Horizontal layout;
  *
  */
-.noUi-pips-horizontal
-{
+ .noUi-pips-horizontal
+ {
     top: 100%;
     left: 0;
 
@@ -494,8 +579,8 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 /* Vertical layout;
  *
  */
-.noUi-pips-vertical
-{
+ .noUi-pips-vertical
+ {
     top: 0;
     left: 100%; 
 
