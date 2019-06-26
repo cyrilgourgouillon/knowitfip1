@@ -80,5 +80,20 @@ class Session {
         return new Feedback(NULL, true, "Note affectée avec succès !");
     }
 
-    //A partir de la session récupérer l'id du post et l'id de la candidature associés
+    /**
+     * Permet de récupérer l'id du post et de la candidature
+     * associés à la session
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $idSession, l'id de la session
+     * @return Feedback, l'objet encapsulant les données (id du post, id de la session)
+     */
+    static function getPostAndCandidacyFromSession($conn, $idSession) {
+        $stmt = $conn->prepare("SELECT post, candidature FROM session WHERE id = ?");
+        $stmt->execute(array($idSession));
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $data = array($result['post'], $result['candidature']);
+
+        return new Feedback($data, true, "Informations de la session récupérées avec succès !");
+    }
 }

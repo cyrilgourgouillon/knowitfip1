@@ -351,6 +351,38 @@ class Utilisateur
 
         return new Feedback(NULL, true, "Avatar supprimé avec succès !");
     }
+
+    /**
+     * Permet d'ajouter ou de supprimer des crédits à l'issue d'une session
+     * Celui qui a donné le cours reçoit des crédits
+     * Celui qui a reçu le cours perd des crédits
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $idSession, l'id de la session
+     * @param $idUser, l'id de l'utilisateur
+     * @return Feedback, l'objet qui encapsule les données à afficher
+     */
+    static function addCredit($conn, $idSession, $idUser) {
+        $stmt = $conn->prepare("SELECT cd.tmp_estime, cd.candidat, p.type, p.utilisateur FROM candidature cd, session s, post p WHERE id = ? and s.candidature = cd.id
+                                and s.post = p.id");
+        $stmt->execute(array($idSession));
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $credit = intval($result["tmp_estime"])*5;
+
+        if (($result['candidat'] == $idUser && $result['type'] == "REQUEST")
+            || ($result['utilisateur'] == $idUser && $result['type'] == "KNOWLEDGE")) {
+            $data = ["credit"=>"+$credit"];
+            $stmt = $conn->prepare("UPDATE utilisateur SET credit = credit + ? WHERE id = ?");
+            $stmt->execute(array($credit, $idUser));
+        }else if (($result['candidat'] == $idUser && $result['type'] == "KNOWLEDGE")
+            || ($result['utilisateur'] == $idUser && $result['type'] == "REQUEST")) {
+            $data = ["credit"=>"-$credit"];
+            $stmt = $conn->prepare("UPDATE utilisateur SET credit = credit - ? WHERE id = ?");
+            $stmt->execute(array($credit, $idUser));
+        }
+
+        return new Feedback($data, true, "Crédits modifiés avec succès !");
+    }
 }
 
 ;

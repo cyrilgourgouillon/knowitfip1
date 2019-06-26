@@ -197,5 +197,19 @@ function deconnect()
     session_destroy();
 }
 
+/**
+ * Permet d'ajouter ou de supprimer des crédits à l'issue d'une session
+ * Celui qui a donné le cours reçoit des crédits
+ * Celui qui a reçu le cours perd des crédits
+ *
+ * @param $conn, la connexion à la BDD
+ * @param $idSession, l'id de la session
+ * @param $idUser, l'id de l'utilisateur
+ * @return Feedback, l'objet qui encapsule les données à afficher
+ */
+function addCredit($conn, $idSession, $idUser) {
+    echo json_encode(Utilisateur::addCredit($conn, $idSession, $idUser), JSON_PRETTY_PRINT);
+}
+
 
 

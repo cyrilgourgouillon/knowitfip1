@@ -41,3 +41,7 @@ function getSessionByUser($conn, $idUser) {
 function evaluateSession($conn, $idSession, $note) {
     echo json_encode(Session::evaluateSession($conn, $idSession, $note), JSON_PRETTY_PRINT);
 }
+
+function getPostAndCandidacyFromSession($conn, $idSession) {
+    echo json_encode(Session::getPostAndCandidacyFromSession($conn, $idSession), JSON_PRETTY_PRINT);
+}
