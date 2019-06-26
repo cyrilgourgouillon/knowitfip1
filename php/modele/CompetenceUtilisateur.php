@@ -197,6 +197,11 @@ class CompetenceUtilisateur {
         $stmt_for_skills_of_author->execute(array($exp, $users_and_post['candidat']));
         $stmt_for_skills_of_author->execute(array($exp, $users_and_post['auteur']));
 
-        return new Feedback(NULL, true, "Points d'expérience ajoutés avec succès !");
+        $data = array();
+        for ($i = 0; $i < count($skills); ++$i) {
+            $data[$i] = array("competence" => array_values($skills[$i])[0], "experience" => $exp);
+        }
+
+        return new Feedback($data, true, "Points d'expérience ajoutés avec succès !");
     }
 }

@@ -79,4 +79,6 @@ class Session {
 
         return new Feedback(NULL, true, "Note affectée avec succès !");
     }
+
+    //A partir de la session récupérer l'id du post et l'id de la candidature associés
 }
