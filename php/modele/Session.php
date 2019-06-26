@@ -21,21 +21,22 @@ class Session {
      * @return feedback
      */
     static function getSessionByUser($conn, $idUser) {
-        $stmt = $conn->prepare("SELECT s.id as idSession, c.candidat, p.id AS idPost, u.id AS idUser, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, s.etat
+        $stmt = $conn->prepare("(SELECT s.id as idSession, c.candidat, p.id AS idPost, u.id AS idUser, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, s.etat
                                 FROM session s, post p, candidature c, utilisateur u
                                 WHERE s.post = p.id
                                 AND s.candidature = c.id
                                 AND p.utilisateur = u.id
-                                AND c.candidat = $idUser
+                                AND c.candidat = $idUser)
                                 
                                 UNION
                                 
-                                SELECT s.id as idSession, c.candidat, p.id AS idPost,  u.id AS idUser, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, s.etat
+                                (SELECT s.id as idSession, c.candidat, p.id AS idPost,  u.id AS idUser, pseudo, titre, p.description, p.tmp_estime, p.date, p.type, s.etat
                                 FROM session s, post p, candidature c, utilisateur u
                                 WHERE s.post = p.id
                                 AND s.candidature = c.id
                                 AND p.utilisateur = u.id
-                                AND p.utilisateur = $idUser");
+                                AND p.utilisateur = $idUser)
+                                ORDER BY date DESC");
         $stmt->execute();
         $count = $stmt->rowCount();
         

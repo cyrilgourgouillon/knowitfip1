@@ -55,7 +55,8 @@ class Post {
                                 FROM post p, utilisateur u
                                 WHERE p.utilisateur = $idUser
                                 AND u.id = p.utilisateur
-                                AND type = '$type'");
+                                AND type = '$type'
+                                ORDER BY p.date DESC");
         $stmt->execute();
         $count = $stmt->rowCount();
 

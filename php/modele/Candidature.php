@@ -24,7 +24,8 @@ class Candidature {
         $stmt = $conn->prepare("SELECT c.id as idCandidature, c.candidat as idCandidat, c.etat, u.pseudo, u.date_naissance, u.avatar, u.description FROM
                                 candidature c, utilisateur u
                                 WHERE u.id = c.candidat
-                                AND c.post =". $idPost);
+                                AND c.post = $idPost
+                                ORDER BY c.date DESC");
         $stmt->execute();
         $count = $stmt->rowCount();
         
@@ -87,7 +88,8 @@ class Candidature {
                                 FROM post p, utilisateur u, candidature c
                                 WHERE c.candidat = $idUser
                                 AND p.utilisateur = u.id
-                                AND p.id = c.post");
+                                AND p.id = c.post
+                                ORDER BY c.date DESC");
         $stmt->execute();
         $count = $stmt->rowCount();
         
