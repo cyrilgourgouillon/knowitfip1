@@ -363,20 +363,22 @@ class Utilisateur
      * @return Feedback, l'objet qui encapsule les données à afficher
      */
     static function addCredit($conn, $idSession, $idUser) {
-        $stmt = $conn->prepare("SELECT cd.tmp_estime, cd.candidat, p.type, p.utilisateur FROM candidature cd, session s, post p WHERE id = ? and s.candidature = cd.id
+        $stmt = $conn->prepare("SELECT cd.tmp_estime, cd.candidat, p.type, p.utilisateur FROM candidature cd, session s, post p WHERE s.id = ? and s.candidature = cd.id
                                 and s.post = p.id");
         $stmt->execute(array($idSession));
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $credit = intval($result["tmp_estime"])*5;
 
-        if (($result['candidat'] == $idUser && $result['type'] == "REQUEST")
-            || ($result['utilisateur'] == $idUser && $result['type'] == "KNOWLEDGE")) {
-            $data = ["credit"=>"+$credit"];
+        $data = array();
+
+        if (($result['candidat'] == "$idUser" && $result['type'] == "Request")
+            || ($result['utilisateur'] == "$idUser" && $result['type'] == "Knowledge")) {
+            $data[0] = ["credit"=>"+$credit"];
             $stmt = $conn->prepare("UPDATE utilisateur SET credit = credit + ? WHERE id = ?");
             $stmt->execute(array($credit, $idUser));
-        }else if (($result['candidat'] == $idUser && $result['type'] == "KNOWLEDGE")
-            || ($result['utilisateur'] == $idUser && $result['type'] == "REQUEST")) {
-            $data = ["credit"=>"-$credit"];
+        }else if (($result['candidat'] == "$idUser" && $result['type'] == "Knowledge")
+            || ($result['utilisateur'] == "$idUser" && $result['type'] == "Request")) {
+            $data[0] = ["credit"=>"-$credit"];
             $stmt = $conn->prepare("UPDATE utilisateur SET credit = credit - ? WHERE id = ?");
             $stmt->execute(array($credit, $idUser));
         }
