@@ -47,3 +47,11 @@ function evaluateSession($conn, $idSession, $note) {
 function getPostAndCandidacyFromSession($conn, $idSession) {
     echo json_encode(Session::getPostAndCandidacyFromSession($conn, $idSession), JSON_PRETTY_PRINT);
 }
+
+function getExperienceSession($conn, $idSession){
+    echo json_encode(Session::getExperienceSession($conn, $idSession), JSON_PRETTY_PRINT);
+}
+
+ function getCreditSession($conn, $idSession, $idUser){
+    echo json_encode(Session::getCreditSession($conn, $idSession, $idUser), JSON_PRETTY_PRINT);
+ }

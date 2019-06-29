@@ -153,14 +153,14 @@ class Session {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $credit = intval($result["tmp_estime"])*5;
 
-        $data = array();
+        $data;
 
-        if (($result['candidat'] == "$idUser" && $result['type'] == "Request")
-            || ($result['utilisateur'] == "$idUser" && $result['type'] == "Knowledge")) {
-            $data[0] = ["credit"=>"+$credit"];
-        }else if (($result['candidat'] == "$idUser" && $result['type'] == "Knowledge")
-            || ($result['utilisateur'] == "$idUser" && $result['type'] == "Request")) {
-            $data[0] = ["credit"=>"-$credit"];
+        if (($result['candidat'] == $idUser && $result['type'] == "request")
+            || ($result['utilisateur'] == $idUser && $result['type'] == "knowledge")) {
+            $data = ["credit"=>"+$credit"];
+        }else if (($result['candidat'] == $idUser && $result['type'] == "knowledge")
+            || ($result['utilisateur'] == $idUser && $result['type'] == "request")) {
+            $data = ["credit"=>"-$credit"];
         }
 
         return new Feedback($data, true, "Crédits recupérés avec succès !");
@@ -198,7 +198,7 @@ class Session {
         $stmt_for_note_and_post->execute(array($idSession));
         $note_and_post = $stmt_for_note_and_post->fetch(PDO::FETCH_ASSOC);
 
-        $stmt_for_skills = $conn->prepare("SELECT cp.competence FROM competence_post cp, post p WHERE p.id = ? and cp.post = p.id");
+        $stmt_for_skills = $conn->prepare("SELECT cp.competence, c.libelle FROM competence_post cp, post p, competence c  WHERE p.id = ? and cp.post = p.id AND cp.competence = c.id");
         $stmt_for_skills->execute(array($note_and_post['post']));
         $skills = $stmt_for_skills->fetchAll(PDO::FETCH_ASSOC);
 
@@ -211,7 +211,7 @@ class Session {
 
         $data = array();
         for ($i = 0; $i < count($skills); ++$i) {
-            $data[$i] = array("competence" => array_values($skills[$i])[0], "experience" => $exp);
+            $data[$i] = array("competence" => array_values($skills[$i])[1], "experience" => $exp);
         }
 
         return new Feedback($data, true, "Points d'expérience ajoutés avec succès !");
