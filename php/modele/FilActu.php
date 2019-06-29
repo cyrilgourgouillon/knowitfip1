@@ -23,8 +23,7 @@ class FilActu {
         AND p.id = cp.post
         AND p.utilisateur = u.id
         AND p.utilisateur <> $idUser
-        AND cp.competence IN (SELECT csu.competence FROM competence_souhaitee_utilisateur csu WHERE csu.utilisateur = $idUser)
-        ORDER BY date DESC)
+        AND cp.competence IN (SELECT csu.competence FROM competence_souhaitee_utilisateur csu WHERE csu.utilisateur = $idUser))ORDER BY date DESC
         ";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
