@@ -1,13 +1,16 @@
 <?php
 class Reseau {
 
-    private $id;
-    private $date_debut;
-    private $date_fin;
-
-    private $utilisateur;
-    
     function __construct() {
-        
+
     }
+
+    static function getReseauOf($conn, $id){
+        $stmt = $conn->prepare("SELECT id, pseudo FROM utilisateur WHERE id != ?");
+        if($stmt->execute(array($id))){
+            return new Feedback($stmt->fetchAll(PDO::FETCH_ASSOC), true, "");
+        }else{
+           return new Feedback(NULL, false, "");
+       }
+   }
 }

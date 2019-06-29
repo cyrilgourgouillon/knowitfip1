@@ -297,6 +297,8 @@
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
+
+                        <!-- Begin Chat Part -->
                         <div class="fixed-btn scale-up-center">
                             <a href="javascript:void(0)" id="btnChat" style="width: 3.2rem; height: 3.2rem;" class="btn rounded-circle btn-primary bg-primary border-0 text-white mx-1" id="chatBtn"><i style="margin-top: 9px; font-size: 20px;" class="fas fa-comments"></i></a>
                         </div>
@@ -311,62 +313,19 @@
 
                                     <div class="chat-col-name bg-white">
 
+                                        <ul id="chatNetwork" class="list-group chat-responsive-li">
 
-                                        <ul tag-type="tagList" class="list-group chat-responsive-li">
-                                            <a href="javascript:void(0)" class="list-group-item d-flex justify-content-between align-items-center px-1 py-2  list-group-item-action" style="border-radius: 0%;">
-                                                <img id="imgAuteur" height="20px" width="20px" class="img-profile mr-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="mr-2 text-gray-600 small"> Nathan Gobinet </span>
-                                            </a>
-                                            <a href="javascript:void(0)" class="list-group-item d-flex justify-content-between align-items-center px-1 py-2 list-group-item-action bg-secondary" style="border-radius: 0%;">
-                                                <img id="imgAuteur" height="20px" width="20px" class="img-profile mr-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="mr-2 small text-white"> Nathan Gobinet </span>
-                                            </a>
-                                            <a href="javascript:void(0)" class="list-group-item d-flex justify-content-between align-items-center px-1 py-2 list-group-item-action" style="border-radius: 0%;">
-                                                <img id="imgAuteur" height="20px" width="20px" class="img-profile mr-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="mr-2 text-gray-600 small"> Nathan Gobinet </span>
-                                            </a>
-                                            <a href="javascript:void(0)" class="list-group-item d-flex justify-content-between align-items-center px-1 py-2 list-group-item-action" style="border-radius: 0%;">
-                                                <img id="imgAuteur" height="20px" width="20px" class="img-profile mr-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="mr-2 text-gray-600 small"> Nathan Gobinet </span>
-                                            </a>
-                                            <a href="javascript:void(0)" class="list-group-item d-flex justify-content-between align-items-center px-1 py-2 list-group-item-action" style="border-radius: 0%;">
-                                                <img id="imgAuteur" height="20px" width="20px" class="img-profile mr-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="mr-2 text-gray-600 small"> Nathan Gobinet </span>
-                                            </a>
-                                            <a href="javascript:void(0)" class="list-group-item d-flex justify-content-between align-items-center px-1 py-2 list-group-item-action" style="border-radius: 0%;">
-                                                <img id="imgAuteur" height="20px" width="20px" class="img-profile mr-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="mr-2 text-gray-600 small"> XX-92-XX </span>
-                                            </a>
-                                            <a href="javascript:void(0)" class="list-group-item d-flex justify-content-between align-items-center px-1 py-2 list-group-item-action" style="border-radius: 0%;">
-                                                <img id="imgAuteur" height="20px" width="20px" class="img-profile mr-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="mr-2 text-gray-600 small"> Nathan Gobinet </span>
-                                            </a>
                                         </ul>      
                                     </div>
                                     <div class="bg-white  chat-col-message">
-                                        <div class="messages">
-                                            <div class="d-flex align-items-center mx-2 flex-row my-2">
-                                                <img id="imgAuteur" height="30px" width="30px" class="img-profile mx-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="px-3 py-1  bgMessageGrey " style="border-radius: 20px; color : #555" >Ceci est un message, je suis super content de te retoruver pour aller manger demain</span>
-                                            </div>
-                                            <div class="d-flex align-items-center mx-2 flex-row-reverse my-2 ">
-                                                <img id="imgAuteur" height="30px" width="30px" class="img-profile mx-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="px-3 py-1 bg-primary text-white" style="border-radius: 20px">Ceci est un message, oui je suis grave d'accord avec toi !</span>
-                                            </div>
-                                            <div class="d-flex align-items-center mx-2 flex-row my-2">
-                                                <img id="imgAuteur" height="30px" width="30px" class="img-profile mx-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="px-3 py-1  bgMessageGrey " style="border-radius: 20px; color : #555" >Ceci est un message, je suis super content de te retoruver pour aller manger demain</span>
-                                            </div>
-                                            <div class="d-flex align-items-center mx-2 flex-row-reverse my-2 ">
-                                                <img id="imgAuteur" height="30px" width="30px" class="img-profile mx-1 rounded-circle" src="user_pics/13.jpg">
-                                                <span class="px-3 py-1 bg-primary text-white" style="border-radius: 20px">Ceci est un message, oui je suis grave d'accord avec toi !</span>
-                                            </div>
+                                        <div class="messages" id="chatMessages">
+
                                         </div>
                                         <div style="border-top:  3px solid rgba(0, 0, 0, 0.125);">
                                             <div class="input-group">
-                                                <input type="text" class="form-control bg-light border-0 small" placeholder="Entrez un message ...">
+                                                <input id="chatInput" type="text" class="form-control bg-light border-0 small" placeholder="Entrez un message ...">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-primary" type="button">
+                                                    <button id="chatSend" class="btn btn-primary">
                                                        <i class="fas fa-paper-plane"></i>
                                                    </button>
                                                </div>
@@ -377,6 +336,8 @@
                                </div>
                            </div>
                        </div>
+
+                       <!-- End Chat Part -->
 
 
                    </div>
