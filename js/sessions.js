@@ -2,6 +2,8 @@ $(document).ready(function(){
     waitForElement();
 });
 
+var sessions;
+
 function loadPostulations(){
      $.post('php/controler/session.php',{
           function : 'getSessionByUser',
@@ -10,7 +12,8 @@ function loadPostulations(){
           }
      },function(feedback){
           if(feedback.success){
-               showSessions(feedback.data);
+               sessions = feedback.data;
+               showSessions(sessions);
           }else{
                console.log('An error occured while loading the data');
           }
@@ -58,17 +61,66 @@ function createSession(session){
 
  html +='</div><div class="col-md-6 d-flex justify-content-around align-items-center">';
  if(session.etat === 'En cours'){
-   html += '<a href="notation.html?session='+ session.idSession +'" class="btn btn-primary py-1 my-1">Terminer la session</a>';
+    
+   html +=  '<a href="javascript:void(0)" onclick="termineSession('+ session.idSession +')" class="btn btn-primary py-1 my-1">Terminer la session</a>';
 }else if(session.etat === 'Terminé'){
-   html += '<div class="badge-info badge-pill px-3 py-1 my-1">Terminé</div> ';
+   html += '<a href="finsession.html?session='+ session.idSession +'"class="btn btn-info py-1 my-1">Consulter le bilan</a> ';
 }
 else if(session.etat === 'Attente note'){
-     html += '<div class="badge-light badge-pill px-3 py-1 my-1">En attente d\'une note</div> ';
+     if(session.type === "knowledge"){
+          if(user.id === session.candidat){
+               html += '<a href="notation.html?session='+ session.idSession +'"class="btn btn-success py-1 my-1">Noter la session</a> ';
+          }else{
+               html += '<div class="badge-light badge-pill px-3 py-1 my-1">En attente d\'une note</div> ';
+          }
+     }else if(session.type === "request"){
+          if(user.id === session.candidat){
+               html += '<div class="badge-light badge-pill px-3 py-1 my-1">En attente d\'une note</div> ';
+          }else{
+               html += '<a href="notation.html?session='+ session.idSession +'"class="btn btn-success py-1 my-1">Noter la session</a> ';
+          }
+     }
 }
 html +='</div></div></div></div></div></div>';
 
 $("#sessions-container").append(html);
 
+}
+
+function termineSession(idSession){
+
+     var session = sessions.find(function(e){
+          return e.idSession == idSession;
+     });
+     if(session.type === "knowledge"){
+          if(user.id === session.candidat){
+               window.location = "notation.html?session=" + idSession;
+          }else{
+               termineRequete(idSession);
+          }
+     }else if(session.type === "request"){
+          if(user.id === session.candidat){
+               termineRequete(idSession);
+          }else{
+               window.location = "notation.html?session=" + idSession;
+          }
+     }
+
+}
+
+function termineRequete(idSession){
+     $.post('php/controler/session.php',{
+          function : 'attenteSession',
+          data : {
+               id: idSession
+          }
+     },function(feedback){
+          if(feedback.success){
+                window.location = "sessions.html";
+          }else{
+               console.log('An error occured while ending the session');
+          }
+     });
 }
 
 function waitForElement(){

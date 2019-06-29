@@ -86,6 +86,13 @@ class Session {
         return new Feedback(NULL, true, "Note affectée avec succès !");
     }
 
+    static function attenteSession($conn, $idSession) {
+        $stmt = $conn->prepare("UPDATE session SET etat = 'Attente note' WHERE id = ?");
+        $stmt->execute(array($idSession));
+
+        return new Feedback(NULL, true, "Session en attente d'une note !");
+    }
+
     /**
      * Permet de récupérer l'id du post et de la candidature
      * associés à la session

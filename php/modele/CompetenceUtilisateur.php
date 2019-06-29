@@ -181,12 +181,12 @@ class CompetenceUtilisateur {
 
         $oldExp = $stmtGetExp->fetchColumn();
 
-        if($oldExp && intval($oldExp)+$exp <= 1000){
+        if((intval($oldExp) + intval($exp)) <= 1000){
             $stmtUpdateExp = $conn->prepare("UPDATE competence_utilisateur SET points_experience = ? WHERE utilisateur = ? AND competence = ?");
-            $stmtUpdateExp->execute(array(intval($oldExp)+$exp, $idUtilisateur, $competence)); 
+            $stmtUpdateExp->execute(array((intval($oldExp) + intval($exp)), $idUtilisateur, $competence)); 
             return true;
+            
         }
-
         return false;
     }
 

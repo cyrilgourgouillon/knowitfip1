@@ -55,3 +55,7 @@ function getExperienceSession($conn, $idSession){
  function getCreditSession($conn, $idSession, $idUser){
     echo json_encode(Session::getCreditSession($conn, $idSession, $idUser), JSON_PRETTY_PRINT);
  }
+
+ function attenteSession($conn, $idSession) {
+    echo json_encode(Session::attenteSession($conn, $idSession), JSON_PRETTY_PRINT);
+}
