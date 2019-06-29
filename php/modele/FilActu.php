@@ -45,6 +45,6 @@ class FilActu {
             return new Feedback($postDetail, true, "");
         }
         else
-        return new Feedback(NULL, false, "Il n'y a rien...");
+            return new Feedback(NULL, false, "Il n'y a rien...");
     }
 }

@@ -12,16 +12,15 @@ require_once('../modele/Competence.php');
 require_once('../modele/CompetenceUtilisateur.php');
 require_once("../utils/Feedback.php");
 
-//$calledFunction = $_POST["function"];
-//$data = $_POST["data"];
-//
-//// Push the $conn to the data
-//array_unshift($data, $conn);
-//
-////Call the function
-//call_user_func_array($calledFunction, $data);
+$calledFunction = $_POST["function"];
+$data = $_POST["data"];
 
-addCredit($conn, 1, 2);
+//// Push the $conn to the data
+array_unshift($data, $conn);
+
+////Call the function
+call_user_func_array($calledFunction, $data);
+
 
 /**
  * STATIC
@@ -211,6 +210,10 @@ function deconnect()
  */
 function addCredit($conn, $idSession, $idUser) {
     echo json_encode(Utilisateur::addCredit($conn, $idSession, $idUser), JSON_PRETTY_PRINT);
+}
+
+function getCredit($conn, $idSession, $idUser){
+    echo json_encode(Utilisateur::getCredit($conn, $idSession, $idUser), JSON_PRETTY_PRINT);
 }
 
 

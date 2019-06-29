@@ -353,38 +353,14 @@ class Utilisateur
     }
 
     /**
-     * Permet d'ajouter ou de supprimer des crédits à l'issue d'une session
-     * Celui qui a donné le cours reçoit des crédits
-     * Celui qui a reçu le cours perd des crédits
+     * Adds a credit.
      *
-     * @param $conn, la connexion à la BDD
-     * @param $idSession, l'id de la session
-     * @param $idUser, l'id de l'utilisateur
-     * @return Feedback, l'objet qui encapsule les données à afficher
+     * @param      <type>  $conn         The connection
+     * @param      <type>  $utilisateur  The utilisateur
      */
-    static function addCredit($conn, $idSession, $idUser) {
-        $stmt = $conn->prepare("SELECT cd.tmp_estime, cd.candidat, p.type, p.utilisateur FROM candidature cd, session s, post p WHERE s.id = ? and s.candidature = cd.id
-                                and s.post = p.id");
-        $stmt->execute(array($idSession));
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $credit = intval($result["tmp_estime"])*5;
-
-        $data = array();
-
-        if (($result['candidat'] == "$idUser" && $result['type'] == "Request")
-            || ($result['utilisateur'] == "$idUser" && $result['type'] == "Knowledge")) {
-            $data[0] = ["credit"=>"+$credit"];
-            $stmt = $conn->prepare("UPDATE utilisateur SET credit = credit + ? WHERE id = ?");
-            $stmt->execute(array($credit, $idUser));
-        }else if (($result['candidat'] == "$idUser" && $result['type'] == "Knowledge")
-            || ($result['utilisateur'] == "$idUser" && $result['type'] == "Request")) {
-            $data[0] = ["credit"=>"-$credit"];
-            $stmt = $conn->prepare("UPDATE utilisateur SET credit = credit - ? WHERE id = ?");
-            $stmt->execute(array($credit, $idUser));
-        }
-
-        return new Feedback($data, true, "Crédits modifiés avec succès !");
+    static function addCredit($conn, $idUser, $credit){
+        $stmtGetCredit = $conn->prepare("UPDATE utilisateur SET credit = credit + ? WHERE id = ?");
+        $stmtGetCredit->execute(array($credit, $idUser));
     }
 }
 
-;

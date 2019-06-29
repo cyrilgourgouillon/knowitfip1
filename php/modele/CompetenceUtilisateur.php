@@ -175,33 +175,25 @@ class CompetenceUtilisateur {
 		$stmt->execute();
     }
 
-    static function addExperience($conn, $idSession, $note) {
-        $stmt_for_users_and_post = $conn->prepare("SELECT cd.candidat as candidat, p.utilisateur as auteur, p.id as post 
-                                                    FROM session s, post p, candidature cd
-                                                    WHERE s.id = ? and s.candidature = cd.id and cd.post = p.id");
-        $stmt_for_users_and_post->execute(array($idSession));
-        $users_and_post = $stmt_for_users_and_post->fetch(PDO::FETCH_ASSOC);
+    static function addPointExp($conn, $idUtilisateur, $competence, $exp){
+        $stmtGetExp = $conn->prepare("SELECT points_experience FROM competence_utilisateur WHERE utilisateur = ? AND competence = ?");
+        $stmtGetExp->execute(array($idUtilisateur, $competence)); 
 
-        $stmt_for_skills = $conn->prepare("SELECT cp.competence FROM competence_post cp, post p WHERE p.id = ? and cp.post = p.id");
-        $stmt_for_skills->execute(array($users_and_post['post']));
-        $skills = $stmt_for_skills->fetchAll(PDO::FETCH_ASSOC);
+        $oldExp = $stmtGetExp->fetchColumn();
 
-        $stmt_for_session_lenght = $conn->prepare("SELECT cd.tmp_estime FROM candidature cd, session s WHERE s.id = ?
-                                                   and cd.id = s.candidature");
-        $stmt_for_session_lenght->execute(array($idSession));
-        $session_length = $stmt_for_session_lenght->fetch(PDO::FETCH_ASSOC);
-
-        $exp = intval($session_length['tmp_estime'])*intval($note)/2;
-
-        $stmt_for_skills_of_author = $conn->prepare("UPDATE competence_utilisateur SET points_experience = ? WHERE utilisateur = ?");
-        $stmt_for_skills_of_author->execute(array($exp, $users_and_post['candidat']));
-        $stmt_for_skills_of_author->execute(array($exp, $users_and_post['auteur']));
-
-        $data = array();
-        for ($i = 0; $i < count($skills); ++$i) {
-            $data[$i] = array("competence" => array_values($skills[$i])[0], "experience" => $exp);
+        if($oldExp && intval($oldExp)+$exp <= 1000){
+            $stmtUpdateExp = $conn->prepare("UPDATE competence_utilisateur SET points_experience = ? WHERE utilisateur = ? AND competence = ?");
+            $stmtUpdateExp->execute(array(intval($oldExp)+$exp, $idUtilisateur, $competence)); 
+            return true;
         }
 
-        return new Feedback($data, true, "Points d'expérience ajoutés avec succès !");
+        return false;
     }
+
+    static function addMultiplesPointExp($conn, $idUtilisateur, $competences, $exp){
+        foreach($competences as $competence){
+            self::addPointExp($conn, $idUtilisateur, $competence, $exp);
+        }
+    }
+
 }

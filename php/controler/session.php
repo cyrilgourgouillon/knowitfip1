@@ -4,6 +4,8 @@ header('Content-Type: application/json');
 require_once("../utils/dbconnect.php");
 require_once('../utils/Feedback.php');
 require_once('../modele/CompetencePost.php');
+require_once('../modele/CompetenceUtilisateur.php');
+require_once('../modele/Utilisateur.php');
 require_once('../modele/Session.php');
 
 $calledFunction = $_POST["function"];

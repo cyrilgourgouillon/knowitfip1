@@ -74,8 +74,14 @@ class Session {
      * @return Feedback, l'objet indiquant le succès de la méthode
      */
     static function evaluateSession($conn, $idSession, $note) {
-        $stmt = $conn->prepare("UPDATE session SET note = ?, etat = 'TERMINEE' WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE session SET note = ?, etat = 'Terminé' WHERE id = ?");
         $stmt->execute(array($note, $idSession));
+
+        //Mettre les points d'éxperience
+        self::addExperienceSession($conn, $idSession, $note);
+
+        //Mettre les crédits pour les deux
+        self::addCreditSession($conn, $idSession);
 
         return new Feedback(NULL, true, "Note affectée avec succès !");
     }
@@ -91,9 +97,123 @@ class Session {
     static function getPostAndCandidacyFromSession($conn, $idSession) {
         $stmt = $conn->prepare("SELECT post, candidature FROM session WHERE id = ?");
         $stmt->execute(array($idSession));
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $data = array($result['post'], $result['candidature']);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return new Feedback($data, true, "Informations de la session récupérées avec succès !");
+    }
+
+    /**
+     * Permet d'ajouter ou de supprimer des crédits à l'issue d'une session
+     * Celui qui a donné le cours reçoit des crédits
+     * Celui qui a reçu le cours perd des crédits
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $idSession, l'id de la session
+     * @param $idUser, l'id de l'utilisateur
+     * @return Feedback, l'objet qui encapsule les données à afficher
+     */
+    static function addCreditSession($conn, $idSession) {
+        $stmt = $conn->prepare("SELECT cd.tmp_estime, cd.candidat, p.type, p.utilisateur FROM candidature cd, session s, post p WHERE s.id = ? and s.candidature = cd.id
+                                and s.post = p.id");
+        $stmt->execute(array($idSession));
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $credit = intval($result["tmp_estime"])*5;
+
+        $data = array();
+
+        // if knowledge
+        // On ajoute au post et on enleve au candidat
+        // Sinon
+        // On ajoute au candidat et on enleve au post
+        
+        if($result['type'] == "Knowledge"){
+            Utilisateur::addCredit($conn, $result['utilisateur'] , $credit);
+            Utilisateur::addCredit($conn, $result['candidat'], 0 - $credit);
+        }else{
+            Utilisateur::addCredit($conn, $result['candidat'], $credit);
+            Utilisateur::addCredit($conn, $result['utilisateur'], 0 - $credit);
+        }
+
+        return new Feedback(NULL , true, "Crédits modifiés avec succès !");
+    }
+
+    /**
+     * Gets the credit of a session without dbModification
+     *
+     * @param      <type>    $conn       The connection
+     * @param      <type>    $idSession  The identifier session
+     * @param      <type>    $idUser     The identifier user
+     *
+     * @return     Feedback  The credit.
+     */
+    static function getCreditSession($conn, $idSession, $idUser) {
+        $stmt = $conn->prepare("SELECT cd.tmp_estime, cd.candidat, p.type, p.utilisateur FROM candidature cd, session s, post p WHERE s.id = ? and s.candidature = cd.id
+                                and s.post = p.id");
+        $stmt->execute(array($idSession));
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $credit = intval($result["tmp_estime"])*5;
+
+        $data = array();
+
+        if (($result['candidat'] == "$idUser" && $result['type'] == "Request")
+            || ($result['utilisateur'] == "$idUser" && $result['type'] == "Knowledge")) {
+            $data[0] = ["credit"=>"+$credit"];
+        }else if (($result['candidat'] == "$idUser" && $result['type'] == "Knowledge")
+            || ($result['utilisateur'] == "$idUser" && $result['type'] == "Request")) {
+            $data[0] = ["credit"=>"-$credit"];
+        }
+
+        return new Feedback($data, true, "Crédits recupérés avec succès !");
+    }
+
+     static function addExperienceSession($conn, $idSession, $note) {
+        $stmt_for_users_and_post = $conn->prepare("SELECT cd.candidat as candidat, p.utilisateur as auteur, p.id as post 
+                                                    FROM session s, post p, candidature cd
+                                                    WHERE s.id = ? and s.candidature = cd.id and cd.post = p.id");
+        $stmt_for_users_and_post->execute(array($idSession));
+        $users_and_post = $stmt_for_users_and_post->fetch(PDO::FETCH_ASSOC);
+
+        $stmt_for_skills = $conn->prepare("SELECT cp.competence FROM competence_post cp, post p WHERE p.id = ? and cp.post = p.id");
+        $stmt_for_skills->execute(array($users_and_post['post']));
+        $skills = $stmt_for_skills->fetchAll(PDO::FETCH_COLUMN);
+
+        $stmt_for_session_lenght = $conn->prepare("SELECT cd.tmp_estime FROM candidature cd, session s WHERE s.id = ?
+                                                   and cd.id = s.candidature");
+        $stmt_for_session_lenght->execute(array($idSession));
+        $session_length = $stmt_for_session_lenght->fetch(PDO::FETCH_ASSOC);
+
+        $exp = intval($session_length['tmp_estime'])*intval($note)/2;
+
+        CompetenceUtilisateur::addMultiplesPointExp($conn, $users_and_post['candidat'], $skills, $exp);
+        CompetenceUtilisateur::addMultiplesPointExp($conn, $users_and_post['auteur'], $skills, $exp);
+
+        return new Feedback(NULL, true, "Points d'expérience ajoutés avec succès !");
+    }
+
+
+    static function getExperienceSession($conn, $idSession) {
+        $stmt_for_note_and_post = $conn->prepare("SELECT s.note, p.id as post 
+                                                    FROM session s, post p 
+                                                    WHERE s.id = ? and s.post = p.id");
+        $stmt_for_note_and_post->execute(array($idSession));
+        $note_and_post = $stmt_for_note_and_post->fetch(PDO::FETCH_ASSOC);
+
+        $stmt_for_skills = $conn->prepare("SELECT cp.competence FROM competence_post cp, post p WHERE p.id = ? and cp.post = p.id");
+        $stmt_for_skills->execute(array($note_and_post['post']));
+        $skills = $stmt_for_skills->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt_for_session_lenght = $conn->prepare("SELECT cd.tmp_estime FROM candidature cd, session s WHERE s.id = ?
+                                                   and cd.id = s.candidature");
+        $stmt_for_session_lenght->execute(array($idSession));
+        $session_length = $stmt_for_session_lenght->fetch(PDO::FETCH_ASSOC);
+
+        $exp = intval($session_length['tmp_estime'])*intval($note_and_post['note'])/2;
+
+        $data = array();
+        for ($i = 0; $i < count($skills); ++$i) {
+            $data[$i] = array("competence" => array_values($skills[$i])[0], "experience" => $exp);
+        }
+
+        return new Feedback($data, true, "Points d'expérience ajoutés avec succès !");
     }
 }
