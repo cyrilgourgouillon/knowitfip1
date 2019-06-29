@@ -14,6 +14,17 @@ class Notification {
         
     }
 
+    static function countNotification($conn, $idUser) {
+        $sql = "SELECT * FROM notification WHERE utilisateur = :idUser";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam("idUser", $idUser);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        return [
+            'count' => $count
+        ];
+    }
+
     static function addNotification($conn, $idUser, $idObjet, $type, $texte) {
         $sql = "INSERT INTO notification (idObjet, type, texte, utilisateur) VALUES (:idObjet, :type, :texte, :utilisateur)";
         $stmt = $conn->prepare($sql);

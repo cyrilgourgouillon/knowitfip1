@@ -1,8 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-ini_set('display_errors', 1);
-
 require_once("../utils/dbconnect.php");
 require_once('../utils/Feedback.php');
 
@@ -16,6 +14,10 @@ array_unshift($data, $conn);
 
 //Call the function
 call_user_func_array($calledFunction, $data);
+
+function countNotification($conn, $idUser) {
+    echo json_encode(Notification::countNotification($conn, $idUser), JSON_PRETTY_PRINT);
+}
 
 function getNotificationByUser($conn, $idUser) {
     echo json_encode(Notification::getNotificationByUser($conn, $idUser), JSON_PRETTY_PRINT);
