@@ -148,6 +148,15 @@ class Candidature {
             return new Feedback(NULL, false, "Erreur Data, no contents found");
         }
         
+        //-------Partie notification-------
+        $stmt = $conn->prepare("SELECT utilisateur FROM post WHERE id = $idPost");
+        $stmt->execute();
+        $auteurPost = $stmt->fetch();
+
+        $user = Utilisateur::getBasicUserInfo($conn, $idUser);
+        Notification::addNotification($conn, $auteurPost[0], $idPost, "Candidat", $user['pseudo'] . " a candidaté à votre post !");
+        //-------fin de la partie notification-------
+
         return new Feedback(NULL, true, "Candidature de $idUser pour $idPost effectuée !");
     }
 
