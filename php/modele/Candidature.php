@@ -14,6 +14,12 @@ class Candidature {
         
     }
     
+    static function getUser($conn, $idCand) {
+        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCand");
+        $stmt->execute();
+        $candidatAccepte = $stmt->fetch();
+        return $candidatAccepte[0];
+    }
     /**
     * STATIC
     * Recupere les informations des candidatures d'un post
@@ -192,11 +198,9 @@ class Candidature {
         $stmt->execute(array($reponse, $idCand));
 
         //-------Partie notification-------
-        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCand");
-        $stmt->execute();
-        $candidatAccepte = $stmt->fetch();
+        $cdd = Candidature::getUser($conn, $idCand);
 
-        Notification::addNotification($conn, $candidatAccepte[0], $idCand, "Candidat", "Une de vos candidatures a été acceptée !");
+        Notification::addNotification($conn, $cdd, $idCand, "Candidat", "Une de vos candidatures a été acceptée !");
         //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Candidature acceptée avec succès !");
@@ -213,11 +217,9 @@ class Candidature {
         $stmt->execute(array($idCandid));
 
         //-------Partie notification-------
-        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCandid");
-        $stmt->execute();
-        $candidatAccepte = $stmt->fetch();
+        $cdd = Candidature::getUser($conn, $idCandid);
 
-        Notification::addNotification($conn, $candidatAccepte[0], $idCandid, "Candidat", "Une de vos candidatures a été validée !");
+        Notification::addNotification($conn, $cdd, $idCandid, "Candidat", "Une de vos candidatures a été validée !");
         //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Candidature validée avec succès !");
@@ -235,11 +237,9 @@ class Candidature {
         $stmt->execute(array($idCandid));
 
         //-------Partie notification-------
-        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCandid");
-        $stmt->execute();
-        $candidatAccepte = $stmt->fetch();
+        $cdd = Candidature::getUser($conn, $idCandid);
 
-        Notification::addNotification($conn, $candidatAccepte[0], $idCandid, "Candidat", "Une de vos candidatures a été annulée.");
+        Notification::addNotification($conn, $cdd, $idCandid, "Candidat", "Une de vos candidatures a été annulée.");
         //-------fin de la partie notification-------
         
         return new Feedback(NULL, true, "Candidature annulée avec succès !");
@@ -258,11 +258,9 @@ class Candidature {
         $stmt->execute(array($idCandid));
 
         //-------Partie notification-------
-        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCandid");
-        $stmt->execute();
-        $candidatAccepte = $stmt->fetch();
+        $cdd = Candidature::getUser($conn, $idCandid);
 
-        Notification::addNotification($conn, $candidatAccepte[0], $idCandid, "Candidat", "Une de vos candidatures a été refusée.");
+        Notification::addNotification($conn, $cdd, $idCandid, "Candidat", "Une de vos candidatures a été refusée.");
         //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Candidature refusée avec succès !");
@@ -293,11 +291,9 @@ class Candidature {
         $stmt->execute();
 
         //-------Partie notification-------
-        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCand");
-        $stmt->execute();
-        $candidatAccepte = $stmt->fetch();
+        $cdd = Candidature::getUser($conn, $idCandid);
 
-        Notification::addNotification($conn, $candidatAccepte[0], $sessionID, "Session", "Une session a démarrée !");
+        Notification::addNotification($conn, $cdd, $sessionID, "Session", "Une session a démarrée !");
         //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Session démarée avec succès !");
