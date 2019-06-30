@@ -83,14 +83,44 @@ class Session {
         //Mettre les crédits pour les deux
         self::addCreditSession($conn, $idSession);
 
+        //-------Partie notification-------
+        $info = Session::getCandidatAndPostCreatorFromSession($conn, $idSession);
+
+        Notification::addNotification($conn, $info['postCreator'], $idSession, "Session", "La session a eu une note de $note !");
+        Notification::addNotification($conn, $info['candidat'], $idSession, "Session", "La session a eu une note de $note !");
+        //-------fin de la partie notification-------
+
         return new Feedback(NULL, true, "Note affectée avec succès !");
     }
 
     static function attenteSession($conn, $idSession) {
         $stmt = $conn->prepare("UPDATE session SET etat = 'Attente note' WHERE id = ?");
         $stmt->execute(array($idSession));
+        
+        //-------Partie notification-------
+        $info = Session::getCandidatAndPostCreatorFromSession($conn, $idSession);
+
+        Notification::addNotification($conn, $info['postCreator'], $idSession, "Session", "La session est en attente d'une note.");
+        Notification::addNotification($conn, $info['candidat'], $idSession, "Session", "La session est en attente d'une note.");
+        //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Session en attente d'une note !");
+    }
+
+    /**
+     * Permet de récupérer l'id du candidat et du créateur du post
+     * associés à la session
+     */
+    static function getCandidatAndPostCreatorFromSession($conn, $idSession) {
+        $stmt = $conn->prepare("SELECT c.candidat, p.utilisateur as postCreator
+                                FROM session s, candidature c, post p
+                                WHERE s.id = ?
+                                AND s.candidature = c.id
+                                AND s.post = p.id");
+        $stmt->execute(array($idSession));
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $data;
     }
 
     /**
@@ -132,13 +162,21 @@ class Session {
         // On ajoute au post et on enleve au candidat
         // Sinon
         // On ajoute au candidat et on enleve au post
+
+        $info = Session::getCandidatAndPostCreatorFromSession($conn, $idSession);
         
         if($result['type'] == "Knowledge"){
             Utilisateur::addCredit($conn, $result['utilisateur'] , $credit);
             Utilisateur::addCredit($conn, $result['candidat'], 0 - $credit);
+
+            Notification::addNotification($conn, $info['postCreator'], $idSession, "Session", "Vous avez gagné $credit crédits !");
+            Notification::addNotification($conn, $info['candidat'], $idSession, "Session", "Vous avez payé $credit crédits.");
         }else{
             Utilisateur::addCredit($conn, $result['candidat'], $credit);
             Utilisateur::addCredit($conn, $result['utilisateur'], 0 - $credit);
+
+            Notification::addNotification($conn, $info['candidat'], $idSession, "Session", "Vous avez gagné $credit crédits !");
+            Notification::addNotification($conn, $info['postCreator'], $idSession, "Session", "Vous avez payé $credit crédits.");
         }
 
         return new Feedback(NULL , true, "Crédits modifiés avec succès !");
@@ -193,6 +231,10 @@ class Session {
 
         CompetenceUtilisateur::addMultiplesPointExp($conn, $users_and_post['candidat'], $skills, $exp);
         CompetenceUtilisateur::addMultiplesPointExp($conn, $users_and_post['auteur'], $skills, $exp);
+
+        Notification::addNotification($conn, $users_and_post['candidat'], $idSession, "Session", "Vous avez reçu $exp xp sur vos compétences concernées !");
+        Notification::addNotification($conn, $users_and_post['auteur'], $idSession, "Session", "Vous avez reçu $exp xp sur vos compétences concernées !");
+ 
 
         return new Feedback(NULL, true, "Points d'expérience ajoutés avec succès !");
     }
