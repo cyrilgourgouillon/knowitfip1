@@ -1,4 +1,5 @@
 <?php
+
 class Candidature {
     
     private $id;
@@ -284,11 +285,20 @@ class Candidature {
         $stmt->bindParam("post", $idPost[0]);
         $stmt->bindParam("candidature", $idCand);
         $stmt->execute();
+        $sessionID = $conn->lastInsertId();
 
         $stmt = $conn->prepare("UPDATE candidature SET etat = 'Refusé' WHERE post = $idPost[0] AND etat <> 'Accepté'");
         $stmt->bindParam("post", $idPost[0]);
         $stmt->bindParam("candidature", $idCand);
         $stmt->execute();
+
+        //-------Partie notification-------
+        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCand");
+        $stmt->execute();
+        $candidatAccepte = $stmt->fetch();
+
+        Notification::addNotification($conn, $candidatAccepte[0], $sessionID, "Session", "Une session a démarrée !");
+        //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Session démarée avec succès !");
     }
