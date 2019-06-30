@@ -114,10 +114,27 @@ class Candidature {
         else
         return new Feedback(NULL, false, "Aucune candidature.");
     }
+
+    /**
+     * Renvoie le message et la réponse correspondant
+     * à la candidature sélectionnée
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $idCand, l'identifiant de la candidature
+     * @return un objet Feedback contenant les données
+     */
+    static function getCommentCandidature($conn, $idCand) {
+        $stmt = $conn->prepare("SELECT candidat, message, tmp_estime, reponse, post, date FROM candidature WHERE id = ?");
+        $stmt->execute(array($idCand));
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return new Feedback($data, true, "Commentaires récupérés avec succès !");
+    }
     
     /**
     * STATIC
     * Candidater à un post
+    * Notif
     * 
     * @param - $conn : Connexion PDO
     *        - $idUser
@@ -154,31 +171,16 @@ class Candidature {
         $auteurPost = $stmt->fetch();
 
         $user = Utilisateur::getBasicUserInfo($conn, $idUser);
-        Notification::addNotification($conn, $auteurPost[0], $idPost, "Candidat", $user['pseudo'] . " a candidaté à votre post !");
+        Notification::addNotification($conn, $auteurPost[0], $idPost, "Post", $user['pseudo'] . " a candidaté à votre post !");
         //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Candidature de $idUser pour $idPost effectuée !");
     }
 
     /**
-     * Renvoie le message et la réponse correspondant
-     * à la candidature sélectionnée
-     *
-     * @param $conn, la connexion à la BDD
-     * @param $idCand, l'identifiant de la candidature
-     * @return un objet Feedback contenant les données
-     */
-    static function getCommentCandidature($conn, $idCand) {
-        $stmt = $conn->prepare("SELECT candidat, message, tmp_estime, reponse, post, date FROM candidature WHERE id = ?");
-        $stmt->execute(array($idCand));
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return new Feedback($data, true, "Commentaires récupérés avec succès !");
-    }
-
-    /**
      * Permet de valider une candidature
      * Valider une candidature refuse toutes les autres
+     * Notif
      *
      * @param $conn, la connexion à la BDD
      * @param $idCand, l'identifiant de la candidature
@@ -188,7 +190,81 @@ class Candidature {
         $stmt = $conn->prepare("UPDATE candidature SET etat = 'Accepté', reponse = ? WHERE id = ?");
         $stmt->execute(array($reponse, $idCand));
 
+        //-------Partie notification-------
+        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCand");
+        $stmt->execute();
+        $candidatAccepte = $stmt->fetch();
+
+        Notification::addNotification($conn, $candidatAccepte[0], $idCand, "Candidat", "Une de vos candidatures a été acceptée !");
+        //-------fin de la partie notification-------
+
         return new Feedback(NULL, true, "Candidature acceptée avec succès !");
+    }
+
+    /**
+     * Valide la candidature une fois que la session commence
+     *
+     * @param      PDO   $conn      The connection
+     * @param      int  $isCandid   Id of the candid
+     */
+    static function valideCandidature($conn, $idCandid){
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Validé' WHERE id = ?");
+        $stmt->execute(array($idCandid));
+
+        //-------Partie notification-------
+        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCandid");
+        $stmt->execute();
+        $candidatAccepte = $stmt->fetch();
+
+        Notification::addNotification($conn, $candidatAccepte[0], $idCandid, "Candidat", "Une de vos candidatures a été validée !");
+        //-------fin de la partie notification-------
+
+        return new Feedback(NULL, true, "Candidature validée avec succès !");
+    }
+
+    /**
+     * Annule une candidature
+     * Notif
+     *
+     * @param      PDO  $conn      The connection
+     * @param      int  $idCandid  The identifier candid
+     */     
+    static function annuleCandidature($conn, $idCandid){
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Annulé' WHERE id = ?");
+        $stmt->execute(array($idCandid));
+
+        //-------Partie notification-------
+        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCandid");
+        $stmt->execute();
+        $candidatAccepte = $stmt->fetch();
+
+        Notification::addNotification($conn, $candidatAccepte[0], $idCandid, "Candidat", "Une de vos candidatures a été annulée.");
+        //-------fin de la partie notification-------
+        
+        return new Feedback(NULL, true, "Candidature annulée avec succès !");
+    }
+
+    /**
+     * Permet de refuser une candidature
+     * Notif
+     *
+     * @param $conn, la connexion à la BDD
+     * @param $idCand, l'identifiant de la candidature
+     * @return Feedback, un objet indiquant le succès de la fonction
+     */
+    static function refuserCandidature($conn, $idCandid) {
+        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Refusé' WHERE id = ?");
+        $stmt->execute(array($idCandid));
+
+        //-------Partie notification-------
+        $stmt = $conn->prepare("SELECT candidat FROM candidature WHERE id = $idCandid");
+        $stmt->execute();
+        $candidatAccepte = $stmt->fetch();
+
+        Notification::addNotification($conn, $candidatAccepte[0], $idCandid, "Candidat", "Une de vos candidatures a été refusée.");
+        //-------fin de la partie notification-------
+
+        return new Feedback(NULL, true, "Candidature refusée avec succès !");
     }
 
     /**
@@ -216,47 +292,6 @@ class Candidature {
 
         return new Feedback(NULL, true, "Session démarée avec succès !");
     }
-
-    /**
-     * Valide la candidature une fois que la session commence
-     *
-     * @param      PDO   $conn      The connection
-     * @param      int  $isCandid   Id of the candid
-     */
-    static function valideCandidature($conn, $idCandid){
-        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Validé' WHERE id = ?");
-        $stmt->execute(array($idCandid));
-
-        return new Feedback(NULL, true, "Candidature validée avec succès !");
-    }
-
-    /**
-     * Annule une candidature
-     *
-     * @param      PDO  $conn      The connection
-     * @param      int  $idCandid  The identifier candid
-     */     
-    static function annuleCandidature($conn, $idCandid){
-        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Annulé' WHERE id = ?");
-        $stmt->execute(array($idCandid));
-
-        return new Feedback(NULL, true, "Candidature annulée avec succès !");
-    }
-
-    /**
-     * Permet de refuser une candidature
-     *
-     * @param $conn, la connexion à la BDD
-     * @param $idCand, l'identifiant de la candidature
-     * @return Feedback, un objet indiquant le succès de la fonction
-     */
-    static function refuserCandidature($conn, $idCandid) {
-        $stmt = $conn->prepare("UPDATE candidature SET etat = 'Refusé' WHERE id = ?");
-        $stmt->execute(array($idCandid));
-
-        return new Feedback(NULL, true, "Candidature refusée avec succès !");
-    }
-
 
     static function isCandidat($conn, $idPost, $idUser) {
         $stmt = $conn->prepare("SELECT c.candidat AS idUser, c.message,  c.date, c.tmp_estime,  p.id as idPost FROM candidature c, post p WHERE c.post = p.id AND c.candidat = ? AND p.id = ? ");
