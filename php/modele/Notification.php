@@ -15,7 +15,7 @@ class Notification {
     }
 
     static function countNotification($conn, $idUser) {
-        $sql = "SELECT * FROM notification WHERE utilisateur = :idUser";
+        $sql = "SELECT * FROM notification WHERE utilisateur = :idUser AND has_been_seen = 1";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam("idUser", $idUser);
         $stmt->execute();
