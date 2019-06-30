@@ -23,6 +23,6 @@ function getNotificationByUser($conn, $idUser) {
     echo json_encode(Notification::getNotificationByUser($conn, $idUser), JSON_PRETTY_PRINT);
 }
 
-function seeNotification($conn, $idUser) {
-    echo json_encode(Notification::seeNotification($conn, $idUser), JSON_PRETTY_PRINT);
+function seeNotification($conn, $idsNotifs) {
+    echo json_encode(Notification::seeNotification($conn, $idsNotifs), JSON_PRETTY_PRINT);
 }

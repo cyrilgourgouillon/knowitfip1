@@ -42,7 +42,7 @@ class Notification {
     }
 
     static function getNotificationByUser($conn, $idUser) {
-        $sql = "SELECT * FROM notification WHERE utilisateur = :idUser";
+        $sql = "SELECT * FROM notification WHERE utilisateur = :idUser ORDER BY date DESC LIMIT 5";
         $stmt = $conn->prepare($sql);
 
         $stmt->bindParam("idUser", $idUser);
@@ -58,16 +58,22 @@ class Notification {
         }
     }
 
-    static function seeNotification($conn, $idNotif) {
-        $sql = "UPDATE notification SET has_been_seen = 1 WHERE id = :idNotif";
-        $stmt = $conn->prepare($sql);
+    static function seeNotification($conn, $idsNotifs) {
+        $ok = true;
+        foreach ($idsNotifs as $idNotif) {
+            $sql = "UPDATE notification SET has_been_seen = 1 WHERE id = :idNotif";
+            $stmt = $conn->prepare($sql);
 
-        $stmt->bindParam("idNotif", $idNotif);
+            $stmt->bindParam("idNotif", $idNotif);
 
-        if($stmt->execute()) {
-            return new Feedback(NULL, true, "Notification $idNotif lue");
-        } else {
-            return new Feedback(NULL, false, "erreur lors de seeNotification");
+            if(!$stmt->execute()) {
+                $ok = false;
+            } 
+        }
+        if($ok){
+            return new Feedback(NULL, true, "Notifications lues");
+        }else{
+            return new Feedback(NULL, false, "Error");
         }
     }
 }

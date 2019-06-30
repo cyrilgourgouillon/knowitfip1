@@ -3,7 +3,8 @@ header('Content-Type: application/json');
 
 require_once("../utils/dbconnect.php");
 require_once('../utils/Feedback.php');
-
+require_once("../modele/Post.php");
+require_once("../modele/Utilisateur.php");
 require_once("../modele/Notification.php");
 require_once("../modele/Candidature.php");
 require_once('../modele/CompetenceUtilisateur.php');
@@ -106,8 +107,8 @@ function accepterCandidature($conn, $idCand, $reponse) {
  * @return Feedback, un objet indiquant le succès de la fonction
  */
 function startSession($conn, $idCand) {
-     echo json_encode(Candidature::startSession($conn, $idCand), JSON_PRETTY_PRINT);
      Candidature::valideCandidature($conn, $idCand);
+     echo json_encode(Candidature::startSession($conn, $idCand), JSON_PRETTY_PRINT);
 }
 
 /**

@@ -178,7 +178,7 @@ class Candidature {
         $auteurPost = $stmt->fetch();
 
         $user = Utilisateur::getBasicUserInfo($conn, $idUser);
-        Notification::addNotification($conn, $auteurPost[0], $idPost, "Post", $user['pseudo'] . " a candidaté à votre post !");
+        Notification::addNotification($conn, $auteurPost[0], $idPost, "Candidat", $user['pseudo'] . " a candidaté à votre post !");
         //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Candidature de $idUser pour $idPost effectuée !");
@@ -200,7 +200,7 @@ class Candidature {
         //-------Partie notification-------
         $cdd = Candidature::getUser($conn, $idCand);
 
-        Notification::addNotification($conn, $cdd, $idCand, "Candidat", "Une de vos candidatures a été acceptée !");
+        Notification::addNotification($conn, $cdd, $idCand, "Candidature", "Une de vos candidatures a été acceptée !");
         //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Candidature acceptée avec succès !");
@@ -217,9 +217,9 @@ class Candidature {
         $stmt->execute(array($idCandid));
 
         //-------Partie notification-------
-        $cdd = Candidature::getUser($conn, $idCandid);
+        $cdd = Post::getUser($conn, $idCandid);
 
-        Notification::addNotification($conn, $cdd, $idCandid, "Candidat", "Une de vos candidatures a été validée !");
+        Notification::addNotification($conn, $cdd, $idCandid, "Candidat", "Un candidat a validé votre acceptation !");
         //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Candidature validée avec succès !");
@@ -237,9 +237,9 @@ class Candidature {
         $stmt->execute(array($idCandid));
 
         //-------Partie notification-------
-        $cdd = Candidature::getUser($conn, $idCandid);
+        $cdd = Post::getUser($conn, $idCandid);
 
-        Notification::addNotification($conn, $cdd, $idCandid, "Candidat", "Une de vos candidatures a été annulée.");
+        Notification::addNotification($conn, $cdd, $idCandid, "Candidat", "Un candidat a annulé sa candidature");
         //-------fin de la partie notification-------
         
         return new Feedback(NULL, true, "Candidature annulée avec succès !");
@@ -260,7 +260,7 @@ class Candidature {
         //-------Partie notification-------
         $cdd = Candidature::getUser($conn, $idCandid);
 
-        Notification::addNotification($conn, $cdd, $idCandid, "Candidat", "Une de vos candidatures a été refusée.");
+        Notification::addNotification($conn, $cdd, $idCandid, "Postulation", "Une de vos candidatures a été refusée.");
         //-------fin de la partie notification-------
 
         return new Feedback(NULL, true, "Candidature refusée avec succès !");
@@ -291,7 +291,7 @@ class Candidature {
         $stmt->execute();
 
         //-------Partie notification-------
-        $cdd = Candidature::getUser($conn, $idCandid);
+        $cdd = Post::getUser($conn, $idCand);
 
         Notification::addNotification($conn, $cdd, $sessionID, "Session", "Une session a démarrée !");
         //-------fin de la partie notification-------

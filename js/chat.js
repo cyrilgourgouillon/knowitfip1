@@ -7,6 +7,7 @@ $(document).ready(function(){
 function waitForElement(){
   if(typeof user !== "undefined"){
     loadReseau();
+    loadNotification();
  }
  else{
     setTimeout(waitForElement, 250);

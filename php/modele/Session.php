@@ -169,14 +169,14 @@ class Session {
             Utilisateur::addCredit($conn, $result['utilisateur'] , $credit);
             Utilisateur::addCredit($conn, $result['candidat'], 0 - $credit);
 
-            Notification::addNotification($conn, $info['postCreator'], $idSession, "Session", "Vous avez gagné $credit crédits !");
-            Notification::addNotification($conn, $info['candidat'], $idSession, "Session", "Vous avez payé $credit crédits.");
+            Notification::addNotification($conn, $info['postCreator'], $idSession, "Bilan", "Vous avez gagné $credit crédits !");
+            Notification::addNotification($conn, $info['candidat'], $idSession, "Bilan", "Vous avez payé $credit crédits.");
         }else{
             Utilisateur::addCredit($conn, $result['candidat'], $credit);
             Utilisateur::addCredit($conn, $result['utilisateur'], 0 - $credit);
 
-            Notification::addNotification($conn, $info['candidat'], $idSession, "Session", "Vous avez gagné $credit crédits !");
-            Notification::addNotification($conn, $info['postCreator'], $idSession, "Session", "Vous avez payé $credit crédits.");
+            Notification::addNotification($conn, $info['candidat'], $idSession, "Bilan", "Vous avez gagné $credit crédits !");
+            Notification::addNotification($conn, $info['postCreator'], $idSession, "Bilan", "Vous avez payé $credit crédits.");
         }
 
         return new Feedback(NULL , true, "Crédits modifiés avec succès !");
@@ -232,8 +232,8 @@ class Session {
         CompetenceUtilisateur::addMultiplesPointExp($conn, $users_and_post['candidat'], $skills, $exp);
         CompetenceUtilisateur::addMultiplesPointExp($conn, $users_and_post['auteur'], $skills, $exp);
 
-        Notification::addNotification($conn, $users_and_post['candidat'], $idSession, "Session", "Vous avez reçu $exp xp sur vos compétences concernées !");
-        Notification::addNotification($conn, $users_and_post['auteur'], $idSession, "Session", "Vous avez reçu $exp xp sur vos compétences concernées !");
+        Notification::addNotification($conn, $users_and_post['candidat'], $idSession, "Bilan", "Vous avez reçu $exp xp sur vos compétences concernées !");
+        Notification::addNotification($conn, $users_and_post['auteur'], $idSession, "Bilan", "Vous avez reçu $exp xp sur vos compétences concernées !");
  
 
         return new Feedback(NULL, true, "Points d'expérience ajoutés avec succès !");
