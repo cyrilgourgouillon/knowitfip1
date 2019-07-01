@@ -42,7 +42,7 @@ function showNotification(notification){
       html += '<a class="dropdown-item d-flex align-items-center pb-3" href="candidat.html?post='+notification.idObjet+'"><div class="mr-3">';
    }
    if(notification.type === "Postulation"){
-      html += '<a class="dropdown-item d-flex align-items-center pb-3" href="postulations.html><div class="mr-3">';
+      html += '<a class="dropdown-item d-flex align-items-center pb-3" href="postulations.html"><div class="mr-3">';
    }
    if(notification.type === "Session"){
       html += '<a class="dropdown-item d-flex align-items-center pb-3" href="sessions.html"><div class="mr-3">';
