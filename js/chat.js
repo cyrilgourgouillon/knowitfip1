@@ -7,12 +7,78 @@ $(document).ready(function(){
 function waitForElement(){
   if(typeof user !== "undefined"){
     loadReseau();
+    loadMessages();
     loadNotification();
  }
  else{
     setTimeout(waitForElement, 250);
  }
 }
+
+/**
+ * PART NAVBAR CHAT
+ */
+
+ setInterval(loadMessages, 3000); 
+
+function loadMessages(){
+   $.post("php/controler/message.php",{
+      function : 'getLastUsersMessage',
+      data : {
+         id : user.id
+      }
+   }, function(feedback){
+      if(feedback.success){
+         showNavMessages(feedback.data);
+      }else{
+         console.log('An error occured while loading the network');
+      }
+   });
+}
+
+function showNavMessages(messages){
+   $("#messagesNav").empty();
+   var unreadNumber = messages.reduce(function(acc, e){
+      if(e.has_been_read === "0"){
+         return ++acc;
+      }
+      return acc;
+   },0);
+   if(unreadNumber !== 0)
+      $("#messagesCounter").html(unreadNumber);
+   else
+      $("#messagesCounter").html("");
+
+   messages.forEach(function(message){
+      showNavMessage(message);
+   })
+}
+
+function showNavMessage(message){
+   var html ='';
+   html +='<a onclick=openChat("'+message.idUser+'") class="dropdown-item d-flex align-items-center" href="javascript:void(0)">  <div class="dropdown-list-image mr-3">';
+   html +='<img class="rounded-circle" src="user_pics/' + message.idUser + '.jpg"> </div>';
+   if(message.has_been_read === "0"){
+      html +='<div class="font-weight-bold">';
+   }else{
+      html +='<div>';
+   }
+   html +='<div class="text-truncate">' + message.texte + '</div>';
+   html +='<div class="small text-gray-500">' + message.pseudo + ' · ' + message.date + '</div> </div></a>';
+
+   $("#messagesNav").append(html);
+}
+
+function openChat(idReseau){
+   if($("#chat").hasClass('d-none')){
+      $("#btnChat").trigger('click');
+   }
+   $('a[name="networkUser"][data-id="'+idReseau+'"]').trigger('click');
+}
+
+/**
+ * PART BOTTOM RIGHT CHAT
+ */
 
 function loadReseau(){
    $.post("php/controler/reseau.php",{

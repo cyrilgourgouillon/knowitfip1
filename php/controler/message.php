@@ -68,3 +68,7 @@ function setMessageRead($conn,$id){
 function setConversationRead($conn, $idAuteur, $idDestinataire){
     echo json_encode(Message::setConversationRead($conn, $idAuteur, $idDestinataire));
 }
+
+function getLastUsersMessage($conn, $recepteur){
+    echo json_encode(Message::getLastUsersMessage($conn, $recepteur));
+}
