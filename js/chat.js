@@ -1,20 +1,5 @@
 var idConvEnCours = false;
 
-$(document).ready(function(){
-  waitForElement();
-});
-
-function waitForElement(){
-  if(typeof user !== "undefined"){
-    loadReseau();
-    loadMessages();
-    loadNotification();
- }
- else{
-    setTimeout(waitForElement, 250);
- }
-}
-
 /**
  * PART NAVBAR CHAT
  */
@@ -97,11 +82,11 @@ function loadReseau(){
 
 function showNetwork(users){
    users.forEach(function(user){
-      showUser(user);
+      showNetworkUser(user);
    })
 }
 
-function showUser(user){
+function showNetworkUser(user){
    html  = '';
    html += '<a href="javascript:void(0)" name="networkUser" data-id="'+user.id+'" class="list-group-item d-flex justify-content-between align-items-center px-1 py-2  list-group-item-action" style="border-radius: 0%; border-right: none; border-left: none;">';
    if(user.id){

@@ -83,14 +83,23 @@ function createPost(post){
 
 }
 
-
-
-
 function waitForElement(){
     if(typeof user !== "undefined"){
+
+        /**
+        * ALL PAGES EXECUTE
+        */
+        loadReseau();
+        loadMessages();
+        loadNotification();
+
+        /**
+         * THIS PAGE EXECUTE
+        */
+
         loadFeed();
-    }
-    else{
+     
+    }else{
         setTimeout(waitForElement, 250);
     }
 }

@@ -93,18 +93,27 @@ $("#declinetBtn").click(function(event) {
 });
 
      
-
-
-
-
 function waitForElement(){
-    if(typeof user !== "undefined"){
-        loadCandidature();
-    }
-    else{
-        setTimeout(waitForElement, 250);
-    }
+     if(typeof user !== "undefined"){
+
+          /**
+          * ALL PAGES EXECUTE
+          */
+          loadReseau();
+          loadMessages();
+          loadNotification();
+
+          /**
+           * THIS PAGE EXECUTE
+          */
+
+          loadCandidature();
+
+     }else{
+          setTimeout(waitForElement, 250);
+     }
 }
+
 
 /**
  * Get the Get param :: From stackoverfolow

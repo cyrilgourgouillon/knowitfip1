@@ -92,13 +92,24 @@ function note(){
 
 function waitForElement(){
     if(typeof user !== "undefined"){
+
+        /**
+        * ALL PAGES EXECUTE
+        */
+        loadReseau();
+        loadMessages();
+        loadNotification();
+
+        /**
+         * THIS PAGE EXECUTE
+        */
+
         loadSession();
-    }
-    else{
+     
+    }else{
         setTimeout(waitForElement, 250);
     }
 }
-
 
 
 /**

@@ -72,11 +72,24 @@ function createPostulation(postulation){
 
 }
 
+
 function waitForElement(){
     if(typeof user !== "undefined"){
+
+        /**
+        * ALL PAGES EXECUTE
+        */
+        loadReseau();
+        loadMessages();
+        loadNotification();
+
+        /**
+         * THIS PAGE EXECUTE
+        */
+
         loadPostulations();
-    }
-    else{
+     
+    }else{
         setTimeout(waitForElement, 250);
     }
 }

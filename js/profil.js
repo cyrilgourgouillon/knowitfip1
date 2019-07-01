@@ -30,14 +30,24 @@ function showStats(data){
     $('#date_inscription').html(data.date_inscription);
 }
 
-
 function waitForElement(){
     if(typeof user !== "undefined"){
-          //laod from API
-          loadProfil(user.id);
-          loadStats();
-    }
-    else{
+
+        /**
+        * ALL PAGES EXECUTE
+        */
+        loadReseau();
+        loadMessages();
+        loadNotification();
+
+        /**
+         * THIS PAGE EXECUTE
+        */
+
+        loadProfil(user.id);
+        loadStats();
+     
+    }else{
         setTimeout(waitForElement, 250);
     }
 }

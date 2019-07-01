@@ -41,7 +41,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="smooth nav-link" href="index.html">
                     <i class="smooth fas fa-chalkboard"></i>
                     <span>Fil d'actualité</span></a>
@@ -122,9 +122,9 @@
                         <!-- Topbar Search -->
                         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                                <input id="inputSearch1" type="text" class="form-control bg-light border-0 small" placeholder="Rechercher..." aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
+                                    <button id="btnSearch1" class="btn btn-primary" type="button">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
@@ -144,9 +144,9 @@
                                 <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                                     <form class="form-inline mr-auto w-100">
                                         <div class="input-group">
-                                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                                            <input id="inputSearch2" type="text" class="form-control bg-light border-0 small" placeholder="Rechercher..." aria-label="Search" aria-describedby="basic-addon2">
                                             <div class="input-group-append">
-                                                <button class="btn btn-primary" type="button">
+                                                <button id="btnSearch2" class="btn btn-primary" type="button">
                                                     <i class="fas fa-search fa-sm"></i>
                                                 </button>
                                             </div>
@@ -194,8 +194,8 @@
                             <!-- Nav Item - User Information -->
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span id="profilPseudo" class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                                    <img id="profilImage" class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                                    <span id="profilPseudo" class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                    <img id="profilImage" class="img-profile rounded-circle">
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -220,10 +220,29 @@
                     </nav>
                     <!-- End of Topbar -->
 
-                    <!-- Begin Page Content -->
-                    <div class="container-fluid">
+                    <!-- /.BEGIN PAGE CONTENT
+                   ***
+                   ***
+                   ***
+                   ***
+                   ***
+                   /.BEGIN PAGE CONTENT -->
 
-                        <!-- Begin Chat Part -->
+                   <div class="container-fluid">
+                   	
+                   	
+                   	
+                   </div>
+
+                   <!-- /.END PAGE CONTENT
+                   ***
+                   ***
+                   ***
+                   ***
+                   ***
+                   /.END PAGE CONTENT-->
+
+                   <!-- Begin Chat Part -->
                         <div class="fixed-btn scale-up-center">
                             <a href="javascript:void(0)" id="btnChat" style="width: 3.2rem; height: 3.2rem;" class="btn rounded-circle btn-primary bg-primary border-0 text-white mx-1" id="chatBtn"><i style="margin-top: 9px; font-size: 20px;" class="fas fa-comments"></i></a>
                         </div>
@@ -264,9 +283,6 @@
 
                        <!-- End Chat Part -->
 
-
-                   </div>
-                   <!-- /.container-fluid -->
 
                </div>
                <!-- End of Main Content -->
@@ -359,8 +375,10 @@
     <script src="js/chat.js"></script>
     <script src="js/deconnexion.js"></script>
     <script src="js/notification.js"></script>
+    <script src="js/search.js"></script>
 
    <!-- Perso scripts for this page-->
+
 
 
 </body>

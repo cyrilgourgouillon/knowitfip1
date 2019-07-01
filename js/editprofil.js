@@ -217,9 +217,21 @@ $('#imageFile').change(function () {
 
 function waitForElement(){
     if(typeof user !== "undefined"){
+
+        /**
+        * ALL PAGES EXECUTE
+        */
+        loadReseau();
+        loadMessages();
+        loadNotification();
+
+        /**
+         * THIS PAGE EXECUTE
+        */
+
         loadUser();
-    }
-    else{
+     
+    }else{
         setTimeout(waitForElement, 250);
     }
 }

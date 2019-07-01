@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+     waitForElement();
+
      $("#btnKnowledge, #btnRequest").click(function(event) {
           var id = this.id;
           var other = '#' + ['btnKnowledge','btnRequest'].find(function(e){ return e !== id;});
@@ -101,3 +103,19 @@ $(document).ready(function(){
      }
 
 });
+
+
+function waitForElement(){
+     if(typeof user !== "undefined"){
+
+          /**
+          * ALL PAGES EXECUTE
+          */
+          loadReseau();
+          loadMessages();
+          loadNotification();
+      
+     }else{
+          setTimeout(waitForElement, 250);
+     }
+}

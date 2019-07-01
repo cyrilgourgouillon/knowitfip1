@@ -50,10 +50,22 @@ function createPost(post){
 }
 
 function waitForElement(){
-    if(typeof user !== "undefined"){
-        loadKnowledges();
-    }
-    else{
-        setTimeout(waitForElement, 250);
-    }
+     if(typeof user !== "undefined"){
+
+          /**
+          * ALL PAGES EXECUTE
+          */
+          loadReseau();
+          loadMessages();
+          loadNotification();
+
+          /**
+           * THIS PAGE EXECUTE
+          */
+
+          loadKnowledges();
+      
+     }else{
+          setTimeout(waitForElement, 250);
+     }
 }

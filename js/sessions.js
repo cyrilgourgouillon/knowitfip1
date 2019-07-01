@@ -124,10 +124,22 @@ function termineRequete(idSession){
 }
 
 function waitForElement(){
-    if(typeof user !== "undefined"){
-        loadPostulations();
-   }
-   else{
-        setTimeout(waitForElement, 250);
-   }
+     if(typeof user !== "undefined"){
+
+          /**
+          * ALL PAGES EXECUTE
+          */
+          loadReseau();
+          loadMessages();
+          loadNotification();
+
+          /**
+           * THIS PAGE EXECUTE
+          */
+
+          loadPostulations();
+      
+     }else{
+          setTimeout(waitForElement, 250);
+     }
 }

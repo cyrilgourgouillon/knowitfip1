@@ -58,14 +58,28 @@ function createProfil(candidat){
     $("#candidatureContainer").append(html);
 }
 
+
 function waitForElement(){
     if(typeof user !== "undefined"){
+
+        /**
+        * ALL PAGES EXECUTE
+        */
+        loadReseau();
+        loadMessages();
+        loadNotification();
+
+        /**
+         * THIS PAGE EXECUTE
+        */
+
         loadCandidats();
-    }
-    else{
+     
+    }else{
         setTimeout(waitForElement, 250);
     }
 }
+
 
 /**
  * Get the Get param :: From stackoverfolow

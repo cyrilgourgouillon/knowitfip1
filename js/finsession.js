@@ -108,19 +108,28 @@ function showType(tag){
 }
 
 
-
-
 function waitForElement(){
     if(typeof user !== "undefined"){
+
+        /**
+        * ALL PAGES EXECUTE
+        */
+        loadReseau();
+        loadMessages();
+        loadNotification();
+
+        /**
+         * THIS PAGE EXECUTE
+        */
+
         loadSession();
         loadCredit();
         loadExp();
-    }
-    else{
+     
+    }else{
         setTimeout(waitForElement, 250);
     }
 }
-
 
 
 /**
