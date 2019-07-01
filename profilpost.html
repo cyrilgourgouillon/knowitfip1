@@ -433,6 +433,40 @@
             </div>
         </div>
 
+        <!-- Accept Modal-->
+        <div class="modal fade" id="acceptModal"tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="border: none;" >
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="acceptModalLabel">Accepter la candidature</h5>
+                        <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center pt-2 pb-3">
+                            <i  style="font-size: 5rem" class="fas  fa-check text-success"></i>
+                        </div>
+                        <div class="mx-2">
+                                Êtes-vous certain <b>d'accepter</b> cette candidature ?
+                                Vous ne pourrez pas choisir <b>un autre candidat</b>.
+                            <div class="form-group mt-2">
+                                <label for="messageConfirm">Envoyez un message :</label>
+                                <textarea  class="form-control" id="messageConfirm" rows="3" required=""></textarea>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-secondary" type="button" data-dismiss="modal">Annuler</button>
+                        <a class="btn btn-success" href="javascript:void(0)"  id="acceptConfirm">Accepter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
