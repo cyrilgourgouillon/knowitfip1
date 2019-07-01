@@ -237,7 +237,7 @@ class Candidature {
         $stmt->execute(array($idCandid));
 
         //-------Partie notification-------
-        $cdd = Post::getUser($conn, $idCandid);
+        $cdd = Candidature::getUser($conn, $idCandid);
 
         Notification::addNotification($conn, $cdd, $idCandid, "Candidat", "Un candidat a annulé sa candidature");
         //-------fin de la partie notification-------

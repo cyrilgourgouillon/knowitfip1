@@ -15,7 +15,7 @@ class Post {
         
     }
 
-    function getUser($conn, $idSession){
+    static function getUser($conn, $idSession){
         $stmt = $conn->prepare("SELECT utilisateur FROM post WHERE id = $idSession");
         $stmt->execute();
         $user = $stmt->fetch();
