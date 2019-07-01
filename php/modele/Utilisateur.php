@@ -36,6 +36,11 @@ class Utilisateur
         }
     }
 
+    static function signOut(){
+        session_destroy();
+        return new Feedback(NULL, true, "Utilisateur détruit.");
+    }
+
     /**
      * Gets the basic user information.
      *

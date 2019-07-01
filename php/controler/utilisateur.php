@@ -33,6 +33,10 @@ function isConnected()
     echo json_encode(new Feedback(null, Utilisateur::isConnected(), ''), JSON_PRETTY_PRINT);
 }
 
+function signOut($conn, $user){
+    echo json_encode(Utilisateur::signOut(), JSON_PRETTY_PRINT);;
+}
+
 
 /**
  * Gets the basic user information.
